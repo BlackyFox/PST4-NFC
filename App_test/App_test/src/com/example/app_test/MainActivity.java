@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 	  // La chaîne de caractères de la megafonction
 	  private final String megaString = "Vous faites un poids parfait ! Wahou ! Trop fort ! On dirait Brad Pitt (si vous êtes un homme)/Angelina Jolie (si vous êtes une femme)/Willy (si vous êtes un orque) !"; 
 		
+	  private final String amos = "Vous avez un corps de BERZERK !!\nAmos va venir vous découper puis vous dévorer !!\n:D";
 	  Button envoyer = null;
 	  Button raz = null;
 		
@@ -35,6 +36,7 @@ public class MainActivity extends Activity {
 	  TextView result = null;
 		
 	  CheckBox mega = null;
+	  CheckBox xiii = null;
 		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends Activity {
 	    poids = (EditText)findViewById(R.id.poids);
 	    	
 	    mega = (CheckBox)findViewById(R.id.mega);
+	    xiii = (CheckBox)findViewById(R.id.xiii);
 	    	
 	    group = (RadioGroup)findViewById(R.id.group);
 
@@ -65,6 +68,7 @@ public class MainActivity extends Activity {
 	    //taille.setOnKeyListener(modificationListener);
 	    //poids.setOnKeyListener(modificationListener);
 	    mega.setOnClickListener(checkedListener);
+	    xiii.setOnClickListener(checkedListener);
 	  }
 
 	  /*
@@ -101,13 +105,11 @@ public class MainActivity extends Activity {
 	  private OnClickListener envoyerListener = new OnClickListener() {
 	    @Override
 	    public void onClick(View v) {
-	      if(!mega.isChecked()) {
-	        // Si la megafonction n'est pas activée
-	        // On récupère la taille
 	        String t = taille.getText().toString();
 	        // On récupère le poids
 	        String p = poids.getText().toString();
-				
+	        if(t != null && p != null){
+	      if(!mega.isChecked() && !xiii.isChecked()) {
 	        float tValue = Float.valueOf(t);
 				
 	        // Puis on vérifie que la taille est cohérente
@@ -124,8 +126,15 @@ public class MainActivity extends Activity {
 	          float imc = pValue / tValue;
 	          result.setText("Votre IMC est " + String.valueOf(imc));
 	        }
-	      } else
-	        result.setText(megaString);
+	      } else{
+	    	  if(xiii.isChecked()){
+	    		  result.setText(amos);
+	    	  }else
+	    		  result.setText(megaString);
+	      }
+	    }else{
+	    	Toast.makeText(MainActivity.this, "Hum hum... remplissez les cases !", Toast.LENGTH_SHORT).show();
+	    }
 	    }
 	  };
 		
