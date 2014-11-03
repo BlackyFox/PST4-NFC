@@ -14,5 +14,6 @@
     <string name="cm">Centimètre</string>
     <string name="m">Mètre</string>
     <string name="taille">Taille :</string>
+    <string name="hint_taille">Taille de ta mère</string>
 
 </resources>
