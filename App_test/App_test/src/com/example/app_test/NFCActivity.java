@@ -35,7 +35,7 @@ public class NFCActivity extends Activity {
 	private OnClickListener readl = new OnClickListener(){
 		  public void onClick(View v){
 			  if(nfc.isEnabled()){
-				  startActivity(new Intent(NFCActivity.this, ReadActivity.class));
+				  startActivity(new Intent(NFCActivity.this, NFCReadActivity.class)); //Ou ReadActivity.class
 			  }else{
 				  Context context = getApplicationContext();
 				  CharSequence text = "NFC désactivé ! Activez le, puis recommencez.";

@@ -4,11 +4,15 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.NFC" />
+ 
+	<uses-feature
+    	android:name="android.hardware.nfc"
+    	android:required="true" />
+    
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="15" />
-    
-	<uses-feature android:name="android.hardware.nfc" android:required="true"/>
 	
     <application
         android:allowBackup="true"
@@ -27,7 +31,12 @@
         <activity android:name="IMCActivity"></activity>
         <activity android:name="NFCActivity"></activity>
         <activity android:name="WriteActivity"></activity>
-        <activity android:name="ReadActivity"></activity>
+        <activity android:name="ReadActivity">
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_filter"/>
+        </activity>
+        <activity android:name="NFCReadActivity"></activity>
     </application>
 
 </manifest>

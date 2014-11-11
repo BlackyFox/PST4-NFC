@@ -24,5 +24,11 @@
     <string name="imc_page">Page IMC</string>
     <string name="b_read">Lecture</string>
     <string name="b_write">Ecriture</string>
+    <string name="q_read">Tag trouvé ? </string>
+    <string name="r_read"></string>
+    <string name="message">Message : </string>
+    <string name="nfc_message"></string>
+    <string name="id_nfc"></string>
+    <string name="nfc_id">NFC ID : </string>
 
 </resources>
