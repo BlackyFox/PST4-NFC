@@ -168,15 +168,17 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000f;
+        public static final int action_settings=0x7f090011;
         public static final int b_imc=0x7f09000a;
         public static final int b_nfc=0x7f09000b;
+        public static final int b_read=0x7f09000c;
+        public static final int b_write=0x7f09000d;
         public static final int calcul=0x7f090007;
         public static final int group=0x7f090002;
-        public static final int home_page=0x7f09000c;
-        public static final int imc_page=0x7f09000e;
+        public static final int home_page=0x7f09000e;
+        public static final int imc_page=0x7f090010;
         public static final int mega=0x7f090005;
-        public static final int nfc_page=0x7f09000d;
+        public static final int nfc_page=0x7f09000f;
         public static final int poids=0x7f090000;
         public static final int radio1=0x7f090004;
         public static final int radio2=0x7f090003;
@@ -188,6 +190,7 @@ public final class R {
     public static final class layout {
         public static final int activity_imc=0x7f030000;
         public static final int activity_main=0x7f030001;
+        public static final int activity_nfc=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -197,6 +200,8 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int b_imc=0x7f06000f;
         public static final int b_nfc=0x7f060010;
+        public static final int b_read=0x7f060015;
+        public static final int b_write=0x7f060016;
         public static final int calcul=0x7f060008;
         public static final int cm=0x7f06000b;
         public static final int hello_world=0x7f060001;

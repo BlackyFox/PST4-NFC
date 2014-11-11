@@ -22,5 +22,7 @@
     <string name="home">Home</string>
     <string name="nfc_page">Page NFC</string>
     <string name="imc_page">Page IMC</string>
+    <string name="b_read">Lecture</string>
+    <string name="b_write">Ecriture</string>
 
 </resources>

@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	  }
 	  private OnClickListener BNFC = new OnClickListener(){
 		  public void onClick(View v){
-			  startActivity(new Intent(MainActivity.this, IMCActivity.class));
+			  startActivity(new Intent(MainActivity.this, NFCActivity.class));
 		  }
 	  };
 	  private OnClickListener BIMC = new OnClickListener(){
