@@ -16,5 +16,11 @@
     <string name="m">Mètre</string>
     <string name="taille">Taille :</string>
     <string name="hint_taille">Taille</string>
+    <string name="b_imc">IMC</string>
+    <string name="b_nfc">NFC</string>
+    <string name="menu">Menu</string>
+    <string name="home">Home</string>
+    <string name="nfc_page">Page NFC</string>
+    <string name="imc_page">Page IMC</string>
 
 </resources>
