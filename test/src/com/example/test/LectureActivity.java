@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class LectureActivity extends Activity {
 	private TextView t1 = null;
 	private TextView t2 = null;
+	private TextView t3 = null;
 	private NfcAdapter mNfcAdapter;
 	private PendingIntent mPendingIntent;
 	
@@ -28,6 +29,7 @@ public class LectureActivity extends Activity {
 
         t1 = (TextView) findViewById(R.id.lecture_ou_non);
         t2 = (TextView) findViewById(R.id.comp);
+        t3 = (TextView) findViewById(R.id.id);
 		t1.setText("NONE");
 		
         try {
@@ -53,7 +55,7 @@ public class LectureActivity extends Activity {
     	mNfcAdapter.disableForegroundDispatch(this);
     }
     
-    private void resoudreIntent(Intent intent) throws UnsupportedEncodingException {
+private void resoudreIntent(Intent intent) throws UnsupportedEncodingException {
     	
    		String action = intent.getAction();
    		String message = null;
@@ -79,7 +81,7 @@ public class LectureActivity extends Activity {
    			    }
    			}
    			
-   			t2.setText("COUCOU" + message);
+   			t2.setText(message);
    		}
    		else
    			t1.setText("NONE");
