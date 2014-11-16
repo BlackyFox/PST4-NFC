@@ -1,6 +1,7 @@
 package com.example.app_test;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import android.app.Activity;
@@ -28,6 +29,7 @@ public class ReadActivity extends Activity {
 	private TextView t1 = null;
 	private TextView t2 = null;
 	private TextView t3 = null;
+	private TextView t4 = null;
 	private NfcAdapter mNfcAdapter;
 	private PendingIntent mPendingIntent;
 	
@@ -39,7 +41,8 @@ public class ReadActivity extends Activity {
         t0 = (TextView) findViewById(R.id.r_nfc_type);
         t1 = (TextView) findViewById(R.id.r_read);
         t2 = (TextView) findViewById(R.id.nfc_message);
-        t3 = (TextView) findViewById(R.id.id_nfc);
+        t3 = (TextView) findViewById(R.id.id_nfc_hex);
+        t4 = (TextView) findViewById(R.id.id_nfc_dec);
 		t1.setText("NONE");
 		
 		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -85,7 +88,11 @@ public class ReadActivity extends Activity {
    			t0.setText("TAG");
    			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
    			Log.d(TAG, "TAG ID = "+getTextData(tag.getId()));
-   			t3.setText(bytesToHexString(tag.getId()));
+   			String Id = bytesToHexString(tag.getId());
+   			t3.setText(Id);
+   			Log.d(TAG, Id);
+   			t4.setText((new BigInteger(Id, 16)).toString());
+   			//Log.d(TAG, Integer.toString(Integer.parseInt(Id, 16)));
    			Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
    			NdefMessage[] messages;
    			if(rawMsgs != null){
@@ -125,7 +132,7 @@ public class ReadActivity extends Activity {
     }
     
     private String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder("0x");
+        StringBuilder stringBuilder = new StringBuilder(/*"0x"*/);
         if (src == null || src.length <= 0) {
             return null;
         }

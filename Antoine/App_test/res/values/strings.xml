@@ -28,8 +28,10 @@
     <string name="r_read"></string>
     <string name="message">Message :&#160;</string>
     <string name="nfc_message"></string>
-    <string name="id_nfc"></string>
-    <string name="nfc_id">NFC ID :&#160;</string>
+    <string name="id_nfc_hex"></string>
+    <string name="id_nfc_dec"></string>
+    <string name="nfc_id_hex">NFC ID (HEX) :&#160;</string>
+    <string name="nfc_id_dec">NFC ID (DEC) :&#160;</string>
     <string name="nfc_type">Type :&#160;</string>
     <string name="r_nfc_type"></string>
 
