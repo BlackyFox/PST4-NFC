@@ -74,6 +74,8 @@ public class ReadActivity extends Activity {
    			t0.setText(type);
    			if(MIME_TEXT_PLAIN.equals(type)){
    				Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+   				Log.d(TAG, "TAG ID = "+getTextData(tag.getId()));
+   	   			t3.setText(bytesToHexString(tag.getId()));
    				new NFCReadActivity().execute(tag);
    			}else{
    				Log.i(TAG, "Wrong mime type : "+type);
@@ -109,6 +111,8 @@ public class ReadActivity extends Activity {
    		}else if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)){
    			t1.setText("OK TECH");
    			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+   			Log.d(TAG, "TAG ID = "+getTextData(tag.getId()));
+   			t3.setText(bytesToHexString(tag.getId()));
    			String[] techList = tag.getTechList();
    			String searchTech = Ndef.class.getName();
    			for(String tech : techList){
