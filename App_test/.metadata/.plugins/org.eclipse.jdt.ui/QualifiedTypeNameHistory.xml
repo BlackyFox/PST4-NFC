@@ -20,10 +20,11 @@
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="android.nfc.tech.Ndef"/>
 <fullyQualifiedTypeName name="android.nfc.Tag"/>
-<fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.nfc.NdefRecord"/>
 <fullyQualifiedTypeName name="android.nfc.NdefMessage"/>
 <fullyQualifiedTypeName name="java.io.UnsupportedEncodingException"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="android.util.Log"/>
+<fullyQualifiedTypeName name="android.os.Parcelable"/>
 </qualifiedTypeNameHistroy>
