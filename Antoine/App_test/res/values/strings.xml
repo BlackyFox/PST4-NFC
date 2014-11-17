@@ -34,5 +34,7 @@
     <string name="nfc_id_dec">NFC ID (DEC) :&#160;</string>
     <string name="nfc_type">Type :&#160;</string>
     <string name="r_nfc_type"></string>
+    <string name="nfc_id_bytes">NFC ID (BYTES) :&#160;</string>
+    <string name="id_nfc_bytes"></string>
 
 </resources>

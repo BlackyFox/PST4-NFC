@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcAdapter.ReaderCallback;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
@@ -30,6 +29,7 @@ public class ReadActivity extends Activity {
 	private TextView t2 = null;
 	private TextView t3 = null;
 	private TextView t4 = null;
+	private TextView t5 = null;
 	private NfcAdapter mNfcAdapter;
 	private PendingIntent mPendingIntent;
 	
@@ -43,6 +43,7 @@ public class ReadActivity extends Activity {
         t2 = (TextView) findViewById(R.id.nfc_message);
         t3 = (TextView) findViewById(R.id.id_nfc_hex);
         t4 = (TextView) findViewById(R.id.id_nfc_dec);
+        t5 = (TextView) findViewById(R.id.id_nfc_bytes);
 		t1.setText("NONE");
 		
 		mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -92,6 +93,7 @@ public class ReadActivity extends Activity {
    			t3.setText(Id);
    			Log.d(TAG, Id);
    			t4.setText((new BigInteger(Id, 16)).toString());
+   			t5.setText(tag.getId().toString());
    			//Log.d(TAG, Integer.toString(Integer.parseInt(Id, 16)));
    			Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
    			NdefMessage[] messages;
@@ -141,7 +143,7 @@ public class ReadActivity extends Activity {
         for (int i = 0; i < src.length; i++) {
             buffer[0] = Character.forDigit((src[i] >>> 4) & 0x0F, 16);  
             buffer[1] = Character.forDigit(src[i] & 0x0F, 16);  
-            System.out.println(buffer);
+            //System.out.println(buffer);
             stringBuilder.append(buffer);
         }
 

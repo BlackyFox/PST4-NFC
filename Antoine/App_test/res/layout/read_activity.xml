@@ -75,7 +75,7 @@
       	  android:layout_height="fill_parent" 
     	  android:text="@string/id_nfc_hex"/>
 	</LinearLayout>
-		  <LinearLayout
+	<LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal">
@@ -92,5 +92,23 @@
 		  android:layout_width="fill_parent"
       	  android:layout_height="fill_parent" 
     	  android:text="@string/id_nfc_dec"/>
+	</LinearLayout>
+	<LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+      
+      <TextView 
+          android:layout_width="wrap_content"
+          android:layout_height="fill_parent"
+          android:text="@string/nfc_id_bytes"
+          android:textStyle="bold"
+          android:textColor="#FF0000"
+          android:gravity="center"/>
+        <TextView 
+          android:id="@+id/id_nfc_bytes"
+		  android:layout_width="fill_parent"
+      	  android:layout_height="fill_parent" 
+    	  android:text="@string/id_nfc_bytes"/>
 	</LinearLayout>
 </LinearLayout>

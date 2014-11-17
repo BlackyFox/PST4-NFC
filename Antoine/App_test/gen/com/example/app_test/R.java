@@ -168,20 +168,21 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0016;
+        public static final int action_settings=0x7f0a0017;
         public static final int b_imc=0x7f0a000a;
         public static final int b_nfc=0x7f0a000b;
         public static final int b_read=0x7f0a000c;
         public static final int b_write=0x7f0a000d;
         public static final int calcul=0x7f0a0007;
         public static final int group=0x7f0a0002;
-        public static final int home_page=0x7f0a0013;
+        public static final int home_page=0x7f0a0014;
+        public static final int id_nfc_bytes=0x7f0a0013;
         public static final int id_nfc_dec=0x7f0a0012;
         public static final int id_nfc_hex=0x7f0a0011;
-        public static final int imc_page=0x7f0a0015;
+        public static final int imc_page=0x7f0a0016;
         public static final int mega=0x7f0a0005;
         public static final int nfc_message=0x7f0a0010;
-        public static final int nfc_page=0x7f0a0014;
+        public static final int nfc_page=0x7f0a0015;
         public static final int poids=0x7f0a0000;
         public static final int r_nfc_type=0x7f0a000e;
         public static final int r_read=0x7f0a000f;
@@ -214,6 +215,7 @@ public final class R {
         public static final int hint_poids=0x7f070004;
         public static final int hint_taille=0x7f07000e;
         public static final int home=0x7f070012;
+        public static final int id_nfc_bytes=0x7f070022;
         public static final int id_nfc_dec=0x7f07001c;
         public static final int id_nfc_hex=0x7f07001b;
         public static final int imc_page=0x7f070014;
@@ -221,6 +223,7 @@ public final class R {
         public static final int mega=0x7f070009;
         public static final int menu=0x7f070011;
         public static final int message=0x7f070019;
+        public static final int nfc_id_bytes=0x7f070021;
         public static final int nfc_id_dec=0x7f07001e;
         public static final int nfc_id_hex=0x7f07001d;
         public static final int nfc_message=0x7f07001a;
