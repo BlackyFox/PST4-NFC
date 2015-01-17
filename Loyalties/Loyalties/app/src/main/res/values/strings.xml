@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Loyalties</string>
+    <string name="title_section1">Scanner une carte</string>
+    <string name="title_section2">Enregistrer une carte</string>
+    <string name="title_section3">Mes cartes</string>
+    <string name="navigation_drawer_open">Ouvrir le volet de navigation</string>
+    <string name="navigation_drawer_close">Fermer le volet de navigation</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_scan">ScanActivity</string>
+    <string name="hello_scan">Hello on the scan</string>
+    <string name="hello_write">Hello on the writing a card page</string>
+    <string name="hello_cards">Hello on the cards list page</string>
+
+
+    <string-array name="titres">
+        <item>Scanner une carte</item>
+        <item>Enregistrer une carte</item>
+        <item>Mes cartes</item>
+    </string-array>
+
+</resources>
