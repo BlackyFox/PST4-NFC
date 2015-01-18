@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PARAMETRES ADMIN"
+        android:id="@+id/admin_home_textView_title"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:weightSum="1"
+        android:layout_below="@+id/admin_home_textView_title">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT OPTION"
+            android:id="@+id/admin_home_button_menu"
+            android:onClick="toDo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/admin_home_linearLayout_people"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_editText_username"
+                    android:layout_weight="1"
+                    android:hint="Username"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_editText_password"
+                    android:layout_weight="1"
+                    android:hint="Password"
+                    android:password="true"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_editText_confirmPassword"
+                    android:layout_weight="1"
+                    android:hint="Confirm password"
+                    android:password="true"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_editText_name"
+                    android:layout_weight="1"
+                    android:hint="Name"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_editText_firstName"
+                    android:layout_weight="1"
+                    android:hint="First-name"
+                    android:layout_gravity="center_horizontal" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_radioGroup_groupSex"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Woman"
+                        android:id="@+id/admin_home_addPeople_radioButton_woman"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Man"
+                        android:id="@+id/admin_home_addPeople_radioButton_man"
+                        android:checked="false" />
+
+                </RadioGroup>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/admin_home_addPeople_editText_birthDay"
+                    android:layout_weight="1"
+                    android:maxLength="2"
+                    android:hint="DD"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/admin_home_addPeople_editText_birthMonth"
+                    android:layout_weight="1"
+                    android:maxLength="2"
+                    android:hint="MM"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/admin_home_addPeople_editText_birthYear"
+                    android:layout_weight="1"
+                    android:maxLength="4"
+                    android:hint="YYYY"
+                    android:layout_gravity="center_horizontal" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addPeople_radioGroup_groupRole"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Admin"
+                        android:id="@+id/admin_home_addPeople_radioButton_admin"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User"
+                        android:id="@+id/admin_home_addPeople_radioButton_user"
+                        android:checked="false" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLEAR"
+                        android:id="@+id/admin_home_addPeople_button_clear"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SIGN IN"
+                        android:id="@+id/admin_home_addPeople_button_signIn"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/admin_home_addPeople_textView_wrongText"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/admin_home_linearLayout_company"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addCompany_editText_name"
+                    android:layout_weight="1"
+                    android:hint="NAME OF THE COMPANY"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/admin_home_addCompany_textView_wrongText"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLEAR"
+                        android:id="@+id/admin_home_addCompany_button_clear"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSERT COMPANY"
+                        android:id="@+id/admin_home_addCompany_button_insert"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/admin_home_linearLayout_reduction"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" >
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addReduction_editText_type"
+                    android:layout_weight="1"
+                    android:hint="TYPE OF THE REDUCTION"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/admin_home_addReduction_textView_wrongText"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLEAR"
+                        android:id="@+id/admin_home_addReduction_button_clear"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSERT REDUCTION"
+                        android:id="@+id/admin_home_addReduction_button_insert"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/admin_home_linearLayout_link"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addLink_editText_idComp"
+                    android:layout_weight="1"
+                    android:hint="ID OF THE COMPANY"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addLink_editText_idPeop"
+                    android:layout_weight="1"
+                    android:hint="ID OF THE PEOPLE"
+                    android:layout_gravity="center_horizontal" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_addLink_editText_idRedu"
+                    android:layout_weight="1"
+                    android:hint="ID OF THE REDUCTION"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLEAR"
+                        android:id="@+id/admin_home_addLink_button_clear"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSERT LINK"
+                        android:id="@+id/admin_home_addLink_button_insert"
+                        android:layout_weight="0.04"
+                        android:onClick="toDo" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/admin_home_addLink_textView_wrongText"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/admin_home_linearLayout_show"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" >
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/admin_home_radioGroup_show_groupShow"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="People"
+                        android:id="@+id/admin_home_radioButton_show_people"
+                        android:checked="false"
+                        android:layout_gravity="center_horizontal" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Company"
+                        android:id="@+id/admin_home_radioButton_show_company"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reduction"
+                        android:id="@+id/admin_home_radioButton_show_reduction"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Link"
+                        android:id="@+id/admin_home_radioButton_show_link"
+                        android:checked="false" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/admin_home_textView_show_result"
+                    android:layout_marginLeft="0dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/admin_home_linearLayout_research"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RESEARCH" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/admin_home_linearLayout_reset"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RESET DATABASE"
+                    android:onClick="toDo"
+                    android:id="@+id/admin_home_button_reset_reset"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
