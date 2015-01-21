@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/people"
+        android:title="ADD PEOPLE"/>
+
+    <item
+        android:id="@+id/company"
+        android:title="ADD COMPANY"/>
+
+    <item
+        android:id="@+id/reduction"
+        android:title="ADD REDUCTION"/>
+
+    <item
+        android:id="@+id/client"
+        android:title="ADD CLIENT"/>
+
+    <item
+        android:id="@+id/offer"
+        android:title="ADD OFFER"/>
+
+    <item
+        android:id="@+id/show"
+        android:title="SHOW DATABASE"/>
+
+    <item
+        android:id="@+id/research"
+        android:title="RESEARCH"/>
+
+    <item
+        android:id="@+id/reset"
+        android:title="RESET DATABASE"/>
+</menu>
