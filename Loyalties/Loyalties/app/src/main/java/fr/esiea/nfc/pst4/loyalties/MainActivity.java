@@ -33,7 +33,8 @@ public class MainActivity extends ActionBarActivity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
+    private String mTitle;
+    private String[] arrTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class MainActivity extends ActionBarActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
+        mTitle = getTitle().toString();
+        arrTitle = getResources().getStringArray(R.array.titres);
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -56,20 +57,19 @@ public class MainActivity extends ActionBarActivity
         Fragment objFrag = null;
 
         switch (position){
-
             case 0:
                 objFrag = new ScanFragment();
-                mTitle = getString(R.string.title_section1);
+                mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 1:
                 objFrag = new WriteCardFragment();
-                mTitle = getString(R.string.title_section2);
+                mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 2:
                 objFrag = new CardsFragment();
-                mTitle = getString(R.string.title_section3);
+                mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
         }
@@ -90,14 +90,14 @@ public class MainActivity extends ActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
-                mTitle = getString(R.string.title_section1);
+                mTitle = arrTitle[number];
                 //startActivity(new Intent(MainActivity.this, ScanActivity.class));
                 break;
             case 1:
-                mTitle = getString(R.string.title_section2);
+                mTitle = arrTitle[number];
                 break;
             case 2:
-                mTitle = getString(R.string.title_section3);
+                mTitle = arrTitle[number];
                 break;
         }
     }

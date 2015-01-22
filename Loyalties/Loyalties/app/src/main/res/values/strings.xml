@@ -2,9 +2,6 @@
 <resources>
 
     <string name="app_name">Loyalties</string>
-    <string name="title_section1">Scanner une carte</string>
-    <string name="title_section2">Enregistrer une carte</string>
-    <string name="title_section3">Mes cartes</string>
     <string name="navigation_drawer_open">Ouvrir le volet de navigation</string>
     <string name="navigation_drawer_close">Fermer le volet de navigation</string>
     <string name="action_example">Example action</string>
