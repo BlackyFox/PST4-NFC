@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity
@@ -35,12 +36,17 @@ public class MainActivity extends ActionBarActivity
      */
     private String mTitle;
     private String[] arrTitle;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent i =getIntent();
+        username = i.getStringExtra("username");
+
+        Toast.makeText(getApplicationContext(), "Welcome back "+username+"!", Toast.LENGTH_LONG).show();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
@@ -59,17 +65,17 @@ public class MainActivity extends ActionBarActivity
         switch (position){
             case 0:
                 objFrag = new ScanFragment();
-                mTitle = arrTitle[position];
+                //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 1:
                 objFrag = new WriteCardFragment();
-                mTitle = arrTitle[position];
+                //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 2:
                 objFrag = new CardsFragment();
-                mTitle = arrTitle[position];
+                //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
         }
@@ -181,5 +187,7 @@ public class MainActivity extends ActionBarActivity
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 }

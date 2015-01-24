@@ -18,6 +18,8 @@ public class ScanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_scan, container, false);
+
+        ((MainActivity)getActivity()).setActionBarTitle("Scanner une carte");
         return rootview;
     }
 }

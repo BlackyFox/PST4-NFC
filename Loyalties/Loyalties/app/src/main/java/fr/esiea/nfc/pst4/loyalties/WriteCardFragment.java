@@ -21,6 +21,7 @@ public class WriteCardFragment extends Fragment {
 
         rootview = inflater.inflate(R.layout.fragment_write, container, false);
 
+        ((MainActivity)getActivity()).setActionBarTitle("Enregistrer une carte");
         return rootview;
     }
 }

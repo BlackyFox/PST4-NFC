@@ -20,6 +20,8 @@ public class CardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_cards, container, false);
+
+        ((MainActivity)getActivity()).setActionBarTitle("Mes cartes");
         return rootview;
     }
 }
