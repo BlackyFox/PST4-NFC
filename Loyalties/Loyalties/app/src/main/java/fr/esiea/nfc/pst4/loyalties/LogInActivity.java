@@ -97,7 +97,7 @@ public class LogInActivity extends ActionBarActivity {
 
     public void launchNewIntent() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("username", people.getUsername());
+        intent.putExtra("username", people.getFirst_name());
         startActivity(intent);
         writeCreds(people.getUsername(), people.getPassword());
         finish();
