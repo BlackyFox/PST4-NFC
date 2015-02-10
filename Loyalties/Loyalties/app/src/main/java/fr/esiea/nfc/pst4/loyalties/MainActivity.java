@@ -1,6 +1,7 @@
 package fr.esiea.nfc.pst4.loyalties;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -101,7 +102,6 @@ public class MainActivity extends ActionBarActivity
         switch (number) {
             case 0:
                 mTitle = arrTitle[number];
-                //startActivity(new Intent(MainActivity.this, ScanActivity.class));
                 break;
             case 1:
                 mTitle = arrTitle[number];
@@ -149,7 +149,7 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));;
         }
 
         return super.onOptionsItemSelected(item);
