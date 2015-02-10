@@ -10,11 +10,12 @@ public class Reduction {
     private int age_value;
     private String nb_points_relation;
     private int nb_points_value;
+    private String city;
 
 
     public Reduction() {}
 
-    public Reduction(String name, String text, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value){
+    public Reduction(String name, String text, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
         this.name = name;
         this.text = text;
         this.sexe = sexe;
@@ -22,6 +23,7 @@ public class Reduction {
         this.age_value = age_value;
         this.nb_points_relation = nb_points_relation;
         this.nb_points_value = nb_points_value;
+        this.city = city;
     }
 
     public int getId() {
@@ -86,5 +88,13 @@ public class Reduction {
 
     public void setNb_points_value(int nb_points_value) {
         this.nb_points_value = nb_points_value;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

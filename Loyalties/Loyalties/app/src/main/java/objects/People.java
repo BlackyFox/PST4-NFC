@@ -1,6 +1,12 @@
 package objects;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class People {
     private int id;
     private String username;
@@ -9,18 +15,20 @@ public class People {
     private String first_name;
     private String sexe;
     private String date_of_birth;
-    private String role;
+    private String mail;
+    private String city;
 
     public People() {}
 
-    public People(String username, String password, String name, String first_name, String sexe, String date_of_birth, String role){
+    public People(String username, String password, String name, String first_name, String sexe, String date_of_birth, String mail, String city){
         this.username = username;
         this.password = password;
         this.name = name;
         this.first_name = first_name;
         this.sexe = sexe;
         this.date_of_birth = date_of_birth;
-        this.role = role;
+        this.mail = mail;
+        this.city = city;
     }
 
     public int getId() {
@@ -55,11 +63,11 @@ public class People {
         this.name = name;
     }
 
-    public String getFirstName() {
+    public String getFirst_name() {
         return first_name;
     }
 
-    public void setFirstName(String first_name) {
+    public void setFirst_name(String first_name) {
         this.first_name = first_name;
     }
 
@@ -71,11 +79,11 @@ public class People {
         this.sexe = sexe;
     }
 
-    public String getDateOfBirth() {
+    public String getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDateOfBirth(String date_of_birth) {
+    public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 
@@ -89,11 +97,38 @@ public class People {
         return partsInt;
     }
 
-    public String getRole() {
-        return role;
+    public String getMail() {
+        return mail;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String composePeopleJSONfromSQLite() {
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("username", getUsername());
+        map.put("password", getPassword());
+        map.put("name", getName());
+        map.put("first_name", getFirst_name());
+        map.put("sexe", getSexe());
+        map.put("date_of_birth", getDate_of_birth());
+        map.put("mail", getMail());
+        map.put("city", getCity());
+        wordList.add(map);
+
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(wordList);
     }
 }

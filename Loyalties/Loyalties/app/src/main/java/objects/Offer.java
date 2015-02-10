@@ -3,14 +3,14 @@ package objects;
 
 public class Offer {
     private int id;
-    private int idComp;
-    private int idRedu;
+    private int id_comp;
+    private int id_redu;
 
     public Offer() {}
 
-    public Offer(int idComp, int idRedu) {
-        this.idComp = idComp;
-        this.idRedu = idRedu;
+    public Offer(int id_comp, int id_redu) {
+        this.id_comp = id_comp;
+        this.id_redu = id_redu;
     }
 
     public int getId() {
@@ -21,19 +21,19 @@ public class Offer {
         this.id = id;
     }
 
-    public int getIdComp() {
-        return idComp;
+    public int getId_comp() {
+        return id_comp;
     }
 
-    public void setIdComp(int idComp) {
-        this.idComp = idComp;
+    public void setId_comp(int id_comp) {
+        this.id_comp = id_comp;
     }
 
-    public int getIdRedu() {
-        return idRedu;
+    public int getId_redu() {
+        return id_redu;
     }
 
-    public void setIdRedu(int idRedu) {
-        this.idRedu = idRedu;
+    public void setId_redu(int id_redu) {
+        this.id_redu = id_redu;
     }
 }

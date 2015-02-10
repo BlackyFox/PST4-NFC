@@ -244,40 +244,39 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/signIn_textView_title"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.24">
+                android:layout_centerHorizontal="true">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Role : "
-                    android:id="@+id/signIn_textView_role" />
+                    android:text="Mail : " />
 
-                <RadioGroup
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/signIn_radioGroup_groupRole"
-                    android:orientation="horizontal">
+                    android:id="@+id/signIn_editText_mail"
+                    android:layout_weight="1"
+                    android:hint="dupont.jean@mail.fr" />
+            </LinearLayout>
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Admin"
-                        android:id="@+id/signIn_radioButton_admin"
-                        android:checked="false" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="User"
-                        android:id="@+id/signIn_radioButton_user"
-                        android:checked="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="City : " />
 
-                </RadioGroup>
-
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signIn_editText_city"
+                    android:layout_weight="1"
+                    android:hint="Gotham City" />
             </LinearLayout>
 
             <LinearLayout

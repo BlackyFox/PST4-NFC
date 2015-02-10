@@ -1,16 +1,12 @@
 package fr.esiea.nfc.pst4.loyalties;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.AddCardFragment;
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment;
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.NavigationDrawerFragment;
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCardsFragment;
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCompanyFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -43,10 +43,9 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent i =getIntent();
-        username = i.getStringExtra("username");
+        username = getIntent().getStringExtra("username");
 
-        Toast.makeText(getApplicationContext(), "Welcome back "+username+"!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Welcome back "+username+" !", Toast.LENGTH_LONG).show();
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
@@ -64,17 +63,22 @@ public class MainActivity extends ActionBarActivity
 
         switch (position){
             case 0:
-                objFrag = new ScanFragment();
+                objFrag = new HomeFragment();
                 //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 1:
-                objFrag = new WriteCardFragment();
+                objFrag = new SeeCardsFragment();
                 //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
             case 2:
-                objFrag = new CardsFragment();
+                objFrag = new AddCardFragment();
+                //mTitle = arrTitle[position];
+                restoreActionBar();
+                break;
+            case 3:
+                objFrag = new SeeCompanyFragment();
                 //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
@@ -103,6 +107,9 @@ public class MainActivity extends ActionBarActivity
                 mTitle = arrTitle[number];
                 break;
             case 2:
+                mTitle = arrTitle[number];
+                break;
+            case 3:
                 mTitle = arrTitle[number];
                 break;
         }
@@ -176,8 +183,7 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_main, container, false);
         }
 
         @Override

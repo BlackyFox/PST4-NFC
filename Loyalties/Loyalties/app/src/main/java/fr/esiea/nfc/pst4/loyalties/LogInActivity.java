@@ -7,27 +7,36 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import bdd.*;
+import library_http.*;
 import objects.*;
 
 
 public class LogInActivity extends ActionBarActivity {
+    People people;
 
     public EditText editText_username = null;
     public EditText editText_password = null;
-    public Button button_logIn = null;
     public TextView textView_wrongText = null;
-    public Button button_signIn = null;
 
     File credentials;
 
@@ -40,24 +49,21 @@ public class LogInActivity extends ActionBarActivity {
 
         editText_username = (EditText) findViewById(R.id.home_editText_username);
         editText_password = (EditText) findViewById(R.id.home_editText_password);
-        button_logIn = (Button) findViewById(R.id.home_button_logIn);
         textView_wrongText = (TextView) findViewById(R.id.home_textView_wrongText);
-        button_signIn = (Button) findViewById(R.id.home_button_signIn);
 
 
         //recupérer les identifiants dans le fichier et si possible écrire les données dans les editext
         //si on se déconnecte, on efface le fichier
-
         File f = getFileStreamPath("userCredentials.berzerk");
         if(f.length() != 0){
             int l = (int) credentials.length();
             byte[] data = new byte[l];
 
-            try{
+            try {
                 FileInputStream in = new FileInputStream(credentials);
                 in.read(data);
                 in.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             String creds = new String(data);
@@ -68,13 +74,56 @@ public class LogInActivity extends ActionBarActivity {
 
             String[] temp = creds.split("amoslexiii");
             Log.d("TXT", creds);
-            Log.d("USER", temp[0]);
-            Log.d("PASS", temp[1]);
 
             editText_username.setText(temp[0]);
             editText_password.setText(temp[1]);
         }
+    }
 
+    private void writeCreds(String username, String password){
+        File f = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/userCredentials.berzerk");
+        if(f.length() > 0)
+            f.delete();
+        try{
+            FileOutputStream os = new FileOutputStream(f);
+            os.write(username.getBytes());
+            os.write("amoslexiii".getBytes());
+            os.write(password.getBytes());
+            os.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void launchNewIntent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("username", people.getUsername());
+        startActivity(intent);
+        writeCreds(people.getUsername(), people.getPassword());
+        finish();
+    }
+
+    public void insertPeople(People people) {
+        MyBDD bdd = new MyBDD(this);
+        bdd.open();
+        bdd.insertPeople(people);
+        bdd.close();
+    }
+
+    public People translateResponse(String response) {
+        String parts[] = response.split(":");
+        String data[] = new String[8];
+        for(int i = 2 ; i < 10 ; i++) {
+            parts[i] = parts[i].split(",")[0];
+            data[i-2] = parts[i].substring(1, parts[i].length()-1);
+        }
+
+        return new People(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+    }
+
+    public Boolean getLogStatus(String response) {
+        String parts[] = response.split(":");
+        return !(parts[1].charAt(1) == 'n');
     }
 
     public void toDo(View v) {
@@ -91,23 +140,88 @@ public class LogInActivity extends ActionBarActivity {
                 MyBDD bdd = new MyBDD(this);
                 bdd.open();
 
-                if(username == null || username.equals("")) { textView_wrongText.setText("No username."); break; }
-                if(!bdd.doesPeopleAlreadyExists(username)) { textView_wrongText.setText("This username doesn't exists !\nRegister yourself !"); break; }
-                if(password == null || password.equals("")) { textView_wrongText.setText("No password."); break; }
+                if(username.equals("")) { textView_wrongText.setText("No username."); break; }
+                if(password.equals("")) { textView_wrongText.setText("No password."); break; }
 
-                People peop = bdd.getPeopleWithUsername(username);
-                String correct_password = peop.getPassword();
-                String role = peop.getRole();
+
+                if(bdd.doesPeopleAlreadyExists(username)) {
+                    if (bdd.getPeopleWithUsername(username).getPassword().equals(password)) {
+                        people =bdd.getPeopleWithUsername(username);
+                        Toast.makeText(getApplicationContext(), "Allowed locale connexion.", Toast.LENGTH_LONG).show();
+                        bdd.close();
+                        launchNewIntent();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Locale connexion refused.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    bdd.close();
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    RequestParams params = new RequestParams();
+
+                    ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("username", username);
+                    map.put("password", password);
+                    wordList.add(map);
+
+                    Gson gson = new GsonBuilder().create();
+                    params.put("logJSON", gson.toJson(wordList));
+
+                    System.out.println(params);
+
+                    client.post("http://www.pierre-ecarlat.com/newSql/checklogyourself.php", params, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            String response = null;
+
+                            try {
+                                response = new String(responseBody, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("RESPONSE : " + response);
+                            try {
+                                JSONArray arr = new JSONArray(response);
+                                System.out.println(arr.length());
+
+                                if(getLogStatus(response)) {
+                                    people = translateResponse(response);
+                                    Toast.makeText(getApplicationContext(), "Allowed online connexion.", Toast.LENGTH_LONG).show();
+                                    insertPeople(people);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Online connexion refused.", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            if (statusCode == 404) {
+                                Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                            } else if (statusCode == 500) {
+                                Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            if(people != null) {
+                                Toast.makeText(getApplicationContext(), "Log as " + people.getName() + " " + people.getFirst_name() + ".", Toast.LENGTH_LONG).show();
+                                launchNewIntent();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Log failed.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
 
                 bdd.close();
-
-                if(correct_password.equals(password)) {
-                    intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("username", username);
-                    startActivity(intent);
-                    writeCreds(username, password);
-                }
-                else { textView_wrongText.setText("Wrong password."); break; }
 
                 break;
             }
@@ -121,6 +235,8 @@ public class LogInActivity extends ActionBarActivity {
         }
     }
 
+
+/** MENU PARTS ************************************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -141,20 +257,5 @@ public class LogInActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void writeCreds(String username, String password){
-        File f = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/userCredentials.berzerk");
-        if(f.length() > 0)
-            f.delete();
-        try{
-            FileOutputStream os = new FileOutputStream(f);
-            os.write(username.getBytes());
-            os.write("amoslexiii".getBytes());
-            os.write(password.getBytes());
-            os.close();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
 }

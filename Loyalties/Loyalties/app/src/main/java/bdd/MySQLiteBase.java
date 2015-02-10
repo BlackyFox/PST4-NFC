@@ -9,45 +9,50 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private int version;
 
-    private static final String TABLE_PEOPLE = "table_people";
-    private static final String COL_PEOPLE_ID = "ID";
-    private static final String COL_PEOPLE_USERNAME = "USERNAME";
-    private static final String COL_PEOPLE_PASSWORD = "PASSWORD";
-    private static final String COL_PEOPLE_NAME = "NAME";
-    private static final String COL_PEOPLE_FIRST_NAME = "FIRST_NAME";
-    private static final String COL_PEOPLE_SEXE = "SEXE";
-    private static final String COL_PEOPLE_DATE_OF_BIRTH = "DATE_OF_BIRTH";
-    private static final String COL_PEOPLE_ROLE = "ROLE";
+    private static final String TABLE_PEOPLE = "people";
+    private static final String COL_PEOPLE_ID = "id";
+    private static final String COL_PEOPLE_USERNAME = "username";
+    private static final String COL_PEOPLE_PASSWORD = "password";
+    private static final String COL_PEOPLE_NAME = "name";
+    private static final String COL_PEOPLE_FIRST_NAME = "first_name";
+    private static final String COL_PEOPLE_SEXE = "sexe";
+    private static final String COL_PEOPLE_DATE_OF_BIRTH = "date_of_birth";
+    private static final String COL_PEOPLE_MAIL = "mail";
+    private static final String COL_PEOPLE_CITY = "city";
 
-    private static final String TABLE_COMPANY = "table_company";
-    private static final String COL_COMPANY_ID = "ID";
-    private static final String COL_COMPANY_NAME = "NAME";
+    private static final String TABLE_COMPANIES = "companies";
+    private static final String COL_COMPANIES_ID = "id";
+    private static final String COL_COMPANIES_NAME = "name";
+    private static final String COL_COMPANIES_LOGO = "logo";
+    private static final String COL_COMPANIES_CARD = "card";
 
-    private static final String TABLE_REDUCTION = "table_reduction";
-    private static final String COL_REDUCTION_ID = "ID";
-    private static final String COL_REDUCTION_NAME = "NAME";
-    private static final String COL_REDUCTION_TEXT = "TEXT";
-    private static final String COL_REDUCTION_SEXE = "SEXE";
-    private static final String COL_REDUCTION_AGE_RELATION = "AGE_RELATION";
-    private static final String COL_REDUCTION_AGE_VALUE = "AGE_VALUE";
-    private static final String COL_REDUCTION_NB_POINTS_RELATION = "NB_POINTS_RELATION";
-    private static final String COL_REDUCTION_NB_POINTS_VALUE = "NB_POINTS_VALUE";
+    private static final String TABLE_CLIENTS = "clients";
+    private static final String COL_CLIENTS_ID = "id";
+    private static final String COL_CLIENTS_ID_PEOP = "id_peop";
+    private static final String COL_CLIENTS_ID_COMP = "id_comp";
+    private static final String COL_CLIENTS_NUM_CLIENT = "num_client";
+    private static final String COL_CLIENTS_NB_LOYALTIES = "nb_loyalties";
 
-    private static final String TABLE_CLIENT = "table_client";
-    private static final String COL_CLIENT_ID = "ID";
-    private static final String COL_CLIENT_IDCOMP = "ID_COMPANY";
-    private static final String COL_CLIENT_IDPEOP = "ID_PEOPLE";
-    private static final String COL_CLIENT_POINTS = "POINTS";
+    private static final String TABLE_REDUCTIONS = "reductions";
+    private static final String COL_REDUCTIONS_ID = "id";
+    private static final String COL_REDUCTIONS_NAME = "name";
+    private static final String COL_REDUCTIONS_TEXT = "text";
+    private static final String COL_REDUCTIONS_SEXE = "sexe";
+    private static final String COL_REDUCTIONS_AGE_RELATION = "age_relation";
+    private static final String COL_REDUCTIONS_AGE_VALUE = "age_value";
+    private static final String COL_REDUCTIONS_NB_POINTS_RELATION = "nb_points_relation";
+    private static final String COL_REDUCTIONS_NB_POINTS_VALUE = "nb_points_value";
+    private static final String COL_REDUCTIONS_CITY = "city";
 
-    private static final String TABLE_OFFER = "table_offer";
-    private static final String COL_OFFER_ID = "ID";
-    private static final String COL_OFFER_IDCOMP = "ID_COMPANY";
-    private static final String COL_OFFER_IDREDU = "ID_REDUCTION";
+    private static final String TABLE_OFFERS = "offers";
+    private static final String COL_OFFERS_ID = "id";
+    private static final String COL_OFFERS_ID_COMP = "id_comp";
+    private static final String COL_OFFERS_ID_REDU = "id_redu";
 
-    private static final String TABLE_OPPORTUNITY = "table_opportunity";
-    private static final String COL_OPPORTUNITY_ID = "ID";
-    private static final String COL_OPPORTUNITY_IDCLIENT = "ID_CLIENT";
-    private static final String COL_OPPORTUNITY_IDREDU = "ID_REDUCTION";
+    private static final String TABLE_OPPORTUNITIES = "opportunities";
+    private static final String COL_OPPORTUNITIES_ID = "id";
+    private static final String COL_OPPORTUNITIES_ID_CLIENT = "id_client";
+    private static final String COL_OPPORTUNITIES_ID_REDU = "id_redu";
 
 
     private static final String CREATE_TABLE_PEOPLE =
@@ -59,42 +64,47 @@ public class MySQLiteBase extends SQLiteOpenHelper {
                     + COL_PEOPLE_FIRST_NAME + " TEXT NOT NULL, "
                     + COL_PEOPLE_SEXE + " TEXT NOT NULL, "
                     + COL_PEOPLE_DATE_OF_BIRTH + " TEXT NOT NULL, "
-                    + COL_PEOPLE_ROLE + " TEXT NOT NULL);";
+                    + COL_PEOPLE_MAIL + " TEXT NOT NULL, "
+                    + COL_PEOPLE_CITY + " TEXT NOT NULL);";
 
-    private static final String CREATE_TABLE_COMPANY =
-            "CREATE TABLE " + TABLE_COMPANY + " ("
-                    + COL_COMPANY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_COMPANY_NAME + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE_COMPANIES =
+            "CREATE TABLE " + TABLE_COMPANIES + " ("
+                    + COL_COMPANIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_COMPANIES_NAME + " TEXT NOT NULL, "
+                    + COL_COMPANIES_LOGO + " TEXT NOT NULL, "
+                    + COL_COMPANIES_CARD + " TEXT NOT NULL);";
 
-    private static final String CREATE_TABLE_REDUCTION =
-            "CREATE TABLE " + TABLE_REDUCTION + " ("
-                    + COL_REDUCTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_REDUCTION_NAME + " TEXT NOT NULL, "
-                    + COL_REDUCTION_TEXT + " TEXT NOT NULL, "
-                    + COL_REDUCTION_SEXE + " TEXT NOT NULL, "
-                    + COL_REDUCTION_AGE_RELATION + " TEXT NOT NULL, "
-                    + COL_REDUCTION_AGE_VALUE + " TEXT NOT NULL, "
-                    + COL_REDUCTION_NB_POINTS_RELATION + " TEXT NOT NULL, "
-                    + COL_REDUCTION_NB_POINTS_VALUE + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE_CLIENTS =
+            "CREATE TABLE " + TABLE_CLIENTS + " ("
+                    + COL_CLIENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_CLIENTS_ID_PEOP + " INTEGER NOT NULL, "
+                    + COL_CLIENTS_ID_COMP + " INTEGER NOT NULL, "
+                    + COL_CLIENTS_NUM_CLIENT + " INTEGER NOT NULL, "
+                    + COL_CLIENTS_NB_LOYALTIES + " INTEGER NOT NULL);";
 
-    private static final String CREATE_TABLE_CLIENT =
-            "CREATE TABLE " + TABLE_CLIENT + " ("
-                    + COL_CLIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_CLIENT_IDPEOP + " INTEGER NOT NULL, "
-                    + COL_CLIENT_IDCOMP + " INTEGER NOT NULL, "
-                    + COL_CLIENT_POINTS + " INTEGER NOT NULL);";
+    private static final String CREATE_TABLE_REDUCTIONS =
+            "CREATE TABLE " + TABLE_REDUCTIONS + " ("
+                    + COL_REDUCTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_REDUCTIONS_NAME + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_TEXT + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_SEXE + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_AGE_RELATION + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_AGE_VALUE + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_NB_POINTS_RELATION + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_NB_POINTS_VALUE + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_CITY + " TEXT NOT NULL);";
 
-    private static final String CREATE_TABLE_OFFER =
-            "CREATE TABLE " + TABLE_OFFER + " ("
-                    + COL_OFFER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_OFFER_IDCOMP + " INTEGER NOT NULL, "
-                    + COL_OFFER_IDREDU + " INTEGER NOT NULL);";
+    private static final String CREATE_TABLE_OFFERS =
+            "CREATE TABLE " + TABLE_OFFERS + " ("
+                    + COL_OFFERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_OFFERS_ID_COMP + " INTEGER NOT NULL, "
+                    + COL_OFFERS_ID_REDU + " INTEGER NOT NULL);";
 
-    private static final String CREATE_TABLE_OPPORTUNITY =
-            "CREATE TABLE " + TABLE_OPPORTUNITY + " ("
-                    + COL_OPPORTUNITY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + COL_OPPORTUNITY_IDCLIENT + " INTEGER NOT NULL, "
-                    + COL_OPPORTUNITY_IDREDU + " INTEGER NOT NULL);";
+    private static final String CREATE_TABLE_OPPORTUNITIES =
+            "CREATE TABLE " + TABLE_OPPORTUNITIES + " ("
+                    + COL_OPPORTUNITIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_OPPORTUNITIES_ID_CLIENT + " INTEGER NOT NULL, "
+                    + COL_OPPORTUNITIES_ID_REDU + " INTEGER NOT NULL);";
 
 
     public MySQLiteBase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -109,21 +119,21 @@ public class MySQLiteBase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_PEOPLE);
-        db.execSQL(CREATE_TABLE_COMPANY);
-        db.execSQL(CREATE_TABLE_REDUCTION);
-        db.execSQL(CREATE_TABLE_CLIENT);
-        db.execSQL(CREATE_TABLE_OFFER);
-        db.execSQL(CREATE_TABLE_OPPORTUNITY);
+        db.execSQL(CREATE_TABLE_COMPANIES);
+        db.execSQL(CREATE_TABLE_CLIENTS);
+        db.execSQL(CREATE_TABLE_REDUCTIONS);
+        db.execSQL(CREATE_TABLE_OFFERS);
+        db.execSQL(CREATE_TABLE_OPPORTUNITIES);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE " + TABLE_PEOPLE + ";");
-        db.execSQL("DROP TABLE " + TABLE_COMPANY + ";");
-        db.execSQL("DROP TABLE " + TABLE_REDUCTION + ";");
-        db.execSQL("DROP TABLE " + TABLE_CLIENT + ";");
-        db.execSQL("DROP TABLE " + TABLE_OFFER + ";");
-        db.execSQL("DROP TABLE " + TABLE_OPPORTUNITY + ";");
+        db.execSQL("DROP TABLE " + TABLE_COMPANIES + ";");
+        db.execSQL("DROP TABLE " + TABLE_CLIENTS + ";");
+        db.execSQL("DROP TABLE " + TABLE_REDUCTIONS + ";");
+        db.execSQL("DROP TABLE " + TABLE_OFFERS + ";");
+        db.execSQL("DROP TABLE " + TABLE_OPPORTUNITIES + ";");
         onCreate(db);
     }
 }

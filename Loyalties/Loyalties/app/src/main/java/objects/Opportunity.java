@@ -3,14 +3,14 @@ package objects;
 
 public class Opportunity {
     private int id;
-    private int idClient;
-    private int idRedu;
+    private int id_client;
+    private int id_redu;
 
     public Opportunity() {}
 
-    public Opportunity(int idClient, int idRedu) {
-        this.idClient = idClient;
-        this.idRedu = idRedu;
+    public Opportunity(int id_client, int id_redu) {
+        this.id_client = id_client;
+        this.id_redu = id_redu;
     }
 
     public int getId() {
@@ -21,19 +21,19 @@ public class Opportunity {
         this.id = id;
     }
 
-    public int getIdClient() {
-        return this.idClient;
+    public int getId_client() {
+        return this.id_client;
     }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
     }
 
-    public int getIdRedu() {
-        return idRedu;
+    public int getId_redu() {
+        return id_redu;
     }
 
-    public void setIdRedu(int idRedu) {
-        this.idRedu = idRedu;
+    public void setId_redu(int id_redu) {
+        this.id_redu = id_redu;
     }
 }
