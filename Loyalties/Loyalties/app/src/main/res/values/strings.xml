@@ -19,7 +19,6 @@
     </string-array>
 
     <string name="scan_title">Scanner une carte</string>
-
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="logIn_user">Username</string>
     <string name="logIn_pass">Password</string>
@@ -28,5 +27,6 @@
     <string name="sign_in">Sign in</string>
     <string name="title_activity_sign_in">Sign in</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_sync">SyncActivity</string>
 
 </resources>

@@ -14,6 +14,10 @@
     </Preference>
 
     <Preference android:title="@string/pref_sync">
+        <intent
+            android:action="android.intent.action.view"
+            android:targetPackage="fr.esiea.nfc.pst4.loyalties"
+            android:targetClass="fr.esiea.nfc.pst4.loyalties.SyncActivity"/>
         <!-- intent de sync a créer !-->
     </Preference>
 
