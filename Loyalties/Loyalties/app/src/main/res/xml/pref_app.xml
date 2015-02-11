@@ -21,7 +21,7 @@
         <!-- intent de sync a créer !-->
     </Preference>
 
-    <Preference android:title="@string/pref_logout_no_trace">
+    <Preference android:key="LogOut" android:title="@string/pref_logout_no_trace">
 
     </Preference>
 </PreferenceScreen>
