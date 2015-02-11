@@ -28,5 +28,8 @@
     <string name="title_activity_sign_in">Sign in</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_sync">SyncActivity</string>
+    <string name="title_activity_emulate">EmulateActivity</string>
+    <string name="title_activity_add_card">AddCardActivity</string>
+    <string name="add_title">Add a card</string>
 
 </resources>

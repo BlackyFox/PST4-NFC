@@ -41,6 +41,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="fr.esiea.nfc.pst4.loyalties.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".EmulateActivity"
+            android:label="@string/title_activity_emulate" >
+        </activity>
+        <activity
+            android:name=".ScanActivity"
+            android:label="@string/title_activity_scan" >
+        </activity>
+        <activity
+            android:name=".AddCardActivity"
+            android:label="@string/title_activity_add_card" >
+        </activity>
     </application>
 
 </manifest>
