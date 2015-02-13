@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DD/MM/YYYY"
-        android:id="@+id/textView7"
+        android:id="@+id/textViewDate"
         android:layout_above="@+id/textView8"
         android:layout_toEndOf="@+id/textView3" />
 
@@ -92,8 +92,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pick a date"
-        android:id="@+id/button"
-        android:layout_alignBottom="@+id/textView7"
+        android:id="@+id/buttonDate"
+        android:layout_alignBottom="@+id/textViewDate"
         android:layout_alignEnd="@+id/editText3" />
 
     <TextView
@@ -111,7 +111,7 @@
         android:text="Man"
         android:id="@+id/radioButton"
         android:layout_alignBottom="@+id/textView8"
-        android:layout_alignStart="@+id/textView7"
+        android:layout_alignStart="@+id/textViewDate"
         android:checked="false" />
 
     <RadioButton
@@ -121,6 +121,6 @@
         android:id="@+id/radioButton2"
         android:checked="false"
         android:layout_alignBottom="@+id/textView8"
-        android:layout_alignStart="@+id/button" />
+        android:layout_alignStart="@+id/buttonDate" />
 
 </RelativeLayout>
