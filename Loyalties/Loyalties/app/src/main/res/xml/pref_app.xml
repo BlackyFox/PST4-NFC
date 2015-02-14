@@ -13,12 +13,8 @@
         <intent android:action="android.settings.NFC_SETTINGS"/>
     </Preference>
 
-    <Preference android:title="@string/pref_sync">
-        <intent
-            android:action="android.intent.action.view"
-            android:targetPackage="fr.esiea.nfc.pst4.loyalties"
-            android:targetClass="fr.esiea.nfc.pst4.loyalties.SyncActivity"/>
-        <!-- intent de sync a créer !-->
+    <Preference android:key="Sync" android:title="@string/pref_sync">
+
     </Preference>
 
     <Preference android:key="LogOut" android:title="@string/pref_logout_no_trace">

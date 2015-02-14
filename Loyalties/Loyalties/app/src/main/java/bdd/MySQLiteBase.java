@@ -32,6 +32,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
     private static final String COL_CLIENTS_ID_COMP = "id_comp";
     private static final String COL_CLIENTS_NUM_CLIENT = "num_client";
     private static final String COL_CLIENTS_NB_LOYALTIES = "nb_loyalties";
+    private static final String COL_CLIENTS_LAST_USED = "last_used";
 
     private static final String TABLE_REDUCTIONS = "reductions";
     private static final String COL_REDUCTIONS_ID = "id";
@@ -80,7 +81,8 @@ public class MySQLiteBase extends SQLiteOpenHelper {
                     + COL_CLIENTS_ID_PEOP + " INTEGER NOT NULL, "
                     + COL_CLIENTS_ID_COMP + " INTEGER NOT NULL, "
                     + COL_CLIENTS_NUM_CLIENT + " INTEGER NOT NULL, "
-                    + COL_CLIENTS_NB_LOYALTIES + " INTEGER NOT NULL);";
+                    + COL_CLIENTS_NB_LOYALTIES + " INTEGER NOT NULL, "
+                    + COL_CLIENTS_LAST_USED + " INTEGER NOT NULL);";
 
     private static final String CREATE_TABLE_REDUCTIONS =
             "CREATE TABLE " + TABLE_REDUCTIONS + " ("

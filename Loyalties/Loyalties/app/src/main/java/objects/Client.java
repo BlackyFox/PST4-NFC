@@ -7,6 +7,7 @@ public class Client {
     private int id_comp;
     private int num_client;
     private int nb_loyalties;
+    private int last_used;
 
     public Client() {}
 
@@ -55,5 +56,13 @@ public class Client {
 
     public void setNb_loyalties(int nb_loyalties) {
         this.nb_loyalties = nb_loyalties;
+    }
+
+    public int getLast_used() {
+        return last_used;
+    }
+
+    public void setLast_used(int last_used) {
+        this.last_used = last_used;
     }
 }

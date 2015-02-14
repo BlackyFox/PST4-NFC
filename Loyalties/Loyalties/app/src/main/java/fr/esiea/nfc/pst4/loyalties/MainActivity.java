@@ -2,6 +2,7 @@ package fr.esiea.nfc.pst4.loyalties;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ public class MainActivity extends ActionBarActivity
     private String mTitle;
     private String[] arrTitle;
     private String username;
+    private String company;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,9 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
         username = getIntent().getStringExtra("username");
-
         Toast.makeText(getApplicationContext(), "Welcome back "+username+" !", Toast.LENGTH_LONG).show();
+        company = "";
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
@@ -55,6 +58,35 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    public void switchFrag(View view) {
+        Fragment fr = null;
+        Intent intent;
+
+        switch(view.getId()) {
+            case R.id.home_cards:
+                fr = new SeeCardsFragment();
+                break;
+            case R.id.home_add_card:
+                fr = new AddCardFragment();
+                break;
+            case R.id.add_scan:
+                intent = new Intent(this, ScanActivity.class);
+                startActivity(intent);
+                fr = new AddCardFragment();
+                break;
+            case R.id.add_manually:
+                intent = new Intent(this, AddCardActivity.class);
+                startActivity(intent);
+                fr = new AddCardFragment();
+                break;
+        }
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fr);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -78,11 +110,6 @@ public class MainActivity extends ActionBarActivity
                 //mTitle = arrTitle[position];
                 restoreActionBar();
                 break;
-            case 3:
-                objFrag = new SeeCompanyFragment();
-                //mTitle = arrTitle[position];
-                restoreActionBar();
-                break;
         }
         // update the main content by replacing fragments
         if(objFrag != null) {
@@ -98,6 +125,26 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.container);
+        if (!(currentFragment instanceof HomeFragment)) {
+            Fragment objFrag = new HomeFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, objFrag)
+                    .commit();
+        } else {
+            this.finish();
+        }
+    }
+
+    public String getUsername() { return this.username; }
+
+    public void setCompany(String name) { this.company = name; }
+
+    public String getCompany() { return this.company; }
+
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
@@ -107,9 +154,6 @@ public class MainActivity extends ActionBarActivity
                 mTitle = arrTitle[number];
                 break;
             case 2:
-                mTitle = arrTitle[number];
-                break;
-            case 3:
                 mTitle = arrTitle[number];
                 break;
         }
@@ -149,10 +193,9 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-        }
-        if(id == R.id.action_example){
-            startActivity(new Intent(MainActivity.this, AddCardActivity.class));
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            intent.putExtra("username", username);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -16,12 +16,14 @@ import fr.esiea.nfc.pst4.loyalties.R;
 public class SeeCompanyFragment extends Fragment {
 
     View rootview;
+    String company;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_see_company, container, false);
+        company = ((MainActivity)getActivity()).getCompany();
 
         ((MainActivity)getActivity()).setActionBarTitle("See company");
         return rootview;

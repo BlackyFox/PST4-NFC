@@ -10,11 +10,16 @@ import fr.esiea.nfc.pst4.loyalties.R;
 
 public class SyncActivity extends ActionBarActivity {
 
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync);
-        Toast.makeText(getApplicationContext(), "Begin sync", Toast.LENGTH_SHORT).show();
+        username = getIntent().getStringExtra("username");
+
+
+        Toast.makeText(getApplicationContext(), "Begin sync " + username, Toast.LENGTH_SHORT).show();
         sync();
         Toast.makeText(getApplicationContext(), "Sync done", Toast.LENGTH_LONG).show();
         finish();
