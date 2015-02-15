@@ -1,16 +1,21 @@
 package objects;
 
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Offer {
     private int id;
     private int id_comp;
     private int id_redu;
+    private String up_date;
 
     public Offer() {}
 
     public Offer(int id_comp, int id_redu) {
         this.id_comp = id_comp;
         this.id_redu = id_redu;
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
     }
 
     public int getId() {
@@ -35,5 +40,13 @@ public class Offer {
 
     public void setId_redu(int id_redu) {
         this.id_redu = id_redu;
+    }
+
+    public String getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(String up_date) {
+        this.up_date = up_date;
     }
 }

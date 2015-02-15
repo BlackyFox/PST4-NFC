@@ -1,6 +1,9 @@
 package objects;
 
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Client {
     private int id;
     private int id_peop;
@@ -8,6 +11,7 @@ public class Client {
     private int num_client;
     private int nb_loyalties;
     private int last_used;
+    private String up_date;
 
     public Client() {}
 
@@ -16,6 +20,7 @@ public class Client {
         this.id_comp = id_comp;
         this.num_client = num_client;
         this.nb_loyalties = nb_loyalties;
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
     }
 
     public int getId() {
@@ -64,5 +69,13 @@ public class Client {
 
     public void setLast_used(int last_used) {
         this.last_used = last_used;
+    }
+
+    public String getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(String update) {
+        this.up_date = update;
     }
 }

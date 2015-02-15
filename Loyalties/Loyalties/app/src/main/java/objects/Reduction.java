@@ -1,6 +1,9 @@
 package objects;
 
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Reduction {
     private int id;
     private String name;
@@ -11,6 +14,7 @@ public class Reduction {
     private String nb_points_relation;
     private int nb_points_value;
     private String city;
+    private String up_date;
 
 
     public Reduction() {}
@@ -24,6 +28,7 @@ public class Reduction {
         this.nb_points_relation = nb_points_relation;
         this.nb_points_value = nb_points_value;
         this.city = city;
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
     }
 
     public int getId() {
@@ -96,5 +101,13 @@ public class Reduction {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(String up_date) {
+        this.up_date = up_date;
     }
 }

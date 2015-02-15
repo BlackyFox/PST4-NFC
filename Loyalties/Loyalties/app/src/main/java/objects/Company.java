@@ -1,11 +1,15 @@
 package objects;
 
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Company {
     private int id;
     private String name;
     private String logo;
     private String card;
+    private String up_date;
 
     public Company() {}
 
@@ -13,6 +17,7 @@ public class Company {
         this.name = name;
         this.logo = logo;
         this.card = card;
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
     }
 
     public int getId() {
@@ -45,5 +50,13 @@ public class Company {
 
     public void setCard(String card) {
         this.card = card;
+    }
+
+    public String getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(String up_date) {
+        this.up_date = up_date;
     }
 }

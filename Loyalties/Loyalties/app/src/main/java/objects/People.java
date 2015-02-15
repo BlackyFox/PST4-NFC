@@ -1,11 +1,15 @@
 package objects;
 
 
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class People {
     private int id;
@@ -17,6 +21,7 @@ public class People {
     private String date_of_birth;
     private String mail;
     private String city;
+    private String up_date;
 
     public People() {}
 
@@ -29,6 +34,7 @@ public class People {
         this.date_of_birth = date_of_birth;
         this.mail = mail;
         this.city = city;
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).getTime().toString();
     }
 
     public int getId() {
@@ -113,6 +119,14 @@ public class People {
         this.city = city;
     }
 
+    public String getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(String up_date) {
+        this.up_date = up_date;
+    }
+
     public String composePeopleJSONfromSQLite() {
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
@@ -126,6 +140,7 @@ public class People {
         map.put("date_of_birth", getDate_of_birth());
         map.put("mail", getMail());
         map.put("city", getCity());
+        map.put("up_date", getUp_date());
         wordList.add(map);
 
         Gson gson = new GsonBuilder().create();

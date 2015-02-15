@@ -10,12 +10,17 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import bdd.MyBDD;
 import library_http.AsyncHttpClient;
@@ -55,6 +60,32 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
+    }
+
+    public String composeSyncJSON() {
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put();
+
+        /*
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("username", getUsername());
+        map.put("password", getPassword());
+        map.put("name", getName());
+        map.put("first_name", getFirst_name());
+        map.put("sexe", getSexe());
+        map.put("date_of_birth", getDate_of_birth());
+        map.put("mail", getMail());
+        map.put("city", getCity());
+        wordList.add(map);
+
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(wordList);
+        */
+
+        return "";
     }
 
     private void synchronize() {
