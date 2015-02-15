@@ -67,7 +67,7 @@ public class SettingsActivity extends PreferenceActivity {
         wordList = new ArrayList<HashMap<String, String>>();
 
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put();
+        //map.put();
 
         /*
         HashMap<String, String> map = new HashMap<String, String>();
