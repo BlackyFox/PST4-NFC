@@ -23,6 +23,7 @@ import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.NavigationDrawerFragment;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCardsFragment;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCompanyFragment;
+import objects.People;
 
 
 public class MainActivity extends ActionBarActivity

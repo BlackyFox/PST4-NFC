@@ -86,23 +86,30 @@ public class SignInActivity extends ActionBarActivity {
         });
     }
 
-    public void endActivity() {
-        String conclusion = "Success !\n"
-                + "\tUsername : " + people.getUsername() + "\n"
-                + "\tPassword : " + people.getPassword() + "\n"
-                + "\tName : " + people.getName() + "\n"
-                + "\tFirst-name : " + people.getFirst_name() + "\n"
-                + "\tSexe : " + people.getSexe() + "\n"
-                + "\tDate of birth : " + people.getDate_of_birth() + "\n"
-                + "\tRole : " + people.getMail() + "\n"
-                + "\tCity : " + people.getCity();
+    public void endActivity(final Boolean ok) {
+        String conclusion;
+        if(ok) {
+            conclusion = "Success !\n"
+                    + "\tUsername : " + people.getUsername() + "\n"
+                    + "\tPassword : " + people.getPassword() + "\n"
+                    + "\tName : " + people.getName() + "\n"
+                    + "\tFirst-name : " + people.getFirst_name() + "\n"
+                    + "\tSexe : " + people.getSexe() + "\n"
+                    + "\tDate of birth : " + people.getDate_of_birth() + "\n"
+                    + "\tRole : " + people.getMail() + "\n"
+                    + "\tCity : " + people.getCity();
+        } else {
+            conclusion = "Failed :(\n"
+                    + "Please retry later or contact your mom.";
+        }
 
         new AlertDialog.Builder(this)
                 .setMessage(conclusion)
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SignInActivity.this.finish();
+                        if(ok)
+                            SignInActivity.this.finish();
                     }
                 })
                 .show();
@@ -133,6 +140,8 @@ public class SignInActivity extends ActionBarActivity {
         System.out.println(params);
 
         client.post("http://www.pierre-ecarlat.com/newSql/insertpeople.php", params, new AsyncHttpResponseHandler() {
+            Boolean ok = false;
+
             @Override
             public void onStart() {
                 progress = new ProgressDialog(SignInActivity.this);
@@ -160,6 +169,8 @@ public class SignInActivity extends ActionBarActivity {
                     else if(!getWorksStatus(response)) {
                         Toast.makeText(getApplicationContext(), "Insertion doesn't works !", Toast.LENGTH_LONG).show();
                         progress.dismiss();
+                    } else {
+                        ok = true;
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
@@ -186,7 +197,7 @@ public class SignInActivity extends ActionBarActivity {
                     progress.dismiss();
                 }
 
-                endActivity();
+                endActivity(ok);
             }
         });
     }

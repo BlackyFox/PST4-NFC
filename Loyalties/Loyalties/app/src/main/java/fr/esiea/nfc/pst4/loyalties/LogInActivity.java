@@ -112,13 +112,18 @@ public class LogInActivity extends ActionBarActivity {
 
     public People translateResponse(String response) {
         String parts[] = response.split(":");
-        String data[] = new String[8];
+        String data[] = new String[9];
         for(int i = 2 ; i < 10 ; i++) {
             parts[i] = parts[i].split(",")[0];
             data[i-2] = parts[i].substring(1, parts[i].length()-1);
         }
+        data[8] = parts[10] + ":" + parts[11] + ":" + parts[12];
+        data[8] = data[8].substring(1, data[8].length()-3);
 
-        return new People(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+        People tmp = new People(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+        tmp.setUp_date(data[8]);
+
+        return tmp;
     }
 
     public Boolean getLogStatus(String response) {
@@ -146,80 +151,80 @@ public class LogInActivity extends ActionBarActivity {
 
                 if(bdd.doesPeopleAlreadyExists(username)) {
                     if (bdd.getPeopleWithUsername(username).getPassword().equals(password)) {
-                        people =bdd.getPeopleWithUsername(username);
-                        Toast.makeText(getApplicationContext(), "Allowed locale connexion.", Toast.LENGTH_LONG).show();
+                        people = bdd.getPeopleWithUsername(username);
+                        Toast.makeText(getApplicationContext(), "Allowed locale connection at " + people.getUp_date(), Toast.LENGTH_LONG).show();
                         bdd.close();
                         launchNewIntent();
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "Locale connexion refused.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Locale connection refused.", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    bdd.close();
-                    AsyncHttpClient client = new AsyncHttpClient();
-                    RequestParams params = new RequestParams();
-
-                    ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("username", username);
-                    map.put("password", password);
-                    wordList.add(map);
-
-                    Gson gson = new GsonBuilder().create();
-                    params.put("logJSON", gson.toJson(wordList));
-
-                    System.out.println(params);
-
-                    client.post("http://www.pierre-ecarlat.com/newSql/checklogyourself.php", params, new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            String response = null;
-
-                            try {
-                                response = new String(responseBody, "UTF-8");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println("RESPONSE : " + response);
-                            try {
-                                JSONArray arr = new JSONArray(response);
-                                System.out.println(arr.length());
-
-                                if(getLogStatus(response)) {
-                                    people = translateResponse(response);
-                                    Toast.makeText(getApplicationContext(), "Allowed online connexion.", Toast.LENGTH_LONG).show();
-                                    insertPeople(people);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Online connexion refused.", Toast.LENGTH_LONG).show();
-                                }
-                            } catch (JSONException e) {
-                                Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                            if (statusCode == 404) {
-                                Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                            } else if (statusCode == 500) {
-                                Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            if(people != null) {
-                                Toast.makeText(getApplicationContext(), "Log as " + people.getName() + " " + people.getFirst_name() + ".", Toast.LENGTH_LONG).show();
-                                launchNewIntent();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Log failed.", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
                 }
+
+                bdd.close();
+                AsyncHttpClient client = new AsyncHttpClient();
+                RequestParams params = new RequestParams();
+
+                ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
+                HashMap<String, String> map = new HashMap<>();
+                map.put("username", username);
+                map.put("password", password);
+                wordList.add(map);
+
+                Gson gson = new GsonBuilder().create();
+                params.put("logJSON", gson.toJson(wordList));
+
+                System.out.println(params);
+
+                client.post("http://www.pierre-ecarlat.com/newSql/checklogyourself.php", params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        String response = null;
+
+                        try {
+                            response = new String(responseBody, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("RESPONSE : " + response);
+                        try {
+                            JSONArray arr = new JSONArray(response);
+                            System.out.println(arr.length());
+
+                            if(getLogStatus(response)) {
+                                people = translateResponse(response);
+                                Toast.makeText(getApplicationContext(), "Allowed online connection at " + people.getUp_date(), Toast.LENGTH_LONG).show();
+                                insertPeople(people);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Online connection refused.", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        if (statusCode == 404) {
+                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                        } else if (statusCode == 500) {
+                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        if(people != null) {
+                            Toast.makeText(getApplicationContext(), "Log as " + people.getName() + " " + people.getFirst_name() + ".", Toast.LENGTH_LONG).show();
+                            launchNewIntent();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Log failed.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
                 bdd.close();
 

@@ -396,6 +396,7 @@ public class MyBDD {
         people.setDate_of_birth(c.getString(NUM_COL_PEOPLE_DATE_OF_BIRTH));
         people.setMail(c.getString(NUM_COL_PEOPLE_MAIL));
         people.setCity(c.getString(NUM_COL_PEOPLE_CITY));
+        people.setUp_date(c.getString(NUM_COL_PEOPLE_UP_DATE));
         c.close();
 
         return people;
@@ -411,6 +412,7 @@ public class MyBDD {
         company.setName(c.getString(NUM_COL_COMPANIES_NAME));
         company.setLogo(c.getString(NUM_COL_COMPANIES_LOGO));
         company.setCard(c.getString(NUM_COL_COMPANIES_CARD));
+        company.setUp_date(c.getString(NUM_COL_COMPANIES_UP_DATE));
         c.close();
 
         return company;
@@ -431,6 +433,7 @@ public class MyBDD {
         reduction.setNb_points_relation(c.getString(NUM_COL_REDUCTIONS_NB_POINTS_RELATION));
         reduction.setNb_points_value(c.getInt(NUM_COL_REDUCTIONS_NB_POINTS_VALUE));
         reduction.setCity(c.getString(NUM_COL_REDUCTIONS_CITY));
+        reduction.setUp_date(c.getString(NUM_COL_REDUCTIONS_UP_DATE));
         c.close();
 
         return reduction;
@@ -450,6 +453,7 @@ public class MyBDD {
         people.setDate_of_birth(c.getString(NUM_COL_PEOPLE_DATE_OF_BIRTH));
         people.setMail(c.getString(NUM_COL_PEOPLE_MAIL));
         people.setCity(c.getString(NUM_COL_PEOPLE_CITY));
+        people.setUp_date(c.getString(NUM_COL_PEOPLE_UP_DATE));
 
         return people;
     }
@@ -463,6 +467,7 @@ public class MyBDD {
         company.setName(c.getString(NUM_COL_COMPANIES_NAME));
         company.setLogo(c.getString(NUM_COL_COMPANIES_LOGO));
         company.setCard(c.getString(NUM_COL_COMPANIES_CARD));
+        company.setUp_date(c.getString(NUM_COL_COMPANIES_UP_DATE));
 
         return company;
     }
@@ -481,6 +486,7 @@ public class MyBDD {
         reduction.setNb_points_relation(c.getString(NUM_COL_REDUCTIONS_NB_POINTS_RELATION));
         reduction.setNb_points_value(c.getInt(NUM_COL_REDUCTIONS_NB_POINTS_VALUE));
         reduction.setCity(c.getString(NUM_COL_REDUCTIONS_CITY));
+        reduction.setUp_date(c.getString(NUM_COL_REDUCTIONS_UP_DATE));
 
         return reduction;
     }
@@ -496,6 +502,7 @@ public class MyBDD {
         client.setNum_client(c.getInt(NUM_COL_CLIENTS_NUM_CLIENT));
         client.setNb_loyalties(c.getInt(NUM_COL_CLIENTS_NB_LOYALTIES));
         client.setLast_used(c.getInt(NUM_COL_CLIENTS_LAST_USED));
+        client.setUp_date(c.getString(NUM_COL_CLIENTS_UP_DATE));
 
         return client;
     }
@@ -508,6 +515,7 @@ public class MyBDD {
         offer.setId(c.getInt(NUM_COL_OFFERS_ID));
         offer.setId_comp(c.getInt(NUM_COL_OFFERS_ID_COMP));
         offer.setId_redu(c.getInt(NUM_COL_OFFERS_ID_REDU));
+        offer.setUp_date(c.getString(NUM_COL_OFFERS_UP_DATE));
 
         return offer;
     }
@@ -520,6 +528,7 @@ public class MyBDD {
         opportunity.setId(c.getInt(NUM_COL_OPPORTUNITIES_ID));
         opportunity.setId_client(c.getInt(NUM_COL_OPPORTUNITIES_ID_CLIENT));
         opportunity.setId_redu(c.getInt(NUM_COL_OPPORTUNITIES_ID_REDU));
+        opportunity.setUp_date(c.getString(NUM_COL_OPPORTUNITIES_UP_DATE));
 
         return opportunity;
     }
