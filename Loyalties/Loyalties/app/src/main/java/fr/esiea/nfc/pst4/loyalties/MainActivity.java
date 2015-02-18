@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
+import bdd.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.AddCardFragment;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.NavigationDrawerFragment;
@@ -39,7 +40,7 @@ public class MainActivity extends ActionBarActivity
      */
     private String mTitle;
     private String[] arrTitle;
-    private String username;
+    private People people;
     private String company;
 
     @Override
@@ -47,8 +48,12 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        username = getIntent().getStringExtra("username");
-        Toast.makeText(getApplicationContext(), "Welcome back "+username+" !", Toast.LENGTH_LONG).show();
+        int id = Integer.parseInt(getIntent().getStringExtra("id"));
+        MyBDD bdd = new MyBDD(this);
+        bdd.open();
+        people = bdd.getPeopleWithId(id);
+        bdd.close();
+        Toast.makeText(getApplicationContext(), "Welcome back "+people.getUsername()+" !", Toast.LENGTH_LONG).show();
         company = "";
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -140,7 +145,7 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    public String getUsername() { return this.username; }
+    public String getUsername() { return this.people.getUsername(); }
 
     public void setCompany(String name) { this.company = name; }
 
@@ -195,7 +200,7 @@ public class MainActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            intent.putExtra("username", username);
+            intent.putExtra("id", Integer.toString(people.getId()));
             startActivity(intent);
         }
 

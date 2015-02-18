@@ -32,15 +32,16 @@ import objects.People;
 public class SettingsActivity extends PreferenceActivity {
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     ProgressDialog progress;
-    String username;
+    People people;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        username = getIntent().getStringExtra("username");
+        int id = Integer.parseInt(getIntent().getStringExtra("id"));
         MyBDD bdd = new MyBDD(this);
         bdd.open();
-        System.out.println("Settings with : " + username + ", signed in " + bdd.getPeopleWithUsername(username).getUp_date());
+        people = bdd.getPeopleWithId(id);
+        System.out.println("Settings with : " + people.getUsername() + ", signed in " + people.getUp_date());
         bdd.close();
 
         setupSimplePreferencesScreen();
@@ -66,19 +67,20 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
-    public String composeSyncJSON(People people) {
+    public String composeSyncJSON() {
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
 
         HashMap<String, String> map = new HashMap<String, String>();
 
         map.put("current_people", "yes"); // If Yes, on regarde si user est à jour, on envoie clé (username) et up_date
-            map.put("current_people_username", people.getUsername());
+            map.put("current_people_id", Integer.toString(people.getId()));
+        System.out.println("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIII : " + people.getId());
             map.put("current_people_up_date", people.getUp_date());
 
         MyBDD bdd = new MyBDD(this);
         bdd.open();
-        Client[] clients = bdd.getAllClients(username);
+        Client[] clients = bdd.getAllClients(people.getUsername());
         if(clients == null) {
             map.put("has_clients", "no");
         } else {
@@ -112,37 +114,13 @@ public class SettingsActivity extends PreferenceActivity {
         return map;
     }
 
-    public void doUpdate(String response) {
-        String[] parts = response.split(":");
-        if(parts[1].charAt(1) == 'y') {
-            MyBDD bdd = new MyBDD(this);
-            People people = new People();
-
-            String data[] = new String[8];
-            for (int i = 2; i < 9; i++) {
-                parts[i] = parts[i].split(",")[0];
-                data[i - 2] = parts[i].substring(1, parts[i].length() - 1);
-            }
-            data[7] = parts[9] + ":" + parts[10] + ":" + parts[11];
-            data[7] = data[7].substring(1, data[7].length()-3);
-
-
-
-
-        }
-    }
-
     private void synchronize() {
-        MyBDD bdd = new MyBDD(this);
-        bdd.open();
-        People people = bdd.getPeopleWithUsername(username);
-        bdd.close();
-        System.out.println("TRIED TO UPLOAD " + username + ", OLD DATE : " + people.getUp_date());
+        System.out.println("TRIED TO UPLOAD " + people.getUsername() + ", OLD DATE : " + people.getUp_date());
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
-        params.put("synchronizeJSON", composeSyncJSON(people));
+        params.put("synchronizeJSON", composeSyncJSON());
         System.out.println(params);
 
         client.post("http://www.pierre-ecarlat.com/newSql/synchronize.php", params, new AsyncHttpResponseHandler() {
@@ -168,13 +146,12 @@ public class SettingsActivity extends PreferenceActivity {
                     System.out.println(arr.length());
                     HashMap<String, String> map = translateResponse(response);
 
-                    if(map.get("has_to_update_people").equals("yes")) {
+                    if(!map.get("works").equals("no") && map.get("has_to_update_people").equals("yes")) {
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
-                        People people = new People(bdd.getPeopleIdWithUsername(username), username, map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
-                        people.setUp_date(map.get("people_new_up_date"));
-
-                        bdd.updatePeople(bdd.getPeopleIdWithUsername(username), people);
+                        People tmpPeople = new People(people.getId(), map.get("people_new_username"), map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
+                        tmpPeople.setUp_date(map.get("people_new_up_date"));
+                        bdd.updatePeople(people.getId(), tmpPeople);
                         bdd.close();
                     }
                 } catch (JSONException e) {
