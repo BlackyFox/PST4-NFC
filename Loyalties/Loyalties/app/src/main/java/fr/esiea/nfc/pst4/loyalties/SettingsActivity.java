@@ -87,9 +87,8 @@ public class SettingsActivity extends PreferenceActivity {
             map.put("has_clients", "yes");
             map.put("has_clients_number", Integer.toString(clients.length));
             for(int i = 0 ; i < clients.length ; i++) {
-                map.put("has_clients_number" + i + "_id_peop", Integer.toString(clients[i].getId_peop()));
-                map.put("has_clients_number" + i + "_id_comp", Integer.toString(clients[i].getId_comp()));
-                map.put("has_clients_number" + i + "_up_date", clients[i].getUp_date());
+                map.put("client_number" + i + "_id", Integer.toString(clients[i].getId()));
+                map.put("client_number" + i + "_up_date", clients[i].getUp_date());
             }
         }
         bdd.close();
@@ -146,7 +145,7 @@ public class SettingsActivity extends PreferenceActivity {
                     System.out.println(arr.length());
                     HashMap<String, String> map = translateResponse(response);
 
-                    if(!map.get("works").equals("no") && map.get("has_to_update_people").equals("yes")) {
+                    if(map.get("update_people_works").equals("yes") && map.get("has_to_update_people").equals("yes")) {
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
                         People tmpPeople = new People(people.getId(), map.get("people_new_username"), map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
@@ -154,6 +153,30 @@ public class SettingsActivity extends PreferenceActivity {
                         bdd.updatePeople(people.getId(), tmpPeople);
                         bdd.close();
                     }
+                    // TODO : tester avec des companies dans la bdd interne
+                    if(map.get("need_to_update_clients").equals("yes")) {
+                        MyBDD bdd = new MyBDD(SettingsActivity.this);
+                        bdd.open();
+                        for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
+                            if(map.get("update_client" + i + "_works").equals("yes") && map.get("has_to_update_client" + i).equals("yes")) {
+                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), Integer.parseInt(map.get("client"+i+"_new_num_client")), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
+                                tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
+                                bdd.updateClient(Integer.parseInt(map.get("client"+i+"_id")), tmpClient);
+                            }
+                        }
+                        bdd.close();
+                    }
+
+                    // TODO : récupérer les companies dont je suis client
+                    // envoi : (id / update (0 si new company)) -> reçoit : (id / infos)
+                    // si nouveau, crée, si ancien différent, update
+
+                    // TODO : la même avec les offers, toutes celles des companies joined
+
+                    // TODO : la même avec les réductions, toutes celles proposées dans les offers
+
+                    // TODO : En local, calculer les opportunities
+
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
