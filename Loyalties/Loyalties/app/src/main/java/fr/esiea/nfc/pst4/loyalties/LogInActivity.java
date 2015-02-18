@@ -45,6 +45,29 @@ public class LogInActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+
+        String test = "[{\"log\":\"yes\",\"username\":\"pvgd\",\"password\":\"x\",\"name\":\"DBV\",\"first_name\":\"Fvv\",\"sexe\":\"M\",\"date_of_birth\":\"0006-06-04\",\"mail\":\"dghh@ggfg.fr\",\"city\":\"fgbv\",\"up_date\":\"Tue Feb 17 23:18:49 CET 2015\"}]";
+        String[] firstSep = test.split("\",\"");
+        HashMap<String, String> map = new HashMap<String, String>();
+        String[] tmp;
+
+        for(int i = 0 ; i < firstSep.length ; i++) {
+            tmp = firstSep[i].split("\":\"");
+            if(i == 0) tmp[0] = tmp[0].substring(3);
+            if(i == firstSep.length-1) tmp[1] = tmp[1].substring(0, tmp[1].length()-3);
+            map.put(tmp[0], tmp[1]);
+        }
+
+        System.out.println("OHOHOHOH " + map.get("name") + " AT DATE " + map.get("up_date") + " AND LOG IN : " + map.get("log"));
+
+
+
+
+
+
+
+
+
         credentials = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/userCredentials.berzerk");
 
         editText_username = (EditText) findViewById(R.id.home_editText_username);
@@ -100,7 +123,7 @@ public class LogInActivity extends ActionBarActivity {
         intent.putExtra("username", people.getUsername());
         startActivity(intent);
         writeCreds(people.getUsername(), people.getPassword());
-        finish();
+        this.finish();
     }
 
     public void insertPeople(People people) {
@@ -110,25 +133,19 @@ public class LogInActivity extends ActionBarActivity {
         bdd.close();
     }
 
-    public People translateResponse(String response) {
-        String parts[] = response.split(":");
-        String data[] = new String[9];
-        for(int i = 2 ; i < 10 ; i++) {
-            parts[i] = parts[i].split(",")[0];
-            data[i-2] = parts[i].substring(1, parts[i].length()-1);
+    public HashMap<String, String> translateResponse(String response) {
+        String[] firstSep = response.split("\",\"");
+        HashMap<String, String> map = new HashMap<String, String>();
+        String[] tmp;
+
+        for(int i = 0 ; i < firstSep.length ; i++) {
+            tmp = firstSep[i].split("\":\"");
+            if(i == 0) tmp[0] = tmp[0].substring(3);
+            if(i == firstSep.length-1) tmp[1] = tmp[1].substring(0, tmp[1].length()-3);
+            map.put(tmp[0], tmp[1]);
         }
-        data[8] = parts[10] + ":" + parts[11] + ":" + parts[12];
-        data[8] = data[8].substring(1, data[8].length()-3);
 
-        People tmp = new People(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
-        tmp.setUp_date(data[8]);
-
-        return tmp;
-    }
-
-    public Boolean getLogStatus(String response) {
-        String parts[] = response.split(":");
-        return !(parts[1].charAt(1) == 'n');
+        return map;
     }
 
     public void toDo(View v) {
@@ -149,82 +166,79 @@ public class LogInActivity extends ActionBarActivity {
                 if(password.equals("")) { textView_wrongText.setText("No password."); break; }
 
 
-                if(bdd.doesPeopleAlreadyExists(username)) {
-                    if (bdd.getPeopleWithUsername(username).getPassword().equals(password)) {
-                        people = bdd.getPeopleWithUsername(username);
-                        Toast.makeText(getApplicationContext(), "Allowed locale connection at " + people.getUp_date(), Toast.LENGTH_LONG).show();
-                        bdd.close();
-                        launchNewIntent();
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "Locale connection refused.", Toast.LENGTH_LONG).show();
-                    }
-                }
+                if(bdd.doesPeopleAlreadyExists(username) && bdd.getPeopleWithUsername(username).getPassword().equals(password)) {
+                    people = bdd.getPeopleWithUsername(username);
+                    Toast.makeText(getApplicationContext(), "Allowed locale connection at " + people.getUp_date(), Toast.LENGTH_LONG).show();
+                    bdd.close();
+                    launchNewIntent();
+                } else {
+                    bdd.close();
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    RequestParams params = new RequestParams();
 
-                bdd.close();
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
+                    ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("username", username);
+                    map.put("password", password);
+                    wordList.add(map);
 
-                ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
-                HashMap<String, String> map = new HashMap<>();
-                map.put("username", username);
-                map.put("password", password);
-                wordList.add(map);
+                    Gson gson = new GsonBuilder().create();
+                    params.put("logJSON", gson.toJson(wordList));
 
-                Gson gson = new GsonBuilder().create();
-                params.put("logJSON", gson.toJson(wordList));
+                    System.out.println(params);
 
-                System.out.println(params);
+                    client.post("http://www.pierre-ecarlat.com/newSql/checklogyourself.php", params, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            String response = null;
 
-                client.post("http://www.pierre-ecarlat.com/newSql/checklogyourself.php", params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = null;
-
-                        try {
-                            response = new String(responseBody, "UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println("RESPONSE : " + response);
-                        try {
-                            JSONArray arr = new JSONArray(response);
-                            System.out.println(arr.length());
-
-                            if(getLogStatus(response)) {
-                                people = translateResponse(response);
-                                Toast.makeText(getApplicationContext(), "Allowed online connection at " + people.getUp_date(), Toast.LENGTH_LONG).show();
-                                insertPeople(people);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Online connection refused.", Toast.LENGTH_LONG).show();
+                            try {
+                                response = new String(responseBody, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
+                            System.out.println("RESPONSE : " + response);
+                            try {
+                                JSONArray arr = new JSONArray(response);
+                                System.out.println(arr.length());
+                                HashMap<String, String> map = translateResponse(response);
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        if (statusCode == 404) {
-                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                        } else if (statusCode == 500) {
-                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                                if (map.get("log").equals("yes")) {
+                                    Toast.makeText(getApplicationContext(), "Allowed online connection at " + map.get("up_date"), Toast.LENGTH_LONG).show();
+                                    people = new People(map.get("username"), map.get("password"), map.get("name"), map.get("first_name"), map.get("sexe"), map.get("date_of_birth"), map.get("mail"), map.get("city"));
+                                    people.setUp_date(map.get("up_date"));
+                                    insertPeople(people);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Online connection refused.", Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFinish() {
-                        if(people != null) {
-                            Toast.makeText(getApplicationContext(), "Log as " + people.getName() + " " + people.getFirst_name() + ".", Toast.LENGTH_LONG).show();
-                            launchNewIntent();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Log failed.", Toast.LENGTH_LONG).show();
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                            if (statusCode == 404) {
+                                Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                            } else if (statusCode == 500) {
+                                Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFinish() {
+                            if (people != null) {
+                                Toast.makeText(getApplicationContext(), "Log as " + people.getName() + " " + people.getFirst_name() + ".", Toast.LENGTH_LONG).show();
+                                launchNewIntent();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Log failed.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
 
                 bdd.close();
 

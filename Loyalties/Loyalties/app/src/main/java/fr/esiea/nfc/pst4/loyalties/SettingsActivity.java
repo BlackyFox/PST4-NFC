@@ -26,6 +26,7 @@ import bdd.MyBDD;
 import library_http.AsyncHttpClient;
 import library_http.AsyncHttpResponseHandler;
 import library_http.RequestParams;
+import objects.Client;
 import objects.People;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -70,13 +71,45 @@ public class SettingsActivity extends PreferenceActivity {
         wordList = new ArrayList<HashMap<String, String>>();
 
         HashMap<String, String> map = new HashMap<String, String>();
+
         map.put("current_people", "yes"); // If Yes, on regarde si user est à jour, on envoie clé (username) et up_date
             map.put("current_people_username", people.getUsername());
             map.put("current_people_up_date", people.getUp_date());
 
+        MyBDD bdd = new MyBDD(this);
+        bdd.open();
+        Client[] clients = bdd.getAllClients(username);
+        if(clients == null) {
+            map.put("has_clients", "no");
+        } else {
+            map.put("has_clients", "yes");
+            map.put("has_clients_number", Integer.toString(clients.length));
+            for(int i = 0 ; i < clients.length ; i++) {
+                map.put("has_clients_number" + i + "_id_peop", Integer.toString(clients[i].getId_peop()));
+                map.put("has_clients_number" + i + "_id_comp", Integer.toString(clients[i].getId_comp()));
+                map.put("has_clients_number" + i + "_up_date", clients[i].getUp_date());
+            }
+        }
+        bdd.close();
+
         wordList.add(map);
         Gson gson = new GsonBuilder().create();
         return gson.toJson(wordList);
+    }
+
+    public HashMap<String, String> translateResponse(String response) {
+        String[] firstSep = response.split("\",\"");
+        HashMap<String, String> map = new HashMap<String, String>();
+        String[] tmp;
+
+        for(int i = 0 ; i < firstSep.length ; i++) {
+            tmp = firstSep[i].split("\":\"");
+            if(i == 0) tmp[0] = tmp[0].substring(3);
+            if(i == firstSep.length-1) tmp[1] = tmp[1].substring(0, tmp[1].length()-3);
+            map.put(tmp[0], tmp[1]);
+        }
+
+        return map;
     }
 
     public void doUpdate(String response) {
@@ -93,12 +126,9 @@ public class SettingsActivity extends PreferenceActivity {
             data[7] = parts[9] + ":" + parts[10] + ":" + parts[11];
             data[7] = data[7].substring(1, data[7].length()-3);
 
-            people = new People(username, data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
-            people.setUp_date(data[7]);
 
-            bdd.open();
-            bdd.updatePeople(bdd.getPeopleIdWithUsername(username), people);
-            bdd.close();
+
+
         }
     }
 
@@ -106,6 +136,7 @@ public class SettingsActivity extends PreferenceActivity {
         MyBDD bdd = new MyBDD(this);
         bdd.open();
         People people = bdd.getPeopleWithUsername(username);
+        bdd.close();
         System.out.println("TRIED TO UPLOAD " + username + ", OLD DATE : " + people.getUp_date());
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -135,7 +166,17 @@ public class SettingsActivity extends PreferenceActivity {
                 try {
                     JSONArray arr = new JSONArray(response);
                     System.out.println(arr.length());
-                    doUpdate(response);
+                    HashMap<String, String> map = translateResponse(response);
+
+                    if(map.get("has_to_update_people").equals("yes")) {
+                        People people = new People(username, map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
+                        people.setUp_date(map.get("people_new_up_date"));
+
+                        MyBDD bdd = new MyBDD(SettingsActivity.this);
+                        bdd.open();
+                        bdd.updatePeople(bdd.getPeopleIdWithUsername(username), people);
+                        bdd.close();
+                    }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();

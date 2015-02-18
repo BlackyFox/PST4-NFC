@@ -22,6 +22,7 @@ import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,20 +116,19 @@ public class SignInActivity extends ActionBarActivity {
                 .show();
     }
 
-    public Boolean getWorksStatus(String response) {
-        String[] parts = response.split(":");
-        if(parts[2].charAt(1) == 'n')
-            return false;
-        else
-            return true;
-    }
+    public HashMap<String, String> translateResponse(String response) {
+        String[] firstSep = response.split("\",\"");
+        HashMap<String, String> map = new HashMap<String, String>();
+        String[] tmp;
 
-    public Boolean getExistsStatus(String response) {
-        String[] parts = response.split(":");
-        if(parts[1].charAt(1) == 'n')
-            return false;
-        else
-            return true;
+        for(int i = 0 ; i < firstSep.length ; i++) {
+            tmp = firstSep[i].split("\":\"");
+            if(i == 0) tmp[0] = tmp[0].substring(3);
+            if(i == firstSep.length-1) tmp[1] = tmp[1].substring(0, tmp[1].length()-3);
+            map.put(tmp[0], tmp[1]);
+        }
+
+        return map;
     }
 
     public void addNewPeopleOnline(){
@@ -162,11 +162,13 @@ public class SignInActivity extends ActionBarActivity {
                 try {
                     JSONArray arr = new JSONArray(response);
                     System.out.println(arr.length());
-                    if (getExistsStatus(response)) {
+                    HashMap<String, String> map = translateResponse(response);
+
+                    if (map.get("alreadyExists").equals("yes")) {
                         Toast.makeText(getApplicationContext(), "User already exists !", Toast.LENGTH_LONG).show();
                         progress.dismiss();
                     }
-                    else if(!getWorksStatus(response)) {
+                    else if(map.get("works").equals("no")) {
                         Toast.makeText(getApplicationContext(), "Insertion doesn't works !", Toast.LENGTH_LONG).show();
                         progress.dismiss();
                     } else {

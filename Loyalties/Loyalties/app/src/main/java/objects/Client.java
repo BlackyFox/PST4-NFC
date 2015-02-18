@@ -15,11 +15,12 @@ public class Client {
 
     public Client() {}
 
-    public Client(int id_peop, int id_comp, int num_client, int nb_loyalties) {
+    public Client(int id_peop, int id_comp, int num_client, int nb_loyalties, int last_used) {
         this.id_peop = id_peop;
         this.id_comp = id_comp;
         this.num_client = num_client;
         this.nb_loyalties = nb_loyalties;
+        this.last_used = last_used;
         this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
     }
 

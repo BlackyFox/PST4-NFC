@@ -344,6 +344,31 @@ public class MyBDD {
         return !(cursorToCompany(c) == null);
     }
 
+    public Client[] getAllClients(String username) {
+        int idPeop = getPeopleIdWithUsername(username);
+        Cursor c = bdd.rawQuery("SELECT * FROM " + TABLE_CLIENTS
+                + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + idPeop, null);
+
+        if(c.getCount() == 0)
+            return null;
+
+        int nbClients = c.getCount();
+        Client clients[] = new Client[nbClients];
+
+        c.moveToFirst();
+
+        for(int i = 0 ; i < nbClients ; i++)
+        {
+            clients[i] = new Client(c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getInt(5));
+            clients[i].setUp_date(c.getString(6));
+            c.moveToNext();
+        }
+
+        c.close();
+
+        return clients;
+    }
+
     public Reduction getReductionWithId(int id){
         Cursor c = bdd.query(TABLE_REDUCTIONS, new String[] {COL_REDUCTIONS_ID, COL_REDUCTIONS_NAME, COL_REDUCTIONS_TEXT, COL_REDUCTIONS_SEXE, COL_REDUCTIONS_AGE_RELATION, COL_REDUCTIONS_AGE_VALUE, COL_REDUCTIONS_NB_POINTS_RELATION, COL_REDUCTIONS_NB_POINTS_VALUE, COL_REDUCTIONS_CITY, COL_REDUCTIONS_UP_DATE}, COL_REDUCTIONS_ID + " LIKE \"" + id +"\"", null, null, null, null);
         return cursorToReduction(c);
