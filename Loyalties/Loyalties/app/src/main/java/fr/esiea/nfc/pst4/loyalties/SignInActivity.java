@@ -145,7 +145,7 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onStart() {
                 progress = new ProgressDialog(SignInActivity.this);
-                progress.setMessage("Add people online and on phone...");
+                progress.setMessage("Add people online...");
                 progress.show();
             }
 
@@ -304,7 +304,7 @@ public class SignInActivity extends ActionBarActivity {
                 if(!checkDataFormat()) { break; }
                 updateData();
 
-                people = new People(username, password, name, first_name, sexe, date_of_birth, mail, city);
+                people = new People(-1, username, password, name, first_name, sexe, date_of_birth, mail, city);
 
                 addNewPeopleOnline();
 

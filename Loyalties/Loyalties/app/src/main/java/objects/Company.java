@@ -13,7 +13,8 @@ public class Company {
 
     public Company() {}
 
-    public Company(String name, String logo, String card) {
+    public Company(int id, String name, String logo, String card) {
+        this.id = id;
         this.name = name;
         this.logo = logo;
         this.card = card;

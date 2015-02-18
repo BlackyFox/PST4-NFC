@@ -64,7 +64,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_PEOPLE =
             "CREATE TABLE " + TABLE_PEOPLE + " ("
-                    + COL_PEOPLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_PEOPLE_ID + " INTEGER PRIMARY KEY, "
                     + COL_PEOPLE_USERNAME + " TEXT NOT NULL, "
                     + COL_PEOPLE_PASSWORD + " TEXT NOT NULL, "
                     + COL_PEOPLE_NAME + " TEXT NOT NULL, "
@@ -77,7 +77,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_COMPANIES =
             "CREATE TABLE " + TABLE_COMPANIES + " ("
-                    + COL_COMPANIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_COMPANIES_ID + " INTEGER PRIMARY KEY, "
                     + COL_COMPANIES_NAME + " TEXT NOT NULL, "
                     + COL_COMPANIES_LOGO + " TEXT NOT NULL, "
                     + COL_COMPANIES_CARD + " TEXT NOT NULL, "
@@ -85,7 +85,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_CLIENTS =
             "CREATE TABLE " + TABLE_CLIENTS + " ("
-                    + COL_CLIENTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_CLIENTS_ID + " INTEGER PRIMARY KEY, "
                     + COL_CLIENTS_ID_PEOP + " INTEGER NOT NULL, "
                     + COL_CLIENTS_ID_COMP + " INTEGER NOT NULL, "
                     + COL_CLIENTS_NUM_CLIENT + " INTEGER NOT NULL, "
@@ -95,7 +95,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_REDUCTIONS =
             "CREATE TABLE " + TABLE_REDUCTIONS + " ("
-                    + COL_REDUCTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_REDUCTIONS_ID + " INTEGER PRIMARY KEY, "
                     + COL_REDUCTIONS_NAME + " TEXT NOT NULL, "
                     + COL_REDUCTIONS_TEXT + " TEXT NOT NULL, "
                     + COL_REDUCTIONS_SEXE + " TEXT NOT NULL, "
@@ -108,7 +108,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_OFFERS =
             "CREATE TABLE " + TABLE_OFFERS + " ("
-                    + COL_OFFERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + COL_OFFERS_ID + " INTEGER PRIMARY KEY, "
                     + COL_OFFERS_ID_COMP + " INTEGER NOT NULL, "
                     + COL_OFFERS_ID_REDU + " INTEGER NOT NULL, "
                     + COL_OFFERS_UP_DATE + " TEXT NOT NULL);";

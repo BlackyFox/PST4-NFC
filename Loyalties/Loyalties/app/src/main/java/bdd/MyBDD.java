@@ -13,7 +13,7 @@ import java.util.TimeZone;
 
 public class MyBDD {
     private static final int VERSION_BDD = 1;
-    private static final String NOM_BDD = "testbdd15.db";
+    private static final String NOM_BDD = "testbdd16.db";
 
     private static final String TABLE_PEOPLE = "people";
     private static final String COL_PEOPLE_ID = "id";
@@ -135,6 +135,7 @@ public class MyBDD {
 /** FONCTIONS INSERTION ***************************************************************************/
     public long insertPeople(People people){
         ContentValues values = new ContentValues();
+        values.put(COL_PEOPLE_ID, people.getId());
         values.put(COL_PEOPLE_USERNAME, people.getUsername());
         values.put(COL_PEOPLE_PASSWORD, people.getPassword());
         values.put(COL_PEOPLE_NAME, people.getName());
@@ -149,6 +150,7 @@ public class MyBDD {
 
     public long insertCompany(Company company){
         ContentValues values = new ContentValues();
+        values.put(COL_COMPANIES_ID, company.getId());
         values.put(COL_COMPANIES_NAME, company.getName());
         values.put(COL_COMPANIES_LOGO, company.getLogo());
         values.put(COL_COMPANIES_CARD, company.getCard());
@@ -158,6 +160,7 @@ public class MyBDD {
 
     public long insertClient(Client client){
         ContentValues values = new ContentValues();
+        values.put(COL_CLIENTS_ID, client.getId());
         values.put(COL_CLIENTS_ID_PEOP, client.getId_peop());
         values.put(COL_CLIENTS_ID_COMP, client.getId_comp());
         values.put(COL_CLIENTS_NUM_CLIENT, client.getNum_client());
@@ -169,6 +172,7 @@ public class MyBDD {
 
     public long insertReduction(Reduction reduction){
         ContentValues values = new ContentValues();
+        values.put(COL_REDUCTIONS_ID, reduction.getId());
         values.put(COL_REDUCTIONS_NAME, reduction.getName());
         values.put(COL_REDUCTIONS_TEXT, reduction.getText());
         values.put(COL_REDUCTIONS_SEXE, reduction.getSexe());
@@ -183,6 +187,7 @@ public class MyBDD {
 
     public long insertOffer(Offer offer){
         ContentValues values = new ContentValues();
+        values.put(COL_OFFERS_ID, offer.getId());
         values.put(COL_OFFERS_ID_COMP, offer.getId_comp());
         values.put(COL_OFFERS_ID_REDU, offer.getId_redu());
         values.put(COL_OFFERS_UP_DATE, offer.getUp_date());
@@ -191,6 +196,7 @@ public class MyBDD {
 
     public long insertOpportunity(Opportunity opportunity){
         ContentValues values = new ContentValues();
+        values.put(COL_OPPORTUNITIES_ID, opportunity.getId());
         values.put(COL_OPPORTUNITIES_ID_CLIENT, opportunity.getId_client());
         values.put(COL_OPPORTUNITIES_ID_REDU, opportunity.getId_redu());
         values.put(COL_OPPORTUNITIES_UP_DATE, opportunity.getUp_date());
@@ -359,7 +365,7 @@ public class MyBDD {
 
         for(int i = 0 ; i < nbClients ; i++)
         {
-            clients[i] = new Client(c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getInt(5));
+            clients[i] = new Client(c.getInt(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getInt(5));
             clients[i].setUp_date(c.getString(6));
             c.moveToNext();
         }

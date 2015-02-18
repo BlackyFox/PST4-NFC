@@ -25,7 +25,8 @@ public class People {
 
     public People() {}
 
-    public People(String username, String password, String name, String first_name, String sexe, String date_of_birth, String mail, String city){
+    public People(int id, String username, String password, String name, String first_name, String sexe, String date_of_birth, String mail, String city){
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;

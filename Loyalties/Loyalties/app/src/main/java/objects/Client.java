@@ -15,7 +15,8 @@ public class Client {
 
     public Client() {}
 
-    public Client(int id_peop, int id_comp, int num_client, int nb_loyalties, int last_used) {
+    public Client(int id, int id_peop, int id_comp, int num_client, int nb_loyalties, int last_used) {
+        this.id = id;
         this.id_peop = id_peop;
         this.id_comp = id_comp;
         this.num_client = num_client;

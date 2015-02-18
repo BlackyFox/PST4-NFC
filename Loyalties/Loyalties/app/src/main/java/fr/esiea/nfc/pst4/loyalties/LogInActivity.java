@@ -205,7 +205,7 @@ public class LogInActivity extends ActionBarActivity {
 
                                 if (map.get("log").equals("yes")) {
                                     Toast.makeText(getApplicationContext(), "Allowed online connection at " + map.get("up_date"), Toast.LENGTH_LONG).show();
-                                    people = new People(map.get("username"), map.get("password"), map.get("name"), map.get("first_name"), map.get("sexe"), map.get("date_of_birth"), map.get("mail"), map.get("city"));
+                                    people = new People(Integer.parseInt(map.get("id")), map.get("username"), map.get("password"), map.get("name"), map.get("first_name"), map.get("sexe"), map.get("date_of_birth"), map.get("mail"), map.get("city"));
                                     people.setUp_date(map.get("up_date"));
                                     insertPeople(people);
                                 } else {

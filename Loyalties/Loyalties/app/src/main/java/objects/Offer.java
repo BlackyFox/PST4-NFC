@@ -12,7 +12,8 @@ public class Offer {
 
     public Offer() {}
 
-    public Offer(int id_comp, int id_redu) {
+    public Offer(int id, int id_comp, int id_redu) {
+        this.id = id;
         this.id_comp = id_comp;
         this.id_redu = id_redu;
         this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();

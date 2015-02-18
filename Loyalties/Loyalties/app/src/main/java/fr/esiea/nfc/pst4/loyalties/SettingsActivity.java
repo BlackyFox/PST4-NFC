@@ -169,11 +169,11 @@ public class SettingsActivity extends PreferenceActivity {
                     HashMap<String, String> map = translateResponse(response);
 
                     if(map.get("has_to_update_people").equals("yes")) {
-                        People people = new People(username, map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
-                        people.setUp_date(map.get("people_new_up_date"));
-
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
+                        People people = new People(bdd.getPeopleIdWithUsername(username), username, map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
+                        people.setUp_date(map.get("people_new_up_date"));
+
                         bdd.updatePeople(bdd.getPeopleIdWithUsername(username), people);
                         bdd.close();
                     }

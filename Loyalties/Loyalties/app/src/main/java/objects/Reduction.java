@@ -19,7 +19,8 @@ public class Reduction {
 
     public Reduction() {}
 
-    public Reduction(String name, String text, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
+    public Reduction(int id, String name, String text, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
+        this.id = id;
         this.name = name;
         this.text = text;
         this.sexe = sexe;
