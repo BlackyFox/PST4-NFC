@@ -375,6 +375,12 @@ public class MyBDD {
         return clients;
     }
 
+    public Boolean doesClientAlreadyExists(int id){
+        Cursor c = bdd.query(TABLE_CLIENTS, new String[] {COL_CLIENTS_ID, COL_CLIENTS_ID_PEOP, COL_CLIENTS_ID_COMP, COL_CLIENTS_NUM_CLIENT, COL_CLIENTS_NB_LOYALTIES, COL_CLIENTS_LAST_USED, COL_CLIENTS_UP_DATE}, COL_CLIENTS_ID + " = \"" + id + "\"", null, null, null, null);
+
+        return !(cursorToClient(c) == null);
+    }
+
     public Reduction getReductionWithId(int id){
         Cursor c = bdd.query(TABLE_REDUCTIONS, new String[] {COL_REDUCTIONS_ID, COL_REDUCTIONS_NAME, COL_REDUCTIONS_TEXT, COL_REDUCTIONS_SEXE, COL_REDUCTIONS_AGE_RELATION, COL_REDUCTIONS_AGE_VALUE, COL_REDUCTIONS_NB_POINTS_RELATION, COL_REDUCTIONS_NB_POINTS_VALUE, COL_REDUCTIONS_CITY, COL_REDUCTIONS_UP_DATE}, COL_REDUCTIONS_ID + " LIKE \"" + id +"\"", null, null, null, null);
         return cursorToReduction(c);
@@ -447,6 +453,23 @@ public class MyBDD {
         c.close();
 
         return company;
+    }
+
+    private Client cursorToClient(Cursor c){
+        if (c.getCount() == 0)
+            return null;
+
+        c.moveToFirst();
+        Client client = new Client();
+        client.setId(c.getInt(NUM_COL_CLIENTS_ID));
+        client.setId_peop(c.getInt(NUM_COL_CLIENTS_ID_PEOP));
+        client.setId_comp(c.getInt(NUM_COL_CLIENTS_ID_COMP));
+        client.setNum_client(c.getInt(NUM_COL_CLIENTS_NUM_CLIENT));
+        client.setNb_loyalties(c.getInt(NUM_COL_CLIENTS_NB_LOYALTIES));
+        client.setUp_date(c.getString(NUM_COL_CLIENTS_UP_DATE));
+        c.close();
+
+        return client;
     }
 
     private Reduction cursorToReduction(Cursor c){
@@ -834,7 +857,6 @@ public class MyBDD {
         c.moveToFirst();
 
         for(int i = 0 ; i < nbRelations ; i++) {
-
             System.out.println("ICI : " + Integer.parseInt(c.getString(0)) + " / " + Integer.parseInt(c.getString(2)) + " / " + Integer.parseInt(c.getString(4)) + "\n");
             if(opportunityMatching(Integer.parseInt(c.getString(0)), Integer.parseInt(c.getString(4)), Integer.parseInt(c.getString(2)))) {
                 Opportunity opportunity = new Opportunity(Integer.parseInt(c.getString(3)), Integer.parseInt(c.getString(4)));
@@ -844,5 +866,26 @@ public class MyBDD {
         }
 
         c.close();
+    }
+
+    public Boolean checkIfClientIsOkcheckIfClientIsOk(String num_client, String name, String first_name, String date_of_birth, String sexe) {
+        Cursor c = bdd.rawQuery("SELECT " + COL_PEOPLE_NAME + ", " + COL_PEOPLE_FIRST_NAME + ", " + COL_PEOPLE_SEXE + ", " + COL_PEOPLE_DATE_OF_BIRTH
+                + " FROM " + TABLE_PEOPLE + " WHERE " + COL_PEOPLE_ID + " IN "
+                + "(SELECT " + COL_CLIENTS_ID_PEOP
+                + " FROM " + TABLE_CLIENTS + " WHERE " + COL_CLIENTS_NUM_CLIENT + " = " + num_client + ")", null);
+
+        if(c.getCount() != 1)
+            return false;
+
+        c.moveToFirst();
+
+        System.out.println("ICI : " + c.getString(0) + " / " + c.getString(1) + " / " + c.getString(2) + " / " + c.getString(3) + "\n");
+        if(c.getString(0) == name && c.getString(1) == first_name && c.getString(2) == sexe && c.getString(3) == date_of_birth) {
+            c.close();
+            return true;
+        } else {
+            c.close();
+            return false;
+        }
     }
 }

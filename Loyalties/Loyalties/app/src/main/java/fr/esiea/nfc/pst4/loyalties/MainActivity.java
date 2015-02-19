@@ -84,6 +84,7 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.add_manually:
                 intent = new Intent(this, AddCardActivity.class);
+                intent.putExtra("id", Integer.toString(people.getId()));
                 startActivity(intent);
                 fr = new AddCardFragment();
                 break;

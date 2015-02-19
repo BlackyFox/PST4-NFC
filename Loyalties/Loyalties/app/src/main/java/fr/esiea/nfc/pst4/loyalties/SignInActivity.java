@@ -278,7 +278,6 @@ public class SignInActivity extends ActionBarActivity {
     public void toDo(View v) {
         textView_wrongText.setText("");
 
-
         switch(v.getId()) {
             case R.id.signIn_button_clear:
             {
