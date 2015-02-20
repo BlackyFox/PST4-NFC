@@ -75,6 +75,7 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         if(bdd.getLastCompanies(people.getId()) == null) {
             companies = new String[1];
             companies[0] = "No companies";
+            System.out.println("I am here -> ");
         } else {
             companies = bdd.getLastCompanies(people.getId());
         }

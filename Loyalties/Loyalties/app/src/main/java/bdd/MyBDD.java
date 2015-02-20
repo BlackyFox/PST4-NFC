@@ -13,7 +13,7 @@ import java.util.TimeZone;
 
 public class MyBDD {
     private static final int VERSION_BDD = 1;
-    private static final String NOM_BDD = "testbdd16.db";
+    private static final String NOM_BDD = "testbdd19.db";
 
     private static final String TABLE_PEOPLE = "people";
     private static final String COL_PEOPLE_ID = "id";
@@ -365,7 +365,7 @@ public class MyBDD {
 
         for(int i = 0 ; i < nbClients ; i++)
         {
-            clients[i] = new Client(c.getInt(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getInt(5));
+            clients[i] = new Client(c.getInt(0), c.getInt(1), c.getInt(2), c.getString(3), c.getInt(4), c.getInt(5));
             clients[i].setUp_date(c.getString(6));
             c.moveToNext();
         }
@@ -464,7 +464,7 @@ public class MyBDD {
         client.setId(c.getInt(NUM_COL_CLIENTS_ID));
         client.setId_peop(c.getInt(NUM_COL_CLIENTS_ID_PEOP));
         client.setId_comp(c.getInt(NUM_COL_CLIENTS_ID_COMP));
-        client.setNum_client(c.getInt(NUM_COL_CLIENTS_NUM_CLIENT));
+        client.setNum_client(c.getString(NUM_COL_CLIENTS_NUM_CLIENT));
         client.setNb_loyalties(c.getInt(NUM_COL_CLIENTS_NB_LOYALTIES));
         client.setUp_date(c.getString(NUM_COL_CLIENTS_UP_DATE));
         c.close();
@@ -553,7 +553,7 @@ public class MyBDD {
         client.setId(c.getInt(NUM_COL_CLIENTS_ID));
         client.setId_peop(c.getInt(NUM_COL_CLIENTS_ID_PEOP));
         client.setId_comp(c.getInt(NUM_COL_CLIENTS_ID_COMP));
-        client.setNum_client(c.getInt(NUM_COL_CLIENTS_NUM_CLIENT));
+        client.setNum_client(c.getString(NUM_COL_CLIENTS_NUM_CLIENT));
         client.setNb_loyalties(c.getInt(NUM_COL_CLIENTS_NB_LOYALTIES));
         client.setLast_used(c.getInt(NUM_COL_CLIENTS_LAST_USED));
         client.setUp_date(c.getString(NUM_COL_CLIENTS_UP_DATE));
@@ -868,7 +868,7 @@ public class MyBDD {
         c.close();
     }
 
-    public Boolean checkIfClientIsOkcheckIfClientIsOk(String num_client, String name, String first_name, String date_of_birth, String sexe) {
+    public Boolean checkIfClientIsOk(String num_client, String name, String first_name, String date_of_birth, String sexe) {
         Cursor c = bdd.rawQuery("SELECT " + COL_PEOPLE_NAME + ", " + COL_PEOPLE_FIRST_NAME + ", " + COL_PEOPLE_SEXE + ", " + COL_PEOPLE_DATE_OF_BIRTH
                 + " FROM " + TABLE_PEOPLE + " WHERE " + COL_PEOPLE_ID + " IN "
                 + "(SELECT " + COL_CLIENTS_ID_PEOP

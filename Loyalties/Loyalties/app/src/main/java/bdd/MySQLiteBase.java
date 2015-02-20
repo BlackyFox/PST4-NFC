@@ -88,10 +88,10 @@ public class MySQLiteBase extends SQLiteOpenHelper {
                     + COL_CLIENTS_ID + " INTEGER PRIMARY KEY, "
                     + COL_CLIENTS_ID_PEOP + " INTEGER NOT NULL, "
                     + COL_CLIENTS_ID_COMP + " INTEGER NOT NULL, "
-                    + COL_CLIENTS_NUM_CLIENT + " INTEGER NOT NULL, "
+                    + COL_CLIENTS_NUM_CLIENT + " TEXT NOT NULL, "
                     + COL_CLIENTS_NB_LOYALTIES + " INTEGER NOT NULL, "
                     + COL_CLIENTS_LAST_USED + " INTEGER NOT NULL, "
-                    + COL_CLIENTS_UP_DATE + "TEXT NOT NULL);";
+                    + COL_CLIENTS_UP_DATE + " TEXT NOT NULL);";
 
     private static final String CREATE_TABLE_REDUCTIONS =
             "CREATE TABLE " + TABLE_REDUCTIONS + " ("

@@ -91,7 +91,20 @@ public class SettingsActivity extends PreferenceActivity {
                 map.put("client_number" + i + "_up_date", clients[i].getUp_date());
             }
         }
+
+        
+
         bdd.close();
+
+        // TODO : récupérer les companies dont je suis client
+        // envoi : (id / update (0 si new company)) -> reçoit : (id / infos)
+        // si nouveau, crée, si ancien différent, update
+
+        // TODO : la même avec les offers, toutes celles des companies joined
+
+        // TODO : la même avec les réductions, toutes celles proposées dans les offers
+
+        // TODO : En local, calculer les opportunities
 
         wordList.add(map);
         Gson gson = new GsonBuilder().create();
@@ -153,15 +166,17 @@ public class SettingsActivity extends PreferenceActivity {
                         bdd.updatePeople(people.getId(), tmpPeople);
                         bdd.close();
                     }
-                    // TODO : tester avec des companies dans la bdd interne
+
                     if(map.get("need_to_update_clients").equals("yes")) {
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
+                        System.out.println("taille nb clients : " + bdd.getAllClients(people.getUsername()).length);
                         for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
                             if(map.get("update_client" + i + "_works").equals("yes") && map.get("has_to_update_client" + i).equals("yes")) {
-                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), Integer.parseInt(map.get("client"+i+"_new_num_client")), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
+                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client"+i+"_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
                                 tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
                                 bdd.updateClient(Integer.parseInt(map.get("client"+i+"_id")), tmpClient);
+                                System.out.println("INSERTION CLIENT OKKK");
                             }
                         }
                         bdd.close();

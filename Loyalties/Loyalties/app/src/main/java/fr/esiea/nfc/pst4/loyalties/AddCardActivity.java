@@ -163,6 +163,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
     public void checkIfClientIsOkOnline(){ // TODO : A TESTER
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        System.out.println("-> début de checkifclientisokonline");
 
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<HashMap<String, String>>();
@@ -179,7 +180,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
 
         params.put("addClientManuallyJSON", gson.toJson(wordList));
 
-        System.out.println(params);
+        System.out.println("-> params JSON envoyés : " + params);
 
         client.post("http://www.pierre-ecarlat.com/newSql/insertclientmanually.php", params, new AsyncHttpResponseHandler() {
             Boolean ok1 = false;
@@ -197,36 +198,44 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = null;
+                System.out.println("-> le post est dans onsuccess");
 
                 try {
                     response = new String(responseBody, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("RESPONSE : " + response);
+                System.out.println("-> response : " + response);
                 try {
                     JSONArray arr = new JSONArray(response);
-                    System.out.println(arr.length());
                     HashMap<String, String> map = translateResponse(response);
 
                     if (map.get("dataOk").equals("yes")) {
-                        tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), Integer.parseInt(map.get("num_client")), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
+                        System.out.println("-> dataOk = yes");
+                        tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
+                        System.out.println("-> création de client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used());
                         tmpClient.setUp_date(map.get("up_date"));
+                        System.out.println("-> à la date : " + tmpClient.getUp_date());
 
                         MyBDD bdd = new MyBDD(AddCardActivity.this);
                         bdd.open();
                         if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
+                            System.out.println("-> client existe déjà");
                             Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
                         } else {
                             bdd.insertClient(tmpClient);
+                            System.out.println("-> client inseré");
                             ok1 = true;
                             Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
                             tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
                             tmpCompany.setUp_date(map.get("company_up_date"));
+                            System.out.println("-> Création de company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard() + ", " + tmpCompany.getUp_date());
                             if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
+                                System.out.println("-> la company est insérée");
                                 bdd.insertCompany(tmpCompany);
                                 ok2 = true;
-                            }
+                            } else
+                                System.out.println("-> company existe déjà");
                         }
                         bdd.close();
                         progress.dismiss();
@@ -245,6 +254,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 progress.dismiss();
+                System.out.println("-> le post est dans onfailure");
                 if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
