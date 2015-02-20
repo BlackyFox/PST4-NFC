@@ -287,6 +287,25 @@ public class MyBDD {
         return bdd.delete(TABLE_CLIENTS, COL_CLIENTS_ID + " = " + id, null);
     }
 
+    public void removeAllOffers(){
+        Cursor c = bdd.rawQuery("SELECT * FROM " + TABLE_OFFERS, null);
+
+        if(c.getCount() == 0)
+            return;
+
+        int nbOffers = c.getCount();
+
+        c.moveToFirst();
+
+        for(int i = 0 ; i < nbOffers ; i++)
+        {
+            removeOfferWithID(c.getInt(0));
+            c.moveToNext();
+        }
+
+        c.close();
+    }
+
     public int removeOfferWithID(int id){
         return bdd.delete(TABLE_OFFERS, COL_OFFERS_ID + " = " + id, null);
     }

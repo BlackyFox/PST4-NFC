@@ -27,6 +27,8 @@ import library_http.AsyncHttpClient;
 import library_http.AsyncHttpResponseHandler;
 import library_http.RequestParams;
 import objects.Client;
+import objects.Company;
+import objects.Offer;
 import objects.People;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -92,13 +94,22 @@ public class SettingsActivity extends PreferenceActivity {
             }
         }
 
-        
+        Company[] companies = null;
+        if(clients == null) {
+            map.put("has_companies", "no");
+        } else {
+            companies = new Company[clients.length];
+            map.put("has_companies", "yes");
+            map.put("has_companies_number", Integer.toString(companies.length));
+            for(int i = 0 ; i < companies.length ; i++) {
+                companies[i] = bdd.getCompanyWithId(clients[i].getId_comp());
+                map.put("company_number" + i + "_id", Integer.toString(companies[i].getId()));
+                map.put("company_number" + i + "_up_date", companies[i].getUp_date());
+            }
+            bdd.removeAllOffers();
+        }
 
         bdd.close();
-
-        // TODO : récupérer les companies dont je suis client
-        // envoi : (id / update (0 si new company)) -> reçoit : (id / infos)
-        // si nouveau, crée, si ancien différent, update
 
         // TODO : la même avec les offers, toutes celles des companies joined
 
@@ -173,7 +184,7 @@ public class SettingsActivity extends PreferenceActivity {
                         System.out.println("taille nb clients : " + bdd.getAllClients(people.getUsername()).length);
                         for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
                             if(map.get("update_client" + i + "_works").equals("yes") && map.get("has_to_update_client" + i).equals("yes")) {
-                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client"+i+"_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
+                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client" + i + "_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
                                 tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
                                 bdd.updateClient(Integer.parseInt(map.get("client"+i+"_id")), tmpClient);
                                 System.out.println("INSERTION CLIENT OKKK");
@@ -182,9 +193,28 @@ public class SettingsActivity extends PreferenceActivity {
                         bdd.close();
                     }
 
-                    // TODO : récupérer les companies dont je suis client
-                    // envoi : (id / update (0 si new company)) -> reçoit : (id / infos)
-                    // si nouveau, crée, si ancien différent, update
+                    if(map.get("need_to_update_companies").equals("yes")) {
+                        MyBDD bdd = new MyBDD(SettingsActivity.this);
+                        bdd.open();
+                        System.out.println("taille nb companies : " + bdd.getAllClients(people.getUsername()).length);
+                        for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
+                            if(map.get("update_company" + i + "_works").equals("yes") && map.get("has_to_update_company" + i).equals("yes")) {
+                                Company tmpCompany = new Company(Integer.parseInt(map.get("company"+i+"_id")), map.get("company"+i+"_new_name"), map.get("company"+i+"_new_logo"), map.get("company" + i + "_new_card"));
+                                tmpCompany.setUp_date(map.get("company"+i+"_new_up_date"));
+                                bdd.updateCompany(Integer.parseInt(map.get("company"+i+"_id")), tmpCompany);
+                                System.out.println("INSERTION COMPANY OKKK");
+                            }
+                            if(map.get("update_company"+i+"_offers_works").equals("yes")) {
+                                for(int j = 0 ; j < Integer.parseInt(map.get("company"+i+"_nb_offers")) ; j++) {
+                                    Offer tmpOffer = new Offer(Integer.parseInt(map.get("company"+i+"_offer"+j+"_id")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_comp")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_redu")));
+                                    tmpOffer.setUp_date(map.get("company"+i+"_offer"+j+"_up_date"));
+                                    bdd.insertOffer(tmpOffer);
+                                    System.out.println("insertion de l'offre " + j + " de la companie " + i);
+                                }
+                            }
+                        }
+                        bdd.close();
+                    }
 
                     // TODO : la même avec les offers, toutes celles des companies joined
 

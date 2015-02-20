@@ -18,6 +18,7 @@ import java.util.List;
 import bdd.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
 import fr.esiea.nfc.pst4.loyalties.R;
+import objects.Company;
 import objects.People;
 
 /**
@@ -40,6 +41,22 @@ public class SeeCardsFragment extends ListFragment implements AdapterView.OnItem
         return rootview;
     }
 
+    public void sortCompaniesByName() {
+        Boolean flag = false;
+        String tmp;
+        while(!flag) {
+            flag = true;
+            for(int i = 0 ; i < companies.length-1 ; i++) {
+                if(companies[i].compareTo(companies[i+1]) > 0) {
+                    tmp = companies[i+1];
+                    companies[i+1] = companies[i];
+                    companies[i] = tmp;
+                    flag = false;
+                }
+            }
+        }
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -53,12 +70,12 @@ public class SeeCardsFragment extends ListFragment implements AdapterView.OnItem
             companies = new String[1];
             companies[0] = "No companies";
         } else {
-            companies = bdd.getLastCompanies(people.getId());
+            companies = bdd.getCompaniesJoinedByPeople(people.getId());
         }
 
         bdd.close();
 
-
+        sortCompaniesByName();
         rowItems = new ArrayList<RowItem>();
 
         for (int i = 0; i < companies.length; i++) {

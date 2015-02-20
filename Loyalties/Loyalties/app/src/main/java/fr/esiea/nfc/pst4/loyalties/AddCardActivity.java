@@ -226,6 +226,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
                             bdd.insertClient(tmpClient);
                             System.out.println("-> client inseré");
                             ok1 = true;
+                            // TODO : faire avec le download d'images + stockage dans resources
                             Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
                             tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
                             tmpCompany.setUp_date(map.get("company_up_date"));
