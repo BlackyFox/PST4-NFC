@@ -7,7 +7,7 @@ import java.util.TimeZone;
 public class Reduction {
     private int id;
     private String name;
-    private String text;
+    private String description;
     private String sexe; // "H", "F", "A"
     private String age_relation; // ">", "<", "=", <> "E", "A"
     private int age_value;
@@ -19,10 +19,10 @@ public class Reduction {
 
     public Reduction() {}
 
-    public Reduction(int id, String name, String text, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
+    public Reduction(int id, String name, String description, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
         this.id = id;
         this.name = name;
-        this.text = text;
+        this.description = description;
         this.sexe = sexe;
         this.age_relation = age_relation;
         this.age_value = age_value;
@@ -48,12 +48,12 @@ public class Reduction {
         this.name = name;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getSexe() {

@@ -30,6 +30,7 @@ import objects.Client;
 import objects.Company;
 import objects.Offer;
 import objects.People;
+import objects.Reduction;
 
 public class SettingsActivity extends PreferenceActivity {
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
@@ -110,12 +111,6 @@ public class SettingsActivity extends PreferenceActivity {
         }
 
         bdd.close();
-
-        // TODO : la même avec les offers, toutes celles des companies joined
-
-        // TODO : la même avec les réductions, toutes celles proposées dans les offers
-
-        // TODO : En local, calculer les opportunities
 
         wordList.add(map);
         Gson gson = new GsonBuilder().create();
@@ -216,11 +211,22 @@ public class SettingsActivity extends PreferenceActivity {
                         bdd.close();
                     }
 
-                    // TODO : la même avec les offers, toutes celles des companies joined
+                    MyBDD bdd = new MyBDD(SettingsActivity.this);
+                    bdd.open();
+                    bdd.removeAllReductions();
+                    for(int i = 0 ; i < Integer.parseInt(map.get("nb_reductions")) ; i++) {
+                        if(map.get("reduction"+i+"_works").equals("yes")) {
+                            Reduction reduction = new Reduction(Integer.parseInt(map.get("reduction"+i+"_id")), map.get("reduction"+i+"_name"), map.get("reduction"+i+"_description"), map.get("reduction"+i+"_sexe"), map.get("reduction"+i+"_age_relation"), Integer.parseInt(map.get("reduction"+i+"_age_value")), map.get("reduction"+i+"_nb_points_relation"), Integer.parseInt(map.get("reduction"+i+"_nb_points_value")), map.get("reduction"+i+"_city"));
+                            reduction.setUp_date(map.get("reduction"+i+"_up_date"));
+                            System.out.println("Inserting : " + reduction.getId() + "/" + reduction.getName() + "/" + reduction.getDescription() + "/" + reduction.getSexe());
+                            if(!bdd.doesReductionAlreadyExists(reduction.getName()))
+                                bdd.insertReduction(reduction);
+                        }
+                    }
+                    bdd.removeAllOpportunities();
+                    bdd.updateOpportunities();
 
-                    // TODO : la même avec les réductions, toutes celles proposées dans les offers
-
-                    // TODO : En local, calculer les opportunities
+                    bdd.close();
 
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
