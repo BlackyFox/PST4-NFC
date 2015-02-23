@@ -1,5 +1,13 @@
 package fr.esiea.nfc.pst4.loyalties;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Activité contenant l'architecture principale de l'application. On y arrive après s'être        */
+/* identifié.                                                                                     */
+/**************************************************************************************************/
+
+// TODO global : gérer téléchargement / affichage des images
+
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
@@ -16,28 +24,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
 
-import bdd.MyBDD;
-import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.AddCardFragment;
-import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment;
-import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.NavigationDrawerFragment;
-import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCardsFragment;
-import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.SeeCompanyFragment;
-import objects.People;
+import databasePackage.MyBDD;
+import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.*;
+import objectsPackage.People;
 
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private String mTitle;
     private String[] arrTitle;
     private People people;
@@ -53,19 +49,15 @@ public class MainActivity extends ActionBarActivity
         bdd.open();
         people = bdd.getPeopleWithId(id);
         bdd.close();
-        Toast.makeText(getApplicationContext(), "Welcome back "+people.getUsername()+" !", Toast.LENGTH_LONG).show();
         company = "";
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
         arrTitle = getResources().getStringArray(R.array.titres);
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+    // Fonction permettant de passer d'un fragment à l'autre
     public void switchFrag(View view) {
         Fragment fr = null;
         Intent intent;
@@ -96,6 +88,7 @@ public class MainActivity extends ActionBarActivity
         fragmentTransaction.commit();
     }
 
+    // Création du nouveau fragment
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
@@ -121,37 +114,27 @@ public class MainActivity extends ActionBarActivity
         // update the main content by replacing fragments
         if(objFrag != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, objFrag)
-                    .commit();
-            //Log.d("ARR", menuArr[position]);
-            //setTitle(menuArr[position]);
+            fragmentManager.beginTransaction().replace(R.id.container, objFrag).commit();
         }else {
-            // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
     }
 
+    // Gestion du bouton "back", retour aux fragments voulus (ou fermeture de l'appli)
     @Override
     public void onBackPressed() {
         Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.container);
         if (!(currentFragment instanceof HomeFragment)) {
             Fragment objFrag = new HomeFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, objFrag)
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.container, objFrag).commit();
         } else {
             this.finish();
         }
     }
 
-    public String getUsername() { return this.people.getUsername(); }
 
-    public void setCompany(String name) { this.company = name; }
-
-    public String getCompany() { return this.company; }
-
+/** GESTION ACTIONBAR *****************************************************************************/
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
@@ -174,18 +157,13 @@ public class MainActivity extends ActionBarActivity
     }
 
 
+/** GESTION MENU -> SETTINGS **********************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-
             MenuInflater inflat = getMenuInflater();
             inflat.inflate(R.menu.main, menu);
-            /*getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            */
+
             return true;
         }
         return super.onCreateOptionsMenu(menu);
@@ -193,12 +171,8 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             intent.putExtra("id", Integer.toString(people.getId()));
@@ -208,20 +182,12 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
+/** GESTION DES FRAGMENTS *************************************************************************/
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -234,19 +200,26 @@ public class MainActivity extends ActionBarActivity
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_main, container, false);
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
+
+
+/** GETTER SETTER *********************************************************************************/
+    public String getUsername() { return this.people.getUsername(); }
+
+    public void setCompany(String name) { this.company = name; }
+
+    public String getCompany() { return this.company; }
 }

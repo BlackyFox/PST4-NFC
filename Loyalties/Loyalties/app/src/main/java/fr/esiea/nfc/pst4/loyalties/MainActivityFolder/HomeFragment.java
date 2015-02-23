@@ -1,36 +1,34 @@
 package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Fragment de la page Home. Redirige vers la liste des cartes, l'ajout d'une nouvelle carte, les */
+/* dernières cartes utilisées.                                                                    */
+/**************************************************************************************************/
+
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import bdd.MyBDD;
-import fr.esiea.nfc.pst4.loyalties.AESencrp;
+import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
 import fr.esiea.nfc.pst4.loyalties.R;
-import objects.People;
+import objectsPackage.People;
 
 public class HomeFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     View rootview;
     CustomAdapter adapter;
-    private List<RowItem> rowItems;
     String companies[];
 
     @Nullable
@@ -38,26 +36,6 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_home, container, false);
-
-        String password = "mypassword";
-        String passwordEnc = null;
-        try {
-            passwordEnc = AESencrp.encrypt(password);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        String passwordDec = null;
-        try {
-            passwordDec = AESencrp.decrypt(passwordEnc);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        Log.d("CRYPT","Plain Text : " + password);
-        Log.d("CRYPT", "Encrypted Text : " + passwordEnc);
-        Log.d("CRYPT","Decrypted Text : " + passwordDec);
 
         ((MainActivity)getActivity()).setActionBarTitle("Home");
         return rootview;
@@ -68,14 +46,13 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         super.onActivityCreated(savedInstanceState);
 
         companies = new String[3];
-        MyBDD bdd = new MyBDD(((MainActivity)getActivity()));
+        MyBDD bdd = new MyBDD(getActivity());
         bdd.open();
         People people = bdd.getPeopleWithUsername(((MainActivity)getActivity()).getUsername());
-        System.out.println(people.getName());
-        if(bdd.getLastCompanies(people.getId()) == null) {
+
+        if(bdd.getLastCompanies(people.getId()) == null) { // TODO : à modifier pour récupérer companies dans l'ordre
             companies = new String[1];
             companies[0] = "No companies";
-            System.out.println("I am here -> ");
         } else {
             companies = bdd.getLastCompanies(people.getId());
         }
@@ -83,11 +60,10 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         bdd.close();
 
 
-        rowItems = new ArrayList<RowItem>();
+        List<RowItem> rowItems = new ArrayList<>();
 
         for (int i = 0; i < companies.length; i++) {
             RowItem items = new RowItem(companies[i], 0);
-
             rowItems.add(items);
         }
 
@@ -101,7 +77,7 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         if(!companies[position].equals("No companies")) {
             ((MainActivity) getActivity()).setCompany(companies[position]);
             Fragment fr = new SeeCompanyFragment();
-            FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+            FragmentManager fm = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.replace(R.id.container, fr);
             fragmentTransaction.commit();

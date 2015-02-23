@@ -1,14 +1,15 @@
 package fr.esiea.nfc.pst4.loyalties;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Activité permettant de s'enregistrer.                                                          */
+/**************************************************************************************************/
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -28,10 +29,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import library_http.*;
-import objects.*;
-import bdd.*;
+import objectsPackage.*;
 
-public class SignInActivity extends ActionBarActivity {
+
+public class SignInActivity extends Activity {
     public EditText editText_username = null;
     public EditText editText_password = null;
     public EditText editText_confirm_password = null;
@@ -87,35 +88,23 @@ public class SignInActivity extends ActionBarActivity {
         });
     }
 
+    // Clot l'activité et affiche le résultat dans le progressbar
     public void endActivity(final Boolean ok) {
         String conclusion;
         if(ok) {
-            conclusion = "Success !\n"
-                    + "\tUsername : " + people.getUsername() + "\n"
-                    + "\tPassword : " + people.getPassword() + "\n"
-                    + "\tName : " + people.getName() + "\n"
-                    + "\tFirst-name : " + people.getFirst_name() + "\n"
-                    + "\tSexe : " + people.getSexe() + "\n"
-                    + "\tDate of birth : " + people.getDate_of_birth() + "\n"
-                    + "\tRole : " + people.getMail() + "\n"
-                    + "\tCity : " + people.getCity();
+            conclusion = "Success !";
         } else {
-            conclusion = "Failed :(\n"
-                    + "Please retry later or contact your mom.";
+            conclusion = "Failed ...";
         }
 
-        new AlertDialog.Builder(this)
-                .setMessage(conclusion)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setMessage(conclusion).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if(ok)
-                            SignInActivity.this.finish();
+                        if(ok) { SignInActivity.this.finish(); }
                     }
-                })
-                .show();
+                }).show();
     }
 
+    // Traduit la réponse du .php en ligne
     public HashMap<String, String> translateResponse(String response) {
         String[] firstSep = response.split("\",\"");
         HashMap<String, String> map = new HashMap<String, String>();
@@ -131,13 +120,12 @@ public class SignInActivity extends ActionBarActivity {
         return map;
     }
 
+    // Ajout du nouvel utilisateur dans la bdd en ligne
     public void addNewPeopleOnline(){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
         params.put("peopleJSON", people.composePeopleJSONfromSQLite());
-
-        System.out.println(params);
 
         client.post("http://www.pierre-ecarlat.com/newSql/insertpeople.php", params, new AsyncHttpResponseHandler() {
             Boolean ok = false;
@@ -158,7 +146,7 @@ public class SignInActivity extends ActionBarActivity {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("RESPONSE : " + response);
+                System.out.println("Check sign in online (php response) : " + response);
                 try {
                     JSONArray arr = new JSONArray(response);
                     System.out.println(arr.length());
@@ -198,12 +186,12 @@ public class SignInActivity extends ActionBarActivity {
                 if (progress.isShowing()) {
                     progress.dismiss();
                 }
-
                 endActivity(ok);
             }
         });
     }
 
+    // Met les données aux formats voulus
     public void updateData() {
         name = name.toUpperCase();
         first_name = Character.toUpperCase(first_name.charAt(0)) + first_name.substring(1).toLowerCase();
@@ -220,6 +208,7 @@ public class SignInActivity extends ActionBarActivity {
         date_of_birth = y + "-" + m + "-" + d;
     }
 
+    // Vérifie que les données sont correctes
     public Boolean checkDataFormat() {
         if(!password.equals(confirm_password)) { Toast.makeText(getApplicationContext(), "Please enter valid passwords.", Toast.LENGTH_LONG).show(); return false; }
         if(Integer.parseInt(year) < 0 || Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12 || Integer.parseInt(day) < 1 || Integer.parseInt(day) > 31
@@ -241,11 +230,12 @@ public class SignInActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Please a valid mail.", Toast.LENGTH_LONG).show(); return false;
         }
 
-        // Check ville ? (checker si la ville existe)
+        // TODO : checker si la ville existe
 
         return true;
     }
 
+    // Vérifie que l'on a bien entré des données partout
     public Boolean checkData() {
         if(username.equals("")) { Toast.makeText(getApplicationContext(), "Please enter an username.", Toast.LENGTH_LONG).show(); return false; }
         if(password.equals("")) { Toast.makeText(getApplicationContext(), "Please enter a password.", Toast.LENGTH_LONG).show(); return false; }
@@ -260,6 +250,7 @@ public class SignInActivity extends ActionBarActivity {
         return true;
     }
 
+    // Récupère les données entrées
     public void setValues() {
         username = editText_username.getText().toString();
         password = editText_password.getText().toString();
@@ -275,6 +266,7 @@ public class SignInActivity extends ActionBarActivity {
         city = editText_city.getText().toString();
     }
 
+    // Traite l'appui sur les boutons
     public void toDo(View v) {
         textView_wrongText.setText("");
 
@@ -313,29 +305,8 @@ public class SignInActivity extends ActionBarActivity {
         }
     }
 
+    // Vérifie si l'année est bissextile (deviendra inutile avec le DatePicker)
     public Boolean isBissextil(int year) {
         return ((year%4 == 0 && year%100 != 0) || year%400 == 0);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sign_in, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

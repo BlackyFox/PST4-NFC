@@ -1,13 +1,16 @@
 package fr.esiea.nfc.pst4.loyalties;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Activité permettant l'ajout manuel d'une carte (demande nom, prenom, sexe, age, num client.    */
+/**************************************************************************************************/
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,19 +32,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import bdd.MyBDD;
-import library_http.AsyncHttpClient;
-import library_http.AsyncHttpResponseHandler;
-import library_http.RequestParams;
-import objects.Client;
-import objects.Company;
-import objects.People;
+import databasePackage.MyBDD;
+import library_http.*;
+import objectsPackage.*;
 
 
-public class AddCardActivity extends ActionBarActivity implements View.OnClickListener {
+public class AddCardActivity extends Activity implements View.OnClickListener {
 
     public EditText editText_num_client = null;
     public EditText editText_name = null;
@@ -93,7 +90,6 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         });
     }
 
-
     @Override
     public void onClick(View v){
         if(v == button_date){
@@ -104,47 +100,39 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
 
             DatePickerDialog dpd = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
-
                         @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-                            // Display Selected date in textbox
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                             textView_date.setText(dayOfMonth + "/"
                                     + (monthOfYear + 1) + "/" + year);
-
                         }
                     }, mYear, mMonth, mDay);
             dpd.show();
         }
     }
 
+    // Clôt l'activité en affichant la conclusion
     public void endActivity(final Boolean ok1, final Boolean ok2, final Client client, final Company company) {
         String conclusion;
         if(ok1) {
-            conclusion = "Success !\n"
-                    + "\tYou just joined : " + company.getName();
+            conclusion = "Success !\n" + "\tYou just joined : " + company.getName();
             if(ok2) {
-                conclusion += " and " + company.getName() + " now is in the database";
+                conclusion += " and " + company.getName() + " is now in the database.";
             } else {
-                conclusion += " and " + company.getName() + " was also in the database";
+                conclusion += " and " + company.getName() + " was also in the database.";
             }
         } else {
-            conclusion = "Failed :(\n"
-                    + "Maybe bad data ?";
+            conclusion = "Failed, maybe bad data ?";
         }
 
-        new AlertDialog.Builder(this)
-                .setMessage(conclusion)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setMessage(conclusion).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if(ok1)
                             AddCardActivity.this.finish();
                     }
-                })
-                .show();
+                }).show();
     }
 
+    // Traduit la réponse reçue par le .php en ligne
     public HashMap<String, String> translateResponse(String response) {
         String[] firstSep = response.split("\",\"");
         HashMap<String, String> map = new HashMap<String, String>();
@@ -160,13 +148,14 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         return map;
     }
 
-    public void checkIfClientIsOkOnline(){ // TODO : A TESTER
+    // Vérifie si le client existe bien (si le numéro de client correspond bien aux données) et insert le client
+    public void checkIfClientIsOkOnline() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         System.out.println("-> début de checkifclientisokonline");
 
         ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
+        wordList = new ArrayList<>();
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("num_client", num_client);
@@ -205,38 +194,30 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("-> response : " + response);
+                System.out.println("Check if client is ok online (php response) : " + response);
                 try {
                     JSONArray arr = new JSONArray(response);
                     HashMap<String, String> map = translateResponse(response);
 
                     if (map.get("dataOk").equals("yes")) {
-                        System.out.println("-> dataOk = yes");
                         tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
-                        System.out.println("-> création de client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used());
                         tmpClient.setUp_date(map.get("up_date"));
-                        System.out.println("-> à la date : " + tmpClient.getUp_date());
 
                         MyBDD bdd = new MyBDD(AddCardActivity.this);
                         bdd.open();
                         if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
-                            System.out.println("-> client existe déjà");
                             Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
                         } else {
                             bdd.insertClient(tmpClient);
-                            System.out.println("-> client inseré");
                             ok1 = true;
                             // TODO : faire avec le download d'images + stockage dans resources
                             Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
                             tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
                             tmpCompany.setUp_date(map.get("company_up_date"));
-                            System.out.println("-> Création de company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard() + ", " + tmpCompany.getUp_date());
                             if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
-                                System.out.println("-> la company est insérée");
                                 bdd.insertCompany(tmpCompany);
                                 ok2 = true;
-                            } else
-                                System.out.println("-> company existe déjà");
+                            }
                         }
                         bdd.close();
                         progress.dismiss();
@@ -255,7 +236,6 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 progress.dismiss();
-                System.out.println("-> le post est dans onfailure");
                 if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 } else if (statusCode == 500) {
@@ -276,6 +256,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         });
     }
 
+    // Met les données dans le format souhaité
     public void updateData() {
         name = name.toUpperCase();
         first_name = Character.toUpperCase(first_name.charAt(0)) + first_name.substring(1).toLowerCase();
@@ -292,6 +273,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         if(man) { sexe = "M"; } else { sexe = "W"; }
     }
 
+    // Vérifie le format des données
     public Boolean checkDataFormat() {
         String[] parts = date_of_birth.split("/");
         d = Integer.parseInt(parts[0]);
@@ -306,6 +288,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         return true;
     }
 
+    // Vérifie si l'on a entré des données
     public Boolean checkData() {
         if(num_client.equals("")) { Toast.makeText(getApplicationContext(), "Please enter a serial number.", Toast.LENGTH_LONG).show(); return false; }
         if(name.equals("")) { Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_LONG).show(); return false; }
@@ -316,6 +299,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         return true;
     }
 
+    // Récupère les données entrées
     public void setValues() {
         num_client = editText_num_client.getText().toString();
         name = editText_name.getText().toString();
@@ -325,6 +309,7 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
         woman = radioButton_woman.isChecked();
     }
 
+    // Gère les appuis sur les coutons (Clear, Add)
     public void toDo(View v) {
         switch(v.getId()) {
             case R.id.add_manually_button_clear:
@@ -352,31 +337,5 @@ public class AddCardActivity extends ActionBarActivity implements View.OnClickLi
             }
             default: {}
         }
-    }
-
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_card, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
