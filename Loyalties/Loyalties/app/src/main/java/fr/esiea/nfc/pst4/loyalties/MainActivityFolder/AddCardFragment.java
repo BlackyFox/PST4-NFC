@@ -1,5 +1,10 @@
 package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Fragment pour l'ajout d'une carte, contient deux boutons (ajout manuel et scan).               */
+/**************************************************************************************************/
+
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +15,7 @@ import android.view.ViewGroup;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
 import fr.esiea.nfc.pst4.loyalties.R;
 
-/**
- * Created by Antoine on 17/01/2015.
- */
+
 public class AddCardFragment extends Fragment {
 
     View rootview;

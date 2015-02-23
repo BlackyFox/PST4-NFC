@@ -1,5 +1,10 @@
 package fr.esiea.nfc.pst4.loyalties;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Gestion des settings (MainActivity)                                                            */
+/**************************************************************************************************/
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +18,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,15 +26,16 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bdd.MyBDD;
+import databasePackage.MyBDD;
 import library_http.AsyncHttpClient;
 import library_http.AsyncHttpResponseHandler;
 import library_http.RequestParams;
-import objects.Client;
-import objects.Company;
-import objects.Offer;
-import objects.People;
-import objects.Reduction;
+import objectsPackage.Client;
+import objectsPackage.Company;
+import objectsPackage.Offer;
+import objectsPackage.People;
+import objectsPackage.Reduction;
+
 
 public class SettingsActivity extends PreferenceActivity {
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
@@ -44,7 +49,6 @@ public class SettingsActivity extends PreferenceActivity {
         MyBDD bdd = new MyBDD(this);
         bdd.open();
         people = bdd.getPeopleWithId(id);
-        System.out.println("Settings with : " + people.getUsername() + ", signed in " + people.getUp_date());
         bdd.close();
 
         setupSimplePreferencesScreen();
@@ -70,16 +74,16 @@ public class SettingsActivity extends PreferenceActivity {
         });
     }
 
+    // Composition du JSON qu'on enverra au .php pour la synchronisation
     public String composeSyncJSON() {
         ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
+        wordList = new ArrayList<>();
 
         HashMap<String, String> map = new HashMap<String, String>();
 
-        map.put("current_people", "yes"); // If Yes, on regarde si user est à jour, on envoie clé (username) et up_date
-            map.put("current_people_id", Integer.toString(people.getId()));
-        System.out.println("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIII : " + people.getId());
-            map.put("current_people_up_date", people.getUp_date());
+        map.put("current_people", "yes");
+        map.put("current_people_id", Integer.toString(people.getId()));
+        map.put("current_people_up_date", people.getUp_date());
 
         MyBDD bdd = new MyBDD(this);
         bdd.open();
@@ -117,6 +121,7 @@ public class SettingsActivity extends PreferenceActivity {
         return gson.toJson(wordList);
     }
 
+    // Traduit la réponse reçue par le .php
     public HashMap<String, String> translateResponse(String response) {
         String[] firstSep = response.split("\",\"");
         HashMap<String, String> map = new HashMap<String, String>();
@@ -132,14 +137,12 @@ public class SettingsActivity extends PreferenceActivity {
         return map;
     }
 
+    // Fonction gérant la synchronisation
     private void synchronize() {
-        System.out.println("TRIED TO UPLOAD " + people.getUsername() + ", OLD DATE : " + people.getUp_date());
-
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
         params.put("synchronizeJSON", composeSyncJSON());
-        System.out.println(params);
 
         client.post("http://www.pierre-ecarlat.com/newSql/synchronize.php", params, new AsyncHttpResponseHandler() {
             @Override
@@ -158,10 +161,10 @@ public class SettingsActivity extends PreferenceActivity {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("RESPONSE : " + response);
+
+                System.out.println("Check log online (php response) : " + response);
                 try {
                     JSONArray arr = new JSONArray(response);
-                    System.out.println(arr.length());
                     HashMap<String, String> map = translateResponse(response);
 
                     if(map.get("update_people_works").equals("yes") && map.get("has_to_update_people").equals("yes")) {
@@ -176,13 +179,11 @@ public class SettingsActivity extends PreferenceActivity {
                     if(map.get("need_to_update_clients").equals("yes")) {
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
-                        System.out.println("taille nb clients : " + bdd.getAllClients(people.getUsername()).length);
                         for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
                             if(map.get("update_client" + i + "_works").equals("yes") && map.get("has_to_update_client" + i).equals("yes")) {
                                 Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client" + i + "_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
                                 tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
                                 bdd.updateClient(Integer.parseInt(map.get("client"+i+"_id")), tmpClient);
-                                System.out.println("INSERTION CLIENT OKKK");
                             }
                         }
                         bdd.close();
@@ -191,20 +192,17 @@ public class SettingsActivity extends PreferenceActivity {
                     if(map.get("need_to_update_companies").equals("yes")) {
                         MyBDD bdd = new MyBDD(SettingsActivity.this);
                         bdd.open();
-                        System.out.println("taille nb companies : " + bdd.getAllClients(people.getUsername()).length);
                         for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
                             if(map.get("update_company" + i + "_works").equals("yes") && map.get("has_to_update_company" + i).equals("yes")) {
                                 Company tmpCompany = new Company(Integer.parseInt(map.get("company"+i+"_id")), map.get("company"+i+"_new_name"), map.get("company"+i+"_new_logo"), map.get("company" + i + "_new_card"));
                                 tmpCompany.setUp_date(map.get("company"+i+"_new_up_date"));
                                 bdd.updateCompany(Integer.parseInt(map.get("company"+i+"_id")), tmpCompany);
-                                System.out.println("INSERTION COMPANY OKKK");
                             }
                             if(map.get("update_company"+i+"_offers_works").equals("yes")) {
                                 for(int j = 0 ; j < Integer.parseInt(map.get("company"+i+"_nb_offers")) ; j++) {
                                     Offer tmpOffer = new Offer(Integer.parseInt(map.get("company"+i+"_offer"+j+"_id")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_comp")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_redu")));
                                     tmpOffer.setUp_date(map.get("company"+i+"_offer"+j+"_up_date"));
                                     bdd.insertOffer(tmpOffer);
-                                    System.out.println("insertion de l'offre " + j + " de la companie " + i);
                                 }
                             }
                         }
@@ -217,8 +215,7 @@ public class SettingsActivity extends PreferenceActivity {
                     for(int i = 0 ; i < Integer.parseInt(map.get("nb_reductions")) ; i++) {
                         if(map.get("reduction"+i+"_works").equals("yes")) {
                             Reduction reduction = new Reduction(Integer.parseInt(map.get("reduction"+i+"_id")), map.get("reduction"+i+"_name"), map.get("reduction"+i+"_description"), map.get("reduction"+i+"_sexe"), map.get("reduction"+i+"_age_relation"), Integer.parseInt(map.get("reduction"+i+"_age_value")), map.get("reduction"+i+"_nb_points_relation"), Integer.parseInt(map.get("reduction"+i+"_nb_points_value")), map.get("reduction"+i+"_city"));
-                            reduction.setUp_date(map.get("reduction"+i+"_up_date"));
-                            System.out.println("Inserting : " + reduction.getId() + "/" + reduction.getName() + "/" + reduction.getDescription() + "/" + reduction.getSexe());
+                            reduction.setUp_date(map.get("reduction" + i + "_up_date"));
                             if(!bdd.doesReductionAlreadyExists(reduction.getName()))
                                 bdd.insertReduction(reduction);
                         }
@@ -253,89 +250,14 @@ public class SettingsActivity extends PreferenceActivity {
                 finish();
             }
         });
-
-
-
-        // Envoi people : si people(username) comme people(username) online, user:ok
-        // sinon, user:no, username:blabla, password:blablabla, ...
-
-        // Get Id people(username) online
-        // Get all clients where id =
-        // clients:ko
-        // sinon clients:ok, idcomp:id, ..
-
-        /*
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-
-        params.put("synchronizeJSON", people.composePeopleJSONfromSQLite());
-
-        System.out.println(params);
-
-        client.post("http://www.pierre-ecarlat.com/newSql/insertpeople.php", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                progress = new ProgressDialog(SignInActivity.this);
-                progress.setMessage("Add people online and on phone...");
-                progress.show();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
-                String response = null;
-
-                try {
-                    response = new String(responseBody, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("RESPONSE : " + response);
-                try {
-                    JSONArray arr = new JSONArray(response);
-                    System.out.println(arr.length());
-                    if (getExistsStatus(response)) {
-                        Toast.makeText(getApplicationContext(), "User already exists !", Toast.LENGTH_LONG).show();
-                        progress.dismiss();
-                    }
-                    else if(!getWorksStatus(response)) {
-                        Toast.makeText(getApplicationContext(), "Insertion doesn't works !", Toast.LENGTH_LONG).show();
-                        progress.dismiss();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                    progress.dismiss();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
-                progress.dismiss();
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                } else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                if (progress.isShowing()) {
-                    progress.dismiss();
-                }
-
-                endActivity();
-            }
-        });*/
-
     }
 
+    // Fonction gérant la suppression d'un utilisateur (warn, pas uniquement removePeople)
     private void deleteUser() {
         //TODO
     }
 
+    // Fonction effaçant le contenu du fichier avec les cookies
     private void deleteCreds() {
         File f = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/userCredentials.berzerk");
         if(f.length() > 0)
@@ -346,6 +268,8 @@ public class SettingsActivity extends PreferenceActivity {
         this.finish();
     }
 
+
+/** PARAMETRES GLOBAUX ****************************************************************************/
     private void setupSimplePreferencesScreen() {
         if (!isSimplePreferences(this)) {
             return;

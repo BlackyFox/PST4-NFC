@@ -1,5 +1,10 @@
 package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Fragment de la page See Company. Affiche la liste des infos concernant une entreprise.         */
+/**************************************************************************************************/
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,22 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import bdd.MyBDD;
+import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
 import fr.esiea.nfc.pst4.loyalties.R;
-import objects.Client;
-import objects.Company;
-import objects.Opportunity;
-import objects.People;
-import objects.Reduction;
+import objectsPackage.*;
 
-/**
- * Created by Pierre on 10/02/2015.
- */
+
 public class SeeCompanyFragment extends Fragment {
 
     View rootview;
-    private TextView result = null;
     String username;
     String companyName;
 
@@ -32,11 +30,11 @@ public class SeeCompanyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_see_company, container, false);
-        result = (TextView) rootview.findViewById(R.id.see_company_result);
+        TextView result = (TextView) rootview.findViewById(R.id.see_company_result);
         username = ((MainActivity)getActivity()).getUsername();
         companyName = ((MainActivity)getActivity()).getCompany();
 
-        MyBDD bdd = new MyBDD((MainActivity)getActivity());
+        MyBDD bdd = new MyBDD(getActivity());
         bdd.open();
         People people = bdd.getPeopleWithUsername(username);
         Company company = bdd.getCompanyWithName(companyName);
