@@ -40,7 +40,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
     private static final String TABLE_REDUCTIONS = "reductions";
     private static final String COL_REDUCTIONS_ID = "id";
     private static final String COL_REDUCTIONS_NAME = "name";
-    private static final String COL_REDUCTIONS_TEXT = "text";
+    private static final String COL_REDUCTIONS_DESCRIPTION = "description";
     private static final String COL_REDUCTIONS_SEXE = "sexe";
     private static final String COL_REDUCTIONS_AGE_RELATION = "age_relation";
     private static final String COL_REDUCTIONS_AGE_VALUE = "age_value";
@@ -97,7 +97,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_REDUCTIONS + " ("
                     + COL_REDUCTIONS_ID + " INTEGER PRIMARY KEY, "
                     + COL_REDUCTIONS_NAME + " TEXT NOT NULL, "
-                    + COL_REDUCTIONS_TEXT + " TEXT NOT NULL, "
+                    + COL_REDUCTIONS_DESCRIPTION + " TEXT NOT NULL, "
                     + COL_REDUCTIONS_SEXE + " TEXT NOT NULL, "
                     + COL_REDUCTIONS_AGE_RELATION + " TEXT NOT NULL, "
                     + COL_REDUCTIONS_AGE_VALUE + " TEXT NOT NULL, "
