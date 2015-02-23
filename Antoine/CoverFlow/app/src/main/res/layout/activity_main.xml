@@ -1,0 +1,21 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <view class="com.esiea.pts4.test.CoverFlow"
+        xmlns:coverflow="http://schemas.android.com/apk/res/com.esiea.pts4.test.coverflowtest"
+        coverflow:imageWidth="100dip"
+        coverflow:imageHeight="150dip"
+        android:id="@+id/coverflow"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip">
+    </view>
+
+    <TextView android:text="STATUS" android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:padding="5dip" android:id="@+id/statusText"></TextView>
+
+</LinearLayout>
+
