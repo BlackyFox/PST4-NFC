@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Write_test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="service_name">CardEmulation Sample</string>
+    <string name="card_title">Sample Loyalty Card</string>
+    <string name="account_number">Account Number</string>
+    <string name="intro_message">
+        <![CDATA[
+
+
+            This sample demonstrates how to emulate an NFC card, using the "host card emulation"
+            feature added in Android 4.4. This sample makes the device appear as a loyalty card
+            whenever the screen is on and the user taps their device on an appropriately configured
+            NFC reader.
+
+            The "CardReader" sample can be used to read the loyalty card implemented in this sample.
+
+
+        ]]>
+    </string>
+    <string name="sample_show_log">Show Log</string>
+    <string name="sample_hide_log">Hide Log</string>
+
+</resources>
