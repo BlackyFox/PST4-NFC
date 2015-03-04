@@ -9,8 +9,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +32,13 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -54,7 +64,6 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
     private int y, m, d;
     private Boolean man, woman;
 
-    private People people;
     ProgressDialog progress;
 
     @Override
@@ -65,7 +74,7 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         MyBDD bdd = new MyBDD(this);
         bdd.open();
-        people = bdd.getPeopleWithId(id);
+        People people = bdd.getPeopleWithId(id);
         bdd.close();
 
         editText_num_client = (EditText) findViewById(R.id.add_manually_num_client);
@@ -216,6 +225,11 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
                             tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
                             tmpCompany.setUp_date(map.get("company_up_date"));
                             if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
+                                ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                ilt_logo.execute();
+                                ilt_card.execute();
+
                                 bdd.insertCompany(tmpCompany);
                                 ok2 = true;
                             }
@@ -255,6 +269,50 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
                 endActivity(ok1, ok2, tmpClient, tmpCompany);
             }
         });
+    }
+
+    public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+        Context context = getApplicationContext();
+        String path = context.getFilesDir().getAbsolutePath();
+        OutputStream stream = new FileOutputStream(path + "/" + compPath);
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+    }
+
+    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private String compPath;
+
+        public ImageLoadTask(String url, String compPath) {
+            this.url = url;
+            this.compPath = compPath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        //after downloading
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            try {
+                createImage(result, compPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Met les données dans le format souhaité

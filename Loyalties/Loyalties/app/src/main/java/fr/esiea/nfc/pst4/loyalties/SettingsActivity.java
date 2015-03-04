@@ -9,6 +9,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -22,7 +25,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -196,7 +205,20 @@ public class SettingsActivity extends PreferenceActivity {
                             if(map.get("update_company" + i + "_works").equals("yes") && map.get("has_to_update_company" + i).equals("yes")) {
                                 Company tmpCompany = new Company(Integer.parseInt(map.get("company"+i+"_id")), map.get("company"+i+"_new_name"), map.get("company"+i+"_new_logo"), map.get("company" + i + "_new_card"));
                                 tmpCompany.setUp_date(map.get("company"+i+"_new_up_date"));
+
+                                Context context = getApplicationContext();
+                                String path = context.getFilesDir().getAbsolutePath();
+                                File file1 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getLogo() + ".png");
+                                File file2 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getCard() + ".png");
+                                file1.delete();
+                                file2.delete();
+
                                 bdd.updateCompany(Integer.parseInt(map.get("company"+i+"_id")), tmpCompany);
+
+                                ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                ilt_logo.execute();
+                                ilt_card.execute();
                             }
                             if(map.get("update_company"+i+"_offers_works").equals("yes")) {
                                 for(int j = 0 ; j < Integer.parseInt(map.get("company"+i+"_nb_offers")) ; j++) {
@@ -250,6 +272,50 @@ public class SettingsActivity extends PreferenceActivity {
                 finish();
             }
         });
+    }
+
+    public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+        Context context = getApplicationContext();
+        String path = context.getFilesDir().getAbsolutePath();
+        OutputStream stream = new FileOutputStream(path + "/" + compPath);
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+    }
+
+    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private String compPath;
+
+        public ImageLoadTask(String url, String compPath) {
+            this.url = url;
+            this.compPath = compPath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        //after downloading
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            try {
+                createImage(result, compPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Fonction gérant la suppression d'un utilisateur (warn, pas uniquement removePeople)
