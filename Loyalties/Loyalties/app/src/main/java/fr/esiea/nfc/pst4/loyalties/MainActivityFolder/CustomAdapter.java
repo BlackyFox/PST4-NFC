@@ -65,7 +65,7 @@ public class CustomAdapter extends BaseAdapter {
 
         RowItem row_pos = rowItem.get(position);
         String path = context.getFilesDir().getAbsolutePath();
-        Bitmap logo = BitmapFactory.decodeFile(path + "" + row_pos.getLogo());
+        Bitmap logo = BitmapFactory.decodeFile(path + "/" + row_pos.getLogo());
         Bitmap newLogo = resizeImage(logo, 50, 100);
 
         imgIcon.setImageBitmap(newLogo);

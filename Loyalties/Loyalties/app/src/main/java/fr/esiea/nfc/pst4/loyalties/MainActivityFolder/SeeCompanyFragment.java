@@ -5,12 +5,16 @@ package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 /* Fragment de la page See Company. Affiche la liste des infos concernant une entreprise.         */
 /**************************************************************************************************/
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import databasePackage.MyBDD;
@@ -21,6 +25,8 @@ import objectsPackage.*;
 
 public class SeeCompanyFragment extends Fragment {
 
+    Context context;
+
     View rootview;
     String username;
     String companyName;
@@ -28,9 +34,11 @@ public class SeeCompanyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        context = getActivity().getApplicationContext();
 
         rootview = inflater.inflate(R.layout.fragment_see_company, container, false);
         TextView result = (TextView) rootview.findViewById(R.id.see_company_result);
+        ImageView iv_card = (ImageView) rootview.findViewById(R.id.see_company_card);
         username = ((MainActivity)getActivity()).getUsername();
         companyName = ((MainActivity)getActivity()).getCompany();
 
@@ -58,7 +66,34 @@ public class SeeCompanyFragment extends Fragment {
         bdd.close();
 
         result.setText(text);
+
+        String path = context.getFilesDir().getAbsolutePath();
+        Bitmap card = BitmapFactory.decodeFile(path + "/" + company.getCard().toLowerCase() + ".png");
+        Bitmap newCard = resizeImage(card, 210, 300);
+        iv_card.setImageBitmap(newCard);
+
         ((MainActivity)getActivity()).setActionBarTitle("See company");
         return rootview;
+    }
+
+    public static Bitmap resizeImage(Bitmap image, int maxWidth, int maxHeight) {
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
+
+        double imageAspect = (double) imageWidth / imageHeight;
+        double canvasAspect = (double) maxWidth / maxHeight;
+        double scaleFactor;
+
+        if (imageAspect < canvasAspect) {
+            scaleFactor = (double) maxHeight / imageHeight;
+        } else {
+            scaleFactor = (double) maxWidth / imageWidth;
+        }
+
+        float scaleWidth = ((float) scaleFactor) * imageWidth;
+        float scaleHeight = ((float) scaleFactor) * imageHeight;
+
+        // recreate the new Bitmap
+        return Bitmap.createScaledBitmap(image, (int) scaleWidth, (int) scaleHeight, true);
     }
 }
