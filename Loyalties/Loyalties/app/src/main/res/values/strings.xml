@@ -31,5 +31,6 @@
     <string name="title_activity_emulate">EmulateActivity</string>
     <string name="title_activity_add_card">AddCardActivity</string>
     <string name="add_title">Add a card</string>
+    <string name="scan_info">Approchez la carte du dos du téléphone</string>
 
 </resources>

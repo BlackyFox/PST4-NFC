@@ -162,30 +162,6 @@ public class ReadActivity extends Activity {
     	  }
     	  return null;
     	}
-   		
-   		/*if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
-   				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
-   				|| NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-   			
-   			t1.setText("OK");
-   			Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-   			NdefMessage[] messages = null;
-   			if (rawMsgs != null) {
-
-   			}
-   			message = "Card read";
-   			Log.i(TAG, "New Intent/3:" + message);
-   			t2.setText(message);
-   		}
-   		else
-   			t1.setText("NONE");
-    }
-    
-   String getTextData(byte[] payload) throws UnsupportedEncodingException {
-        String texteCode = ((payload[0] & 0200) == 0) ? "UTF-8" : "UTF-16";
-        int langageCodeTaille = payload[0] & 0077;
-        return new String(payload, langageCodeTaille + 1, payload.length - langageCodeTaille - 1, texteCode);
-    }*/
     
     @Override
     protected void onNewIntent(Intent intent) {
@@ -263,16 +239,7 @@ public class ReadActivity extends Activity {
         }
          
         private String readText(NdefRecord record) throws UnsupportedEncodingException {
-            /*
-             * See NFC forum specification for "Text Record Type Definition" at 3.2.1 
-             * 
-             * http://www.nfc-forum.org/specs/
-             * 
-             * bit_7 defines encoding
-             * bit_6 reserved for future use, must be 0
-             * bit_5..0 length of IANA language code
-             */
-     
+
             byte[] payload = record.getPayload();
      
             // Get the Text Encoding
