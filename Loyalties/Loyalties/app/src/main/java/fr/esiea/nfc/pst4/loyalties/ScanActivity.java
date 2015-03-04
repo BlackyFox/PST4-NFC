@@ -6,7 +6,10 @@ package fr.esiea.nfc.pst4.loyalties;
 /**************************************************************************************************/
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.nfc.NdefMessage;
@@ -19,7 +22,23 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import databasePackage.MyBDD;
+import library_http.AsyncHttpClient;
+import library_http.AsyncHttpResponseHandler;
+import library_http.RequestParams;
+import objectsPackage.Client;
+import objectsPackage.Company;
 
 
 public class ScanActivity extends Activity {
@@ -29,6 +48,7 @@ public class ScanActivity extends Activity {
     private PendingIntent mPendingIntent;
     private final String TAG = this.getClass().getSimpleName();
     public static final String MIME_TEXT_PLAIN = "text/plain";
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +77,147 @@ public class ScanActivity extends Activity {
         mNfcAdapter.disableForegroundDispatch(this);
     }
 
+    // Clôt l'activité en affichant la conclusion
+    public void endActivity(final Boolean ok1, final Boolean ok2, final Client client, final Company company) {
+        String conclusion;
+        if(ok1) {
+            conclusion = "Success !\n" + "\tYou just joined : " + company.getName();
+            if(ok2) {
+                conclusion += " and " + company.getName() + " is now in the database.";
+            } else {
+                conclusion += " and " + company.getName() + " was also in the database.";
+            }
+        } else {
+            conclusion = "Failed...";
+        }
+
+        new AlertDialog.Builder(this).setMessage(conclusion).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if(ok1)
+                    ScanActivity.this.finish();
+            }
+        }).show();
+    }
+
+    // Traduit la réponse reçue par le .php en ligne
+    public HashMap<String, String> translateResponse(String response) {
+        String[] firstSep = response.split("\",\"");
+        HashMap<String, String> map = new HashMap<String, String>();
+        String[] tmp;
+
+        for(int i = 0 ; i < firstSep.length ; i++) {
+            tmp = firstSep[i].split("\":\"");
+            if(i == 0) tmp[0] = tmp[0].substring(3);
+            if(i == firstSep.length-1) tmp[1] = tmp[1].substring(0, tmp[1].length()-3);
+            map.put(tmp[0], tmp[1]);
+        }
+
+        return map;
+    }
+
+    // Vérifie si le client existe bien (si le numéro de client correspond bien aux données) et insert le client
+    public void getClient() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<>();
+
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("serial_number", msgReceived);
+        wordList.add(map);
+
+        Gson gson = new GsonBuilder().create();
+
+        params.put("getClientJSON", gson.toJson(wordList));
+
+        System.out.println("-> params JSON envoyés : " + params);
+
+        client.post("http://www.pierre-ecarlat.com/newSql/getclient.php", params, new AsyncHttpResponseHandler() {
+            Boolean ok1 = false;
+            Boolean ok2 = false;
+            Client tmpClient;
+            Company tmpCompany;
+
+            @Override
+            public void onStart() {
+                progress = new ProgressDialog(ScanActivity.this);
+                progress.setMessage("Checking for client...");
+                progress.show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = null;
+                System.out.println("-> le post est dans onsuccess");
+
+                try {
+                    response = new String(responseBody, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Get client (php response) : " + response);
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    HashMap<String, String> map = translateResponse(response);
+
+                    if (map.get("dataOk").equals("yes")) {
+                        tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
+                        tmpClient.setUp_date(map.get("up_date"));
+
+                        MyBDD bdd = new MyBDD(ScanActivity.this);
+                        bdd.open();
+                        if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
+                            Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
+                        } else {
+                            bdd.insertClient(tmpClient);
+                            ok1 = true;
+                            // TODO : faire avec le download d'images + stockage dans resources
+                            Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
+                            tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
+                            tmpCompany.setUp_date(map.get("company_up_date"));
+                            if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
+                                bdd.insertCompany(tmpCompany);
+                                ok2 = true;
+                            }
+                        }
+                        bdd.close();
+                        progress.dismiss();
+                    }
+                    else if(map.get("dataOk").equals("no")) {
+                        Toast.makeText(getApplicationContext(), "Insertion doesn't works !", Toast.LENGTH_LONG).show();
+                        progress.dismiss();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                    progress.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                progress.dismiss();
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                } else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (progress.isShowing()) {
+                    progress.dismiss();
+                }
+
+                endActivity(ok1, ok2, tmpClient, tmpCompany);
+            }
+        });
+    }
+
     private void resoudreIntent(Intent intent) throws UnsupportedEncodingException {
 
         String action = intent.getAction();
@@ -78,6 +239,7 @@ public class ScanActivity extends Activity {
                         String message = getTextData(record.getPayload());
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                         this.msgReceived = message;
+                        getClient();
                     }
                 }else{
                     Log.d(TAG, "rawMsgs = null");
