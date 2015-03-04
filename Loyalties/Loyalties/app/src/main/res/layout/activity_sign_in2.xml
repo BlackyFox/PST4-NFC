@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#cf000000">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/sign_in_welcome"
+            android:id="@+id/signIn_textView_title"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffdadada"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="The classic account information"
+            android:id="@+id/signIn_textView_introductionText"
+            android:layout_below="@+id/signIn_textView_title"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffdadada"
+            android:textStyle="italic"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your username"
+            android:layout_below="@id/signIn_textView_introductionText"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your password"
+            android:layout_below="@id/signIn_editText_username"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"
+            android:password="true"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_confirmPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your password (confirmation)"
+            android:layout_below="@id/signIn_editText_password"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"
+            android:password="true"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:layout_below="@id/signIn_editText_confirmPassword"
+            android:id="@+id/separator"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Information about you !"
+            android:id="@+id/e0"
+            android:layout_below="@id/separator"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffdadada"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your last name"
+            android:layout_below="@id/e0"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_firstName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your first name"
+            android:layout_below="@id/signIn_editText_name"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_radioGroup_groupSex"
+            android:orientation="horizontal"
+            android:layout_below="@id/signIn_editText_firstName"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Woman"
+                android:id="@+id/signIn_radioButton_woman"
+                android:checked="false"
+                android:layout_marginEnd="15dp"
+                android:textColor="#ffdadada"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Man"
+                android:id="@+id/signIn_radioButton_man"
+                android:checked="false"
+                android:layout_marginStart="15dp"
+                android:textColor="#ffdadada"/>
+
+        </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ff079ad6"
+            android:textColor="#ffdadada"
+            android:text="Your birth date"
+            android:layout_below="@id/signIn_radioGroup_groupSex"
+            android:layout_centerHorizontal="true"
+            android:shadowRadius="0"
+            android:layout_alignStart="@id/signIn_editText_username"
+            android:layout_alignEnd="@id/signIn_editText_username"
+            android:id="@+id/setDateButton"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/showDate"
+            android:layout_below="@id/setDateButton"
+            android:textColor="#ffdadada"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_mail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="Your eMail address"
+            android:layout_below="@id/showDate"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"
+            android:inputType="textEmailAddress"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn_editText_city"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:hint="The city you live in"
+            android:layout_below="@id/signIn_editText_mail"
+            android:background="#ffdadada"
+            android:textColor="#cf000000"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/signIn_editText_username"
+            android:layout_alignEnd="@id/signIn_editText_username"
+            android:layout_below="@id/signIn_editText_city"
+            android:layout_marginTop="20dp"
+            android:id="@+id/signIn_linearButton">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLEAR"
+                android:id="@+id/signIn_button_clear"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:layout_alignStart="@id/signIn_editText_username"
+                android:layout_alignEnd="@id/signIn_editText_username"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginEnd="2dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in"
+                android:id="@+id/signIn_button_signIn"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:layout_alignStart="@id/signIn_editText_username"
+                android:layout_alignEnd="@id/signIn_editText_username"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginStart="2dp"/>
+            </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/signIn_textView_wrongText"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/signIn_linearButton"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffdadada"
+            android:layout_marginTop="20dp"/>
+    </RelativeLayout>
+</ScrollView>
