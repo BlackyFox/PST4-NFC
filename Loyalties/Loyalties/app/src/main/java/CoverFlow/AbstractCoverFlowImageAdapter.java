@@ -1,8 +1,4 @@
-package com.esiea.pts4.test;
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
+package CoverFlow;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is an adapter that provides base, abstract class for images

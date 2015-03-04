@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <view class="com.esiea.pts4.test.CoverFlow"
+    <view class="com.esiea.pts4.test.CoverFlow.CoverFlow"
         xmlns:coverflow="http://schemas.android.com/apk/res/com.esiea.pts4.test.coverflowtest"
         coverflow:imageWidth="100dip"
         coverflow:imageHeight="150dip"

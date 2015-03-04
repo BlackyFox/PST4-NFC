@@ -1,4 +1,4 @@
-package com.esiea.pts4.test;
+package com.esiea.pts4.test.CoverFlow;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

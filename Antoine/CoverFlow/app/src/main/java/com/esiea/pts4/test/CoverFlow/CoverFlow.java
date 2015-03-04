@@ -18,7 +18,7 @@
  *
  * @author Neil Davies
  */
-package com.esiea.pts4.test;
+package com.esiea.pts4.test.CoverFlow;
 
 import android.content.Context;
 import android.content.res.TypedArray;

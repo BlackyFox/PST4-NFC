@@ -1,4 +1,4 @@
-package com.esiea.pts4.test;
+package CoverFlow;
 
 import android.R.color;
 import android.graphics.Bitmap;

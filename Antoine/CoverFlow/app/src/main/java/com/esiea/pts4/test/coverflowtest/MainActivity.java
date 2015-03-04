@@ -1,8 +1,8 @@
 package com.esiea.pts4.test.coverflowtest;
 
-import com.esiea.pts4.test.CoverFlow;
-import com.esiea.pts4.test.ReflectingImageAdapter;
-import com.esiea.pts4.test.ResourceImageAdapter;
+import com.esiea.pts4.test.CoverFlow.CoverFlow;
+import com.esiea.pts4.test.CoverFlow.ReflectingImageAdapter;
+import com.esiea.pts4.test.CoverFlow.ResourceImageAdapter;
 
 import android.app.Activity;
 import android.os.Bundle;
