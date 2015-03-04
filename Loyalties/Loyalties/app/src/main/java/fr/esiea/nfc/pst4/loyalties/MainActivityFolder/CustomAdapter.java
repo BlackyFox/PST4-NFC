@@ -7,6 +7,14 @@ package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.opengl.Matrix;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +64,34 @@ public class CustomAdapter extends BaseAdapter {
         TextView txtTitle = (TextView) convertView.findViewById(R.id.name);
 
         RowItem row_pos = rowItem.get(position);
-        imgIcon.setImageResource(row_pos.getLogo());
+        String path = context.getFilesDir().getAbsolutePath();
+        Bitmap logo = BitmapFactory.decodeFile(path + "" + row_pos.getLogo());
+        Bitmap newLogo = resizeImage(logo, 50, 100);
+
+        imgIcon.setImageBitmap(newLogo);
         txtTitle.setText(row_pos.getName());
 
         return convertView;
+    }
+
+    public static Bitmap resizeImage(Bitmap image, int maxWidth, int maxHeight) {
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
+
+        double imageAspect = (double) imageWidth / imageHeight;
+        double canvasAspect = (double) maxWidth / maxHeight;
+        double scaleFactor;
+
+        if (imageAspect < canvasAspect) {
+            scaleFactor = (double) maxHeight / imageHeight;
+        } else {
+            scaleFactor = (double) maxWidth / imageWidth;
+        }
+
+        float scaleWidth = ((float) scaleFactor) * imageWidth;
+        float scaleHeight = ((float) scaleFactor) * imageHeight;
+
+        // recreate the new Bitmap
+        return Bitmap.createScaledBitmap(image, (int) scaleWidth, (int) scaleHeight, true);
     }
 }

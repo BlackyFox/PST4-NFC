@@ -9,8 +9,12 @@ package fr.esiea.nfc.pst4.loyalties;
 // TODO global : gérer téléchargement / affichage des images
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -25,6 +29,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.ImageView;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.*;
@@ -32,8 +44,10 @@ import objectsPackage.People;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    //Context context;
+    //private Bitmap image1, image2, image3, image4, image5, image6, image7, image8;
 
     private String mTitle;
     private String[] arrTitle;
@@ -56,7 +70,33 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         mTitle = getTitle().toString();
         arrTitle = getResources().getStringArray(R.array.titres);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        /*
+        context = getApplicationContext();
+        ImageLoadTask ilt1 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_logo.png", "/fnac_logo.png");
+        ImageLoadTask ilt2 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_card.png", "/fnac_card.png");
+        ImageLoadTask ilt3 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/decathlon_logo.png", "/decathlon_logo.png");
+        ImageLoadTask ilt4 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/decathlon_card.png", "/decathlon_card.png");
+        ImageLoadTask ilt5 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/auchan_logo.png", "/auchan_logo.png");
+        ImageLoadTask ilt6 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/auchan_card.png", "/auchan_card.png");
+        ImageLoadTask ilt7 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/darty_logo.png", "/darty_logo.png");
+        ImageLoadTask ilt8 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/darty_card.png", "/darty_card.png");
+        ilt1.execute();
+        ilt2.execute();
+        ilt3.execute();
+        ilt4.execute();
+        ilt5.execute();
+        ilt6.execute();
+        ilt7.execute();
+        ilt8.execute();*/
     }
+
+    // Fonction pour intégrer une image dans le téléphone
+    /*public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+        String path = context.getFilesDir().getAbsolutePath();
+        OutputStream stream = new FileOutputStream(path + "" + compPath);
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+    }*/
 
     // Fonction permettant de passer d'un fragment à l'autre
     public void switchFrag(View view) {
@@ -235,4 +275,43 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             //setContentView(R.layout.activity_main_activity2);
         }
     }
+
+
+/** CLASSE TELECHARGEANT L'IMAGE ******************************************************************/
+/*    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private String compPath;
+
+        public ImageLoadTask(String url, String compPath) {
+            this.url = url;
+            this.compPath = compPath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        //after downloading
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            try {
+                createImage(result, compPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
 }

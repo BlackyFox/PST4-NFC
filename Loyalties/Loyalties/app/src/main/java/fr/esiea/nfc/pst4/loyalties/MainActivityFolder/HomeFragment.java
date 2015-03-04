@@ -63,7 +63,7 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         List<RowItem> rowItems = new ArrayList<>();
 
         for (int i = 0; i < companies.length; i++) {
-            RowItem items = new RowItem(companies[i], 0);
+            RowItem items = new RowItem(companies[i], "/" + companies[i].toLowerCase() + "_logo.png");
             rowItems.add(items);
         }
 

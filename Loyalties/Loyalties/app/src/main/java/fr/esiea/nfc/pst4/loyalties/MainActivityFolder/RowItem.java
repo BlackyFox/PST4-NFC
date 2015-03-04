@@ -8,9 +8,9 @@ package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 public class RowItem {
 
     private String name; // Nom de l'entreprise
-    private int logo; // ID du logo (celui dans R.java)
+    private String logo; // ID du logo (celui dans R.java)
 
-    public RowItem(String name, int logo) {
+    public RowItem(String name, String logo) {
         this.name = name;
         this.logo = logo;
 
@@ -24,11 +24,11 @@ public class RowItem {
         this.name = name;
     }
 
-    public int getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(int logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 }
