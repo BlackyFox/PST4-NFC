@@ -54,7 +54,7 @@ public class SignInActivity extends Activity {
     public TextView showDate = null;
 
     String username, password, confirm_password, name, first_name, sexe,  date_of_birth, mail, city;
-    String day, month, year = null;
+    String day = null, month = null, year = null;
     Boolean man, woman;
     Calendar cal;
 
@@ -313,8 +313,10 @@ public class SignInActivity extends Activity {
     }
 
     // Récupère les données entrées
-    public void setValues() {
-        if(day != null && month != null && year != null) {
+    public int setValues() {
+        if(day == null && month == null && year == null) {
+            return 1;
+        }else{
             username = editText_username.getText().toString();
             password = editText_password.getText().toString();
             confirm_password = editText_confirm_password.getText().toString();
@@ -324,6 +326,7 @@ public class SignInActivity extends Activity {
             woman = radioButton_woman.isChecked();
             mail = editText_mail.getText().toString();
             city = editText_city.getText().toString();
+            return 0;
         }
     }
 
@@ -352,14 +355,21 @@ public class SignInActivity extends Activity {
             }
             case R.id.signIn_button_signIn:
             {
-                setValues();
-                if(!checkData()) { break; }
-                if(!checkDataFormat()) { break; }
-                updateData();
+                if(setValues() == 0) {
+                    if (!checkData()) {
+                        break;
+                    }
+                    if (!checkDataFormat()) {
+                        break;
+                    }
+                    updateData();
 
-                people = new People(-1, username, password, name, first_name, sexe, date_of_birth, mail, city);
+                    people = new People(-1, username, password, name, first_name, sexe, date_of_birth, mail, city);
 
-                addNewPeopleOnline();
+                    addNewPeopleOnline();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Come on, give us your birth date, it's for your own good!", Toast.LENGTH_LONG).show();
+                }
 
                 break;
             }
