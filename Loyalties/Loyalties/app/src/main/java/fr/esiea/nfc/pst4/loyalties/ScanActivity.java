@@ -17,6 +17,7 @@ import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 
@@ -60,45 +61,32 @@ public class ScanActivity extends Activity {
 
         String action = intent.getAction();
         //String message = null;
-        if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+        if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action) || NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)){
             String type = intent.getType();
             if(MIME_TEXT_PLAIN.equals(type)){
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                Log.d(TAG, "TAG ID = " + getTextData(tag.getId()));
-                NFCReadAsyncTask n = new NFCReadAsyncTask();
-                n.execute(tag);
-                this.msgReceived = n.getMsg();
+                String Id = bytesToHexString(tag.getId());
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                NdefMessage[] messages;
+                if(rawMsgs != null){
+                    messages = new NdefMessage[rawMsgs.length];
+                    for(int i = 0; i < rawMsgs.length; i++){
+                        messages[i] = (NdefMessage) rawMsgs[i];
+                        // To get a NdefRecord and its different properties from a NdefMesssage
+                        NdefRecord record = messages[i].getRecords()[i];
+                        //byte[] type = record.getType();
+                        String message = getTextData(record.getPayload());
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        this.msgReceived = message;
+                    }
+                }else{
+                    Log.d(TAG, "rawMsgs = null");
+                }
             }else{
                 Log.i(TAG, "Wrong mime type : "+type);
             }
-        }else if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)){
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Log.d(TAG, "TAG ID = "+getTextData(tag.getId()));
-            String Id = bytesToHexString(tag.getId());
-            Log.d(TAG, Id);
-            //Log.d(TAG, Integer.toString(Integer.parseInt(Id, 16)));
-            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage[] messages;
-            if(rawMsgs != null){
-                messages = new NdefMessage[rawMsgs.length];
-                Log.d(TAG, "l = "+rawMsgs.length);
-                for(int i = 0; i < rawMsgs.length; i++){
-                    messages[i] = (NdefMessage) rawMsgs[i];
-                    // To get a NdefRecord and its different properties from a NdefMesssage
-                    NdefRecord record = messages[i].getRecords()[i];
-                    byte[] id = record.getId();
-                    short tnf = record.getTnf();
-                    byte[] type = record.getType();
-                    String message = getTextData(record.getPayload());
-                    Log.d(TAG, "message = " + message);
-                    this.msgReceived = message;
-                }
-            }else{
-                Log.d(TAG, "rawMsgs = null");
-            }
         }else if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)){
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Log.d(TAG, "TAG ID = " + getTextData(tag.getId()));
             String[] techList = tag.getTechList();
             String searchTech = Ndef.class.getName();
             for(String tech : techList){
