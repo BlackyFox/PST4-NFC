@@ -64,7 +64,7 @@ public class ScanActivity extends Activity {
             if(MIME_TEXT_PLAIN.equals(type)){
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 Log.d(TAG, "TAG ID = " + getTextData(tag.getId()));
-                NFCReadActivity n = new NFCReadActivity();
+                NFCReadAsyncTask n = new NFCReadAsyncTask();
                 n.execute(tag);
                 this.msgReceived = n.getMsg();
             }else{
@@ -89,7 +89,7 @@ public class ScanActivity extends Activity {
                     short tnf = record.getTnf();
                     byte[] type = record.getType();
                     String message = getTextData(record.getPayload());
-                    Log.d(TAG, "message = "+message);
+                    Log.d(TAG, "message = " + message);
                     this.msgReceived = message;
                 }
             }else{
@@ -97,12 +97,12 @@ public class ScanActivity extends Activity {
             }
         }else if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)){
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Log.d(TAG, "TAG ID = "+getTextData(tag.getId()));
+            Log.d(TAG, "TAG ID = " + getTextData(tag.getId()));
             String[] techList = tag.getTechList();
             String searchTech = Ndef.class.getName();
             for(String tech : techList){
                 if(searchTech.equals(tech)){
-                    NFCReadActivity n = new NFCReadActivity();
+                    NFCReadAsyncTask n = new NFCReadAsyncTask();
                     n.execute(tag);
                     this.msgReceived = n.getMsg();
                     break;
