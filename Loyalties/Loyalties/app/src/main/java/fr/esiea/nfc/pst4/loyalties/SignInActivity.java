@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -308,5 +309,17 @@ public class SignInActivity extends Activity {
     // Vérifie si l'année est bissextile (deviendra inutile avec le DatePicker)
     public Boolean isBissextil(int year) {
         return ((year%4 == 0 && year%100 != 0) || year%400 == 0);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 }

@@ -10,6 +10,7 @@ package fr.esiea.nfc.pst4.loyalties;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -222,4 +223,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public void setCompany(String name) { this.company = name; }
 
     public String getCompany() { return this.company; }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
+    }
 }

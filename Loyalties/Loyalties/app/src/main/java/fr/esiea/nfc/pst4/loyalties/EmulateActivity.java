@@ -6,6 +6,7 @@ package fr.esiea.nfc.pst4.loyalties;
 /**************************************************************************************************/
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 
@@ -15,5 +16,17 @@ public class EmulateActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emulate);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 }

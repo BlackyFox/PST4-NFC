@@ -8,6 +8,7 @@ package fr.esiea.nfc.pst4.loyalties;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -148,6 +149,17 @@ public class ScanActivity extends Activity {
             resoudreIntent(intent);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        }
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
         }
     }
 }
