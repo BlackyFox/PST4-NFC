@@ -7,11 +7,16 @@ package fr.esiea.nfc.pst4.loyalties;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -42,14 +47,14 @@ public class SignInActivity extends Activity {
     public RadioGroup radioGroup_groupSex = null;
     public RadioButton radioButton_man = null;
     public RadioButton radioButton_woman = null;
-    public EditText editText_birthDay = null;
-    public EditText editText_birthMonth = null;
-    public EditText editText_birthYear = null;
     public EditText editText_mail = null;
     public EditText editText_city = null;
     public TextView textView_wrongText = null;
+    public Button date = null;
+    public TextView showDate = null;
 
-    String username, password, confirm_password, name, first_name, sexe, day, month, year , date_of_birth, mail, city;
+    String username, password, confirm_password, name, first_name, sexe,  date_of_birth, mail, city;
+    String day, month, year = null;
     Boolean man, woman;
     Calendar cal;
 
@@ -70,12 +75,11 @@ public class SignInActivity extends Activity {
         radioGroup_groupSex = (RadioGroup) findViewById(R.id.signIn_radioGroup_groupSex);
         radioButton_man = (RadioButton) findViewById(R.id.signIn_radioButton_man);
         radioButton_woman = (RadioButton) findViewById(R.id.signIn_radioButton_woman);
-        editText_birthDay = (EditText) findViewById(R.id.signIn_editText_birthDay);
-        editText_birthMonth = (EditText) findViewById(R.id.signIn_editText_birthMonth);
-        editText_birthYear = (EditText) findViewById(R.id.signIn_editText_birthYear);
         editText_mail = (EditText) findViewById(R.id.signIn_editText_mail);
         editText_city = (EditText) findViewById(R.id.signIn_editText_city);
         textView_wrongText = (TextView) findViewById(R.id.signIn_textView_wrongText);
+        date = (Button) findViewById(R.id.setDateButton);
+        showDate = (TextView) findViewById(R.id.showDate);
 
         radioGroup_groupSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -87,6 +91,63 @@ public class SignInActivity extends Activity {
                 }
             }
         });
+        date.setOnClickListener(datePick);
+    }
+
+    private View.OnClickListener datePick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setDate(v);
+        }
+    };
+
+    public void setDate(View v){
+        showDialog(999);
+    }
+    @Override
+    protected Dialog onCreateDialog(int id){
+        if(id == 999){
+            int yy, mm, dd;
+            Calendar c = Calendar.getInstance();
+            yy = c.get(Calendar.YEAR);
+            mm = c.get(Calendar.MONTH);
+            dd = c.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(this, myDateListener, yy, mm, dd);
+        }
+        return null;
+    }
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            showDate(arg1, arg2, arg3);
+        }
+    };
+
+    private void showDate(int year, int month, int day) {
+        int d = day;
+        int m = month;
+        int y = year;
+        String day_s, month_s;
+        if(d < 10)
+            day_s = "0" + Integer.toString(d);
+        else
+            day_s = Integer.toString(d);
+        this.day = day_s;
+        if(m < 9) {
+            m += 1;
+            month_s = "0" + Integer.toString(m);
+        }
+        else {
+            m+=1;
+            month_s = Integer.toString(m);
+        }
+        this.month = month_s;
+        this.year = Integer.toString(y);
+        showDate.setText(new StringBuilder().append(day_s).append("/").append(month_s).append("/").append(year));
     }
 
     // Clot l'activité et affiche le résultat dans le progressbar
@@ -253,18 +314,17 @@ public class SignInActivity extends Activity {
 
     // Récupère les données entrées
     public void setValues() {
-        username = editText_username.getText().toString();
-        password = editText_password.getText().toString();
-        confirm_password = editText_confirm_password.getText().toString();
-        name = editText_name.getText().toString();
-        first_name = editText_first_name.getText().toString();
-        man = radioButton_man.isChecked();
-        woman = radioButton_woman.isChecked();
-        day = editText_birthDay.getText().toString();
-        month = editText_birthMonth.getText().toString();
-        year = editText_birthYear.getText().toString();
-        mail = editText_mail.getText().toString();
-        city = editText_city.getText().toString();
+        if(day != null && month != null && year != null) {
+            username = editText_username.getText().toString();
+            password = editText_password.getText().toString();
+            confirm_password = editText_confirm_password.getText().toString();
+            name = editText_name.getText().toString();
+            first_name = editText_first_name.getText().toString();
+            man = radioButton_man.isChecked();
+            woman = radioButton_woman.isChecked();
+            mail = editText_mail.getText().toString();
+            city = editText_city.getText().toString();
+        }
     }
 
     // Traite l'appui sur les boutons
@@ -281,9 +341,10 @@ public class SignInActivity extends Activity {
                 editText_first_name.setText("");
                 radioButton_man.setChecked(false);
                 radioButton_woman.setChecked(false);
-                editText_birthDay.setText("");
-                editText_birthMonth.setText("");
-                editText_birthYear.setText("");
+                day = null;
+                month = null;
+                year = null;
+                showDate.setText("");
                 editText_mail.setText("");
                 editText_city.setText("");
 

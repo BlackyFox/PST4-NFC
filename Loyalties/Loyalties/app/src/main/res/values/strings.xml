@@ -32,5 +32,11 @@
     <string name="title_activity_add_card">AddCardActivity</string>
     <string name="add_title">Add a card</string>
     <string name="scan_info">Approchez la carte du dos du téléphone</string>
+    <string name="sign_in_welcome">WELCOME !</string>
+    <string name="sign_in_information">Please enter some informations about you</string>
+    <string name="sign_in_username">Username</string>
+    <string name="sign_in_username_hint">dupont_jean_du_13</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_password_hint">********</string>
 
 </resources>

@@ -4,13 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="match_parent">
+        android:layout_width="match_parent" android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="WELCOME !"
+            android:text="@string/sign_in_welcome"
             android:id="@+id/signIn_textView_title"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Please enter some informations about you"
+            android:text="@string/sign_in_information"
             android:id="@+id/signIn_textView_introductionText"
             android:layout_below="@+id/signIn_textView_title"
             android:layout_centerHorizontal="true"
@@ -44,15 +44,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Username"
+                    android:text="@string/sign_in_username"
                     android:id="@+id/signIn_textView_username" />
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/signIn_editText_username"
                     android:layout_weight="1"
-                    android:hint="dupont_jean_du_13" />
+                    android:hint="@string/sign_in_username_hint" />
             </LinearLayout>
 
             <LinearLayout
@@ -65,15 +65,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Password"
+                    android:text="@string/sign_in_password"
                     android:id="@+id/signIn_textView_password" />
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/signIn_editText_password"
                     android:layout_weight="1"
-                    android:hint="********"
+                    android:hint="@string/sign_in_password_hint"
                     android:password="true" />
             </LinearLayout>
 
@@ -184,60 +184,21 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Birth Date : "
-                    android:id="@+id/signIn_textView_birthDate" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="DD"
-                    android:id="@+id/signIn_textView_birthDay" />
-
-                <EditText
+                    android:text="Birth date : "/>
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/signIn_editText_birthDay"
-                    android:layout_weight="1"
-                    android:maxLength="2" />
-
+                    android:id="@+id/setDateButton"
+                    android:text="Set date"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="MM"
-                    android:id="@+id/signIn_textView_birthMonth" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/signIn_editText_birthMonth"
-                    android:layout_weight="1"
-                    android:maxLength="2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="YYYY"
-                    android:id="@+id/signIn_textView_birthYear" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/signIn_editText_birthYear"
-                    android:layout_weight="1"
-                    android:maxLength="4" />
+                    android:text=""
+                    android:id="@+id/showDate"/>
             </LinearLayout>
 
             <LinearLayout
