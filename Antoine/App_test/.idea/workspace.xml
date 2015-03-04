@@ -26,14 +26,19 @@
       <file leaf-file-name="ReadActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/example/app_test/ReadActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12099644" vertical-offset="0" max-vertical-offset="4335">
-              <caret line="23" column="48" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="48" />
+            <state vertical-scroll-proportion="1.8671411" vertical-offset="942" max-vertical-offset="4335">
+              <caret line="165" column="10" selection-start-line="165" selection-start-column="10" selection-end-line="165" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="true" />
+    </FindUsagesManager>
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
@@ -338,8 +343,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/example/app_test/ReadActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12099644" vertical-offset="0" max-vertical-offset="4335">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="48" />
+        <state vertical-scroll-proportion="1.8671411" vertical-offset="942" max-vertical-offset="4335">
+          <caret line="165" column="10" selection-start-line="165" selection-start-column="10" selection-end-line="165" selection-end-column="10" />
           <folding />
         </state>
       </provider>
