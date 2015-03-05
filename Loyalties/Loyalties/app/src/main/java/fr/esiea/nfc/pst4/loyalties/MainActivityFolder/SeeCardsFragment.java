@@ -63,7 +63,11 @@ public class SeeCardsFragment extends ListFragment implements AdapterView.OnItem
         rowItems = new ArrayList<>();
 
         for (int i = 0; i < companies.length; i++) {
-            RowItem items = new RowItem(companies[i], "/" + companies[i].toLowerCase() + "_logo.png");
+            RowItem items;
+            if(companies[i].equals("No companies"))
+                items = new RowItem(companies[i], "");
+            else
+                items = new RowItem(companies[i], "/" + companies[i].toLowerCase() + "_logo.png");
             rowItems.add(items);
         }
 
