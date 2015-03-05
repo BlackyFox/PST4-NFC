@@ -64,7 +64,6 @@ public class MySQLiteBase extends SQLiteOpenHelper {
     private static final String COL_OPPORTUNITIES_ID = "id";
     private static final String COL_OPPORTUNITIES_ID_CLIENT = "id_client";
     private static final String COL_OPPORTUNITIES_ID_REDU = "id_redu";
-    private static final String COL_OPPORTUNITIES_UP_DATE = "up_date";
 
 
     private static final String CREATE_TABLE_PEOPLE =
@@ -122,8 +121,7 @@ public class MySQLiteBase extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLE_OPPORTUNITIES + " ("
                     + COL_OPPORTUNITIES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + COL_OPPORTUNITIES_ID_CLIENT + " INTEGER NOT NULL, "
-                    + COL_OPPORTUNITIES_ID_REDU + " INTEGER NOT NULL, "
-                    + COL_OPPORTUNITIES_UP_DATE + " TEXT NOT NULL);";
+                    + COL_OPPORTUNITIES_ID_REDU + " INTEGER NOT NULL);";
 
 
     public MySQLiteBase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

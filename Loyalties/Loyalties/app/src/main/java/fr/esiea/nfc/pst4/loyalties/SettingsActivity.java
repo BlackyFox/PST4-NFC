@@ -95,7 +95,7 @@ public class SettingsActivity extends PreferenceActivity {
         map.put("current_people_up_date", people.getUp_date());
 
         MyBDD bdd = new MyBDD(this);
-        bdd.open();
+        bdd.open();/*
         Client[] clients = bdd.getAllClients(people.getUsername());
         if(clients == null) {
             map.put("has_clients", "no");
@@ -106,8 +106,8 @@ public class SettingsActivity extends PreferenceActivity {
                 map.put("client_number" + i + "_id", Integer.toString(clients[i].getId()));
                 map.put("client_number" + i + "_up_date", clients[i].getUp_date());
             }
-        }
-
+        }*/
+/*
         Company[] companies = null;
         if(clients == null) {
             map.put("has_companies", "no");
@@ -122,7 +122,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
             bdd.removeAllOffers();
         }
-
+*/
         bdd.close();
 
         wordList.add(map);
@@ -175,74 +175,113 @@ public class SettingsActivity extends PreferenceActivity {
                 try {
                     JSONArray arr = new JSONArray(response);
                     HashMap<String, String> map = translateResponse(response);
+                    MyBDD bdd = new MyBDD(SettingsActivity.this);
+                    bdd.open();
 
                     if(map.get("update_people_works").equals("yes") && map.get("has_to_update_people").equals("yes")) {
-                        MyBDD bdd = new MyBDD(SettingsActivity.this);
-                        bdd.open();
+                        System.out.println("update people part");
                         People tmpPeople = new People(people.getId(), map.get("people_new_username"), map.get("people_new_password"), map.get("people_new_name"), map.get("people_new_first_name"), map.get("people_new_sexe"), map.get("people_new_date_of_birth"), map.get("people_new_mail"), map.get("people_new_city"));
                         tmpPeople.setUp_date(map.get("people_new_up_date"));
                         bdd.updatePeople(people.getId(), tmpPeople);
-                        bdd.close();
                     }
 
-                    if(map.get("need_to_update_clients").equals("yes")) {
-                        MyBDD bdd = new MyBDD(SettingsActivity.this);
-                        bdd.open();
-                        for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
-                            if(map.get("update_client" + i + "_works").equals("yes") && map.get("has_to_update_client" + i).equals("yes")) {
-                                Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client" + i + "_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
-                                tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
-                                bdd.updateClient(Integer.parseInt(map.get("client"+i+"_id")), tmpClient);
+                    if(map.get("has_clients").equals("yes")) {
+                        System.out.println("has clients ok : number " + map.get("has_clients_number"));
+                        for(int i = 0 ; i < Integer.parseInt(map.get("has_clients_number")) ; i++) {
+                            Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client" + i + "_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
+                            tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
+                            if(bdd.doesClientAlreadyExists(Integer.parseInt(map.get("client"+i+"_id")))) {
+                                System.out.println("client i : " + i + ", existe déjà");
+                                if(!bdd.getClientWithId(Integer.parseInt(map.get("client"+i+"_id"))).getUp_date().equals(map.get("client"+i+"_new_up_date"))) {
+                                    System.out.println("client i : " + i + ", et on cherche à l'updater");
+                                    System.out.println("Client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used() + ", " + tmpClient.getUp_date());
+                                    bdd.updateClient(Integer.parseInt(map.get("client" + i + "_id")), tmpClient);
+                                }
+                            } else {
+                                System.out.println("client i : " + i + ", n'existe pas, mais on va l'insérer profond bientôt");
+                                System.out.println("Client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used() + ", " + tmpClient.getUp_date());
+                                bdd.insertClient(tmpClient);
                             }
-                        }
-                        bdd.close();
-                    }
 
-                    if(map.get("need_to_update_companies").equals("yes")) {
-                        MyBDD bdd = new MyBDD(SettingsActivity.this);
-                        bdd.open();
-                        for(int i = 0 ; i < bdd.getAllClients(people.getUsername()).length ; i++) {
-                            if(map.get("update_company" + i + "_works").equals("yes") && map.get("has_to_update_company" + i).equals("yes")) {
-                                Company tmpCompany = new Company(Integer.parseInt(map.get("company"+i+"_id")), map.get("company"+i+"_new_name"), map.get("company"+i+"_new_logo"), map.get("company" + i + "_new_card"));
-                                tmpCompany.setUp_date(map.get("company"+i+"_new_up_date"));
+                            Company tmpCompany = new Company(Integer.parseInt(map.get("client"+i+"_company_id")), map.get("client"+i+"_company_name"), map.get("client" + i + "_company_logo"), map.get("client" + i + "_company_card"));
+                            tmpCompany.setUp_date(map.get("client"+i+"_company_up_date"));
+                            if(bdd.doesCompanyAlreadyExists(map.get("client" + i + "_company_name"))) {
+                                System.out.println("la company de client i : " + i + " existe !");
+                                if(!bdd.getCompanyWithId(Integer.parseInt(map.get("client"+i+"_company_id"))).getUp_date().equals(map.get("client" + i + "_company_name"))) {
+                                    System.out.println("la company doit être updatée");
+                                    System.out.println("Company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard());
+                                    bdd.updateCompany(Integer.parseInt(map.get("client" + i + "_company_id")), tmpCompany);
 
-                                Context context = getApplicationContext();
-                                String path = context.getFilesDir().getAbsolutePath();
-                                File file1 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getLogo() + ".png");
-                                File file2 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getCard() + ".png");
-                                file1.delete();
-                                file2.delete();
+                                    Context context = getApplicationContext();
+                                    String path = context.getFilesDir().getAbsolutePath();
+                                    File file1 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getLogo() + ".png");
+                                    File file2 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getCard() + ".png");
+                                    file1.delete();
+                                    file2.delete();
+                                    System.out.println("suppression logo card");
 
-                                bdd.updateCompany(Integer.parseInt(map.get("company"+i+"_id")), tmpCompany);
-
+                                    ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                    ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                    ilt_logo.execute();
+                                    ilt_card.execute();
+                                    System.out.println("ajout logo card");
+                                }
+                            } else {
+                                System.out.println("la company de client i : " + i + " n'existe pas ! On l'insert");
+                                System.out.println("Company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard());
+                                bdd.insertCompany(tmpCompany);
                                 ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
                                 ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
                                 ilt_logo.execute();
                                 ilt_card.execute();
+                                System.out.println("ajout logo card");
                             }
-                            if(map.get("update_company"+i+"_offers_works").equals("yes")) {
-                                for(int j = 0 ; j < Integer.parseInt(map.get("company"+i+"_nb_offers")) ; j++) {
-                                    Offer tmpOffer = new Offer(Integer.parseInt(map.get("company"+i+"_offer"+j+"_id")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_comp")), Integer.parseInt(map.get("company"+i+"_offer"+j+"_id_redu")));
-                                    tmpOffer.setUp_date(map.get("company"+i+"_offer"+j+"_up_date"));
-                                    bdd.insertOffer(tmpOffer);
+
+                            if(map.get("has_offers").equals("yes")) {
+                                System.out.println("les offers de client i : " + i + " existent, il y en a :" + map.get("has_offers_number"));
+                                for (int j = 0 ; j < Integer.parseInt(map.get("has_offers_number")) ; j++) {
+                                    System.out.println("offer j : " + j);
+                                    System.out.println("Offer : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")));
+                                    System.out.println("id comp : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_comp")));
+                                    System.out.println("id redu : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_redu")));
+                                    System.out.println("up date : " + map.get("client" + i + "_offer" + j + "_up_date"));
+                                    Offer tmpOffer = new Offer(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")), Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_comp")), Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_redu")));
+                                    tmpOffer.setUp_date(map.get("client" + i + "_offer" + j + "_up_date"));
+                                    if (bdd.doesOfferAlreadyExists(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")))) {
+                                        System.out.println("offer existe déjà : " + j);
+                                        if(!bdd.getOfferWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id"))).getUp_date().equals(map.get("client"+i+"_offer"+j+"_id"))) {
+                                            System.out.println("et on doit l'updater");
+                                            System.out.println("Offer : " + tmpOffer.getId() + ", " + tmpOffer.getId_comp() + ", " + tmpOffer.getId_redu() + ", " + tmpOffer.getUp_date());
+                                            bdd.updateOffer(Integer.parseInt(map.get("client" + i + "_offer" + j + "_id")), tmpOffer);
+                                        }
+                                    } else {
+                                        System.out.println("et on doit l'insérer");
+                                        System.out.println("Offer : " + tmpOffer.getId() + ", " + tmpOffer.getId_comp() + ", " + tmpOffer.getId_redu() + ", " + tmpOffer.getUp_date());
+                                        bdd.insertOffer(tmpOffer);
+                                    }
+
+                                    Reduction tmpReduction = new Reduction(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id")), map.get("client"+i+"_offer"+j+"_reduction_name"), map.get("client"+i+"_offer"+j+"_reduction_description"), map.get("client"+i+"_offer"+j+"_reduction_sexe"), map.get("client"+i+"_offer"+j+"_reduction_age_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_age_value")), map.get("client"+i+"_offer"+j+"_reduction_nb_points_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_nb_points_value")), map.get("client"+i+"_offer"+j+"_reduction_city"));
+                                    tmpReduction.setUp_date(map.get("client"+i+"_offer"+j+"_reduction_up_date"));
+                                    if(bdd.doesReductionAlreadyExists(map.get("client"+i+"_offer"+j+"_reduction_name"))) {
+                                        System.out.println("réduction de l'offre j : " + j);
+                                        if(!bdd.getReductionWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id"))).getUp_date().equals(map.get("client"+i+"_offer"+j+"_reduction_up_date"))) {
+                                            System.out.println("et on doit l'updater");
+                                            System.out.println("Reduction : " + tmpReduction.getId() + ", " + tmpReduction.getName() + ", " + tmpReduction.getDescription() + "...");
+                                            bdd.updateReduction(Integer.parseInt(map.get("client" + i + "_offer" + j + "_reduction_id")), tmpReduction);
+                                        }
+                                    } else {
+                                        System.out.println("et on doit le créer");
+                                        System.out.println("Reduction : " + tmpReduction.getId() + ", " + tmpReduction.getName() + ", " + tmpReduction.getDescription() + "...");
+                                        bdd.insertReduction(tmpReduction);
+                                    }
                                 }
                             }
                         }
-                        bdd.close();
                     }
 
-                    MyBDD bdd = new MyBDD(SettingsActivity.this);
-                    bdd.open();
-                    bdd.removeAllReductions();
-                    for(int i = 0 ; i < Integer.parseInt(map.get("nb_reductions")) ; i++) {
-                        if(map.get("reduction"+i+"_works").equals("yes")) {
-                            Reduction reduction = new Reduction(Integer.parseInt(map.get("reduction"+i+"_id")), map.get("reduction"+i+"_name"), map.get("reduction"+i+"_description"), map.get("reduction"+i+"_sexe"), map.get("reduction"+i+"_age_relation"), Integer.parseInt(map.get("reduction"+i+"_age_value")), map.get("reduction"+i+"_nb_points_relation"), Integer.parseInt(map.get("reduction"+i+"_nb_points_value")), map.get("reduction"+i+"_city"));
-                            reduction.setUp_date(map.get("reduction" + i + "_up_date"));
-                            if(!bdd.doesReductionAlreadyExists(reduction.getName()))
-                                bdd.insertReduction(reduction);
-                        }
-                    }
+                    System.out.println("remove toutes les opportunities :");
                     bdd.removeAllOpportunities();
+                    System.out.println("then, update");
                     bdd.updateOpportunities();
 
                     bdd.close();

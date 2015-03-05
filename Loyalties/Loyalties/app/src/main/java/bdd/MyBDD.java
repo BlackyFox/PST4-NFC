@@ -213,7 +213,6 @@ public class MyBDD {
         values.put(COL_OPPORTUNITIES_ID, opportunity.getId());
         values.put(COL_OPPORTUNITIES_ID_CLIENT, opportunity.getId_client());
         values.put(COL_OPPORTUNITIES_ID_REDU, opportunity.getId_redu());
-        values.put(COL_OPPORTUNITIES_UP_DATE, opportunity.getUp_date());
         return bdd.insert(TABLE_OPPORTUNITIES, null, values);
     }
 
@@ -279,7 +278,6 @@ public class MyBDD {
         ContentValues values = new ContentValues();
         values.put(COL_OPPORTUNITIES_ID_CLIENT, opportunity.getId_client());
         values.put(COL_OPPORTUNITIES_ID_REDU, opportunity.getId_redu());
-        values.put(COL_OPPORTUNITIES_UP_DATE, opportunity.getUp_date());
         return bdd.update(TABLE_OPPORTUNITIES, values, COL_OPPORTUNITIES_ID + " = " + id, null);
     }
 
@@ -479,6 +477,12 @@ public class MyBDD {
         return !(cursorToReduction(c) == null);
     }
 
+    public Boolean doesOfferAlreadyExists(int id){
+        Cursor c = bdd.query(TABLE_OFFERS, new String[] {COL_OFFERS_ID, COL_OFFERS_ID_COMP, COL_OFFERS_ID_REDU, COL_OFFERS_UP_DATE}, COL_OFFERS_ID + " = \"" + id + "\"", null, null, null, null);
+
+        return !(cursorToOffer(c) == null);
+    }
+
     public String[] getLastCompanies(int peopleId) {
         Cursor c = bdd.rawQuery("SELECT " + COL_COMPANIES_NAME + " FROM " + TABLE_COMPANIES
                 + " WHERE " + COL_COMPANIES_ID + " IN (SELECT " + COL_CLIENTS_ID_COMP + " FROM " + TABLE_CLIENTS + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + peopleId
@@ -603,6 +607,21 @@ public class MyBDD {
         return reduction;
     }
 
+    private Offer cursorToOffer(Cursor c){
+        if (c.getCount() == 0)
+            return null;
+
+        c.moveToFirst();
+        Offer offer = new Offer();
+        offer.setId(c.getInt(NUM_COL_REDUCTIONS_ID));
+        offer.setId_comp(c.getInt(NUM_COL_OFFERS_ID_COMP));
+        offer.setId_redu(c.getInt(NUM_COL_OFFERS_ID_REDU));
+        offer.setUp_date(c.getString(NUM_COL_OFFERS_UP_DATE));
+        c.close();
+
+        return offer;
+    }
+
     private People cursorToPeople2(Cursor c){
         if (c.getCount() == 0)
             return null;
@@ -692,7 +711,6 @@ public class MyBDD {
         opportunity.setId(c.getInt(NUM_COL_OPPORTUNITIES_ID));
         opportunity.setId_client(c.getInt(NUM_COL_OPPORTUNITIES_ID_CLIENT));
         opportunity.setId_redu(c.getInt(NUM_COL_OPPORTUNITIES_ID_REDU));
-        opportunity.setUp_date(c.getString(NUM_COL_OPPORTUNITIES_UP_DATE));
 
         return opportunity;
     }
@@ -817,7 +835,7 @@ public class MyBDD {
         do
         {
             opportunity = cursorToOpportunity2(c);
-            s += opportunity.getId() + " | " + opportunity.getId_client() + " | " + opportunity.getId_redu() + " | " + opportunity.getUp_date() + "\n";
+            s += opportunity.getId() + " | " + opportunity.getId_client() + " | " + opportunity.getId_redu() + "\n";
         } while(c.moveToNext());
 
         c.close();

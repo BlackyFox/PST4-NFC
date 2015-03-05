@@ -18,7 +18,7 @@ import java.util.TimeZone;
 
 public class MyBDD {
     private static final int VERSION_BDD = 1;
-    private static final String NOM_BDD = "testbdd19.db";
+    private static final String NOM_BDD = "testbdd20.db";
 
     private static final String TABLE_PEOPLE = "people";
     private static final String COL_PEOPLE_ID = "id";
@@ -94,9 +94,13 @@ public class MyBDD {
 
     private static final String TABLE_OFFERS = "offers";
     private static final String COL_OFFERS_ID = "id";
+    private static final int NUM_COL_OFFERS_ID = 0;
     private static final String COL_OFFERS_ID_COMP = "id_comp";
+    private static final int NUM_COL_OFFERS_ID_COMP = 1;
     private static final String COL_OFFERS_ID_REDU = "id_redu";
+    private static final int NUM_COL_OFFERS_ID_REDU = 2;
     private static final String COL_OFFERS_UP_DATE = "up_date";
+    private static final int NUM_COL_OFFERS_UP_DATE = 3;
 
     private static final String TABLE_OPPORTUNITIES = "opportunities";
     private static final String COL_OPPORTUNITIES_ID = "id";
@@ -193,10 +197,8 @@ public class MyBDD {
 
     public long insertOpportunity(Opportunity opportunity){
         ContentValues values = new ContentValues();
-        values.put(COL_OPPORTUNITIES_ID, opportunity.getId());
         values.put(COL_OPPORTUNITIES_ID_CLIENT, opportunity.getId_client());
         values.put(COL_OPPORTUNITIES_ID_REDU, opportunity.getId_redu());
-        values.put(COL_OPPORTUNITIES_UP_DATE, opportunity.getUp_date());
         return bdd.insert(TABLE_OPPORTUNITIES, null, values);
     }
 
@@ -234,6 +236,30 @@ public class MyBDD {
         values.put(COL_CLIENTS_LAST_USED, client.getLast_used());
         values.put(COL_CLIENTS_UP_DATE, client.getUp_date());
         return bdd.update(TABLE_CLIENTS, values, COL_CLIENTS_ID + " = " + id, null);
+    }
+
+    public int updateReduction(int id, Reduction reduction){
+        ContentValues values = new ContentValues();
+        values.put(COL_REDUCTIONS_ID, reduction.getId());
+        values.put(COL_REDUCTIONS_NAME, reduction.getName());
+        values.put(COL_REDUCTIONS_DESCRIPTION, reduction.getDescription());
+        values.put(COL_REDUCTIONS_SEXE, reduction.getSexe());
+        values.put(COL_REDUCTIONS_AGE_RELATION, reduction.getAge_relation());
+        values.put(COL_REDUCTIONS_AGE_VALUE, reduction.getAge_value());
+        values.put(COL_REDUCTIONS_NB_POINTS_RELATION, reduction.getNb_points_relation());
+        values.put(COL_REDUCTIONS_NB_POINTS_VALUE, reduction.getNb_points_value());
+        values.put(COL_REDUCTIONS_CITY, reduction.getCity());
+        values.put(COL_REDUCTIONS_UP_DATE, reduction.getUp_date());
+        return bdd.update(TABLE_REDUCTIONS, values, COL_REDUCTIONS_ID + " = " + id, null);
+    }
+
+    public int updateOffer(int id, Offer offer){
+        ContentValues values = new ContentValues();
+        values.put(COL_OFFERS_ID, offer.getId());
+        values.put(COL_OFFERS_ID_COMP, offer.getId_comp());
+        values.put(COL_OFFERS_ID_REDU, offer.getId_redu());
+        values.put(COL_OFFERS_UP_DATE, offer.getUp_date());
+        return bdd.update(TABLE_OFFERS, values, COL_OFFERS_ID + " = " + id, null);
     }
 
 
@@ -398,6 +424,11 @@ public class MyBDD {
         return s;
     }
 
+    public Client getClientWithId(int id){
+        Cursor c = bdd.query(TABLE_CLIENTS, new String[] {COL_CLIENTS_ID, COL_CLIENTS_ID_PEOP, COL_CLIENTS_ID_COMP, COL_CLIENTS_NUM_CLIENT, COL_CLIENTS_NB_LOYALTIES, COL_CLIENTS_LAST_USED, COL_CLIENTS_UP_DATE}, COL_CLIENTS_ID + " LIKE \"" + id +"\"", null, null, null, null);
+        return cursorToClient(c);
+    }
+
     public Client getClientWithKey(int idPeop, int idComp) {
         Cursor c = bdd.rawQuery("SELECT * FROM " + TABLE_CLIENTS
                 + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + idPeop + " AND " + COL_CLIENTS_ID_COMP + " = " + idComp, null);
@@ -439,6 +470,11 @@ public class MyBDD {
         return clients;
     }
 
+    public Offer getOfferWithId(int id){
+        Cursor c = bdd.query(TABLE_OFFERS, new String[] {COL_OFFERS_ID, COL_OFFERS_ID_COMP, COL_OFFERS_ID_REDU, COL_OFFERS_UP_DATE}, COL_OFFERS_ID + " LIKE \"" + id +"\"", null, null, null, null);
+        return cursorToOffer(c);
+    }
+
     public Reduction getReductionWithId(int id){
         Cursor c = bdd.query(TABLE_REDUCTIONS, new String[] {COL_REDUCTIONS_ID, COL_REDUCTIONS_NAME, COL_REDUCTIONS_DESCRIPTION, COL_REDUCTIONS_SEXE, COL_REDUCTIONS_AGE_RELATION, COL_REDUCTIONS_AGE_VALUE, COL_REDUCTIONS_NB_POINTS_RELATION, COL_REDUCTIONS_NB_POINTS_VALUE, COL_REDUCTIONS_CITY, COL_REDUCTIONS_UP_DATE}, COL_REDUCTIONS_ID + " LIKE \"" + id +"\"", null, null, null, null);
         return cursorToReduction(c);
@@ -478,7 +514,7 @@ public class MyBDD {
     }
 
     public Boolean doesCompanyAlreadyExists(String name){
-        Cursor c = bdd.query(TABLE_COMPANIES, new String[] {COL_COMPANIES_ID, COL_COMPANIES_NAME, COL_COMPANIES_LOGO, COL_COMPANIES_CARD, COL_COMPANIES_UP_DATE}, COL_COMPANIES_NAME + " = \"" + name + "\"", null, null, null, null);
+        Cursor c = bdd.query(TABLE_COMPANIES, new String[]{COL_COMPANIES_ID, COL_COMPANIES_NAME, COL_COMPANIES_LOGO, COL_COMPANIES_CARD, COL_COMPANIES_UP_DATE}, COL_COMPANIES_NAME + " = \"" + name + "\"", null, null, null, null);
 
         return !(cursorToCompany(c) == null);
     }
@@ -493,6 +529,12 @@ public class MyBDD {
         Cursor c = bdd.query(TABLE_REDUCTIONS, new String[] {COL_REDUCTIONS_ID, COL_REDUCTIONS_NAME, COL_REDUCTIONS_DESCRIPTION, COL_REDUCTIONS_SEXE, COL_REDUCTIONS_AGE_RELATION, COL_REDUCTIONS_AGE_VALUE, COL_REDUCTIONS_NB_POINTS_RELATION, COL_REDUCTIONS_NB_POINTS_VALUE, COL_REDUCTIONS_CITY, COL_COMPANIES_UP_DATE}, COL_REDUCTIONS_NAME + " = \"" + name + "\"", null, null, null, null);
 
         return !(cursorToReduction(c) == null);
+    }
+
+    public Boolean doesOfferAlreadyExists(int id){
+        Cursor c = bdd.query(TABLE_OFFERS, new String[] {COL_OFFERS_ID, COL_OFFERS_ID_COMP, COL_OFFERS_ID_REDU, COL_OFFERS_UP_DATE}, COL_OFFERS_ID + " = \"" + id + "\"", null, null, null, null);
+
+        return !(cursorToOffer(c) == null);
     }
 
 
@@ -573,6 +615,21 @@ public class MyBDD {
         return reduction;
     }
 
+    private Offer cursorToOffer(Cursor c){
+        if (c.getCount() == 0)
+            return null;
+
+        c.moveToFirst();
+        Offer offer = new Offer();
+        offer.setId(c.getInt(NUM_COL_OFFERS_ID));
+        offer.setId_comp(c.getInt(NUM_COL_OFFERS_ID_COMP));
+        offer.setId_redu(c.getInt(NUM_COL_OFFERS_ID_REDU));
+        offer.setUp_date(c.getString(NUM_COL_OFFERS_UP_DATE));
+        c.close();
+
+        return offer;
+    }
+
 
 /** FONCTIONS REFRESH *****************************************************************************/
     public Boolean opportunityMatching(int idPeop, int idRedu, int points) {
@@ -621,7 +678,6 @@ public class MyBDD {
         c.moveToFirst();
 
         for(int i = 0 ; i < nbRelations ; i++) {
-            System.out.println("ICI : " + Integer.parseInt(c.getString(0)) + " / " + c.getString(2) + " / " + Integer.parseInt(c.getString(4)) + "\n");
             if(opportunityMatching(Integer.parseInt(c.getString(0)), Integer.parseInt(c.getString(5)), Integer.parseInt(c.getString(3)))) {
                 Opportunity opportunity = new Opportunity(Integer.parseInt(c.getString(4)), Integer.parseInt(c.getString(5)));
                 insertOpportunity(opportunity);
