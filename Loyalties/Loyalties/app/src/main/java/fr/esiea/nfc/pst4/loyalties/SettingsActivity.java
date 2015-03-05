@@ -94,37 +94,6 @@ public class SettingsActivity extends PreferenceActivity {
         map.put("current_people_id", Integer.toString(people.getId()));
         map.put("current_people_up_date", people.getUp_date());
 
-        MyBDD bdd = new MyBDD(this);
-        bdd.open();/*
-        Client[] clients = bdd.getAllClients(people.getUsername());
-        if(clients == null) {
-            map.put("has_clients", "no");
-        } else {
-            map.put("has_clients", "yes");
-            map.put("has_clients_number", Integer.toString(clients.length));
-            for(int i = 0 ; i < clients.length ; i++) {
-                map.put("client_number" + i + "_id", Integer.toString(clients[i].getId()));
-                map.put("client_number" + i + "_up_date", clients[i].getUp_date());
-            }
-        }*/
-/*
-        Company[] companies = null;
-        if(clients == null) {
-            map.put("has_companies", "no");
-        } else {
-            companies = new Company[clients.length];
-            map.put("has_companies", "yes");
-            map.put("has_companies_number", Integer.toString(companies.length));
-            for(int i = 0 ; i < companies.length ; i++) {
-                companies[i] = bdd.getCompanyWithId(clients[i].getId_comp());
-                map.put("company_number" + i + "_id", Integer.toString(companies[i].getId()));
-                map.put("company_number" + i + "_up_date", companies[i].getUp_date());
-            }
-            bdd.removeAllOffers();
-        }
-*/
-        bdd.close();
-
         wordList.add(map);
         Gson gson = new GsonBuilder().create();
         return gson.toJson(wordList);

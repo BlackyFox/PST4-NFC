@@ -7,8 +7,12 @@ package fr.esiea.nfc.pst4.loyalties;
 /**************************************************************************************************/
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,9 +28,14 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -179,6 +188,106 @@ public class LogInActivity extends Activity {
                                     MyBDD bdd = new MyBDD(LogInActivity.this);
                                     bdd.open();
                                     bdd.insertPeople(people);
+
+                                    if(map.get("has_clients").equals("yes")) {
+                                        System.out.println("has clients ok : number " + map.get("has_clients_number"));
+                                        for(int i = 0 ; i < Integer.parseInt(map.get("has_clients_number")) ; i++) {
+                                            Client tmpClient = new Client(Integer.parseInt(map.get("client"+i+"_id")), Integer.parseInt(map.get("client"+i+"_new_id_peop")), Integer.parseInt(map.get("client"+i+"_new_id_comp")), map.get("client" + i + "_new_num_client"), Integer.parseInt(map.get("client"+i+"_new_nb_loyalties")), Integer.parseInt(map.get("client"+i+"_new_last_used")));
+                                            tmpClient.setUp_date(map.get("client"+i+"_new_up_date"));
+                                            if(bdd.doesClientAlreadyExists(Integer.parseInt(map.get("client"+i+"_id")))) {
+                                                System.out.println("client i : " + i + ", existe déjà");
+                                                if(!bdd.getClientWithId(Integer.parseInt(map.get("client"+i+"_id"))).getUp_date().equals(map.get("client"+i+"_new_up_date"))) {
+                                                    System.out.println("client i : " + i + ", et on cherche à l'updater");
+                                                    System.out.println("Client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used() + ", " + tmpClient.getUp_date());
+                                                    bdd.updateClient(Integer.parseInt(map.get("client" + i + "_id")), tmpClient);
+                                                }
+                                            } else {
+                                                System.out.println("client i : " + i + ", n'existe pas, mais on va l'insérer profond bientôt");
+                                                System.out.println("Client : " + tmpClient.getId() + ", " + tmpClient.getId_peop() + ", " + tmpClient.getId_comp() + ", " + tmpClient.getNum_client() + ", " + tmpClient.getNb_loyalties() + ", " + tmpClient.getLast_used() + ", " + tmpClient.getUp_date());
+                                                bdd.insertClient(tmpClient);
+                                            }
+
+                                            Company tmpCompany = new Company(Integer.parseInt(map.get("client"+i+"_company_id")), map.get("client"+i+"_company_name"), map.get("client" + i + "_company_logo"), map.get("client" + i + "_company_card"));
+                                            tmpCompany.setUp_date(map.get("client"+i+"_company_up_date"));
+                                            if(bdd.doesCompanyAlreadyExists(map.get("client" + i + "_company_name"))) {
+                                                System.out.println("la company de client i : " + i + " existe !");
+                                                if(!bdd.getCompanyWithId(Integer.parseInt(map.get("client"+i+"_company_id"))).getUp_date().equals(map.get("client"+i+"_company_up_date"))) {
+                                                    System.out.println("la company doit être updatée");
+                                                    System.out.println("Company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard());
+                                                    bdd.updateCompany(Integer.parseInt(map.get("client" + i + "_company_id")), tmpCompany);
+
+                                                    Context context = getApplicationContext();
+                                                    String path = context.getFilesDir().getAbsolutePath();
+                                                    File file1 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getLogo() + ".png");
+                                                    File file2 = new File(path + "/" + bdd.getCompanyWithId(tmpCompany.getId()).getCard() + ".png");
+                                                    file1.delete();
+                                                    file2.delete();
+                                                    System.out.println("suppression logo card");
+
+                                                    ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                                    ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                                    ilt_logo.execute();
+                                                    ilt_card.execute();
+                                                    System.out.println("ajout logo card");
+                                                }
+                                            } else {
+                                                System.out.println("la company de client i : " + i + " n'existe pas ! On l'insert");
+                                                System.out.println("Company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard());
+                                                bdd.insertCompany(tmpCompany);
+                                                ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                                ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                                ilt_logo.execute();
+                                                ilt_card.execute();
+                                                System.out.println("ajout logo card");
+                                            }
+
+                                            if(map.get("client"+i+"_has_offers").equals("yes")) {
+                                                System.out.println("les offers de client i : " + i + " existent, il y en a :" + map.get("client"+i+"_has_offers_number"));
+                                                for (int j = 0 ; j < Integer.parseInt(map.get("client"+i+"_has_offers_number")) ; j++) {
+                                                    System.out.println("offer j : " + j);
+                                                    System.out.println("Offer : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")));
+                                                    System.out.println("id comp : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_comp")));
+                                                    System.out.println("id redu : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_redu")));
+                                                    System.out.println("up date : " + map.get("client" + i + "_offer" + j + "_up_date"));
+                                                    Offer tmpOffer = new Offer(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")), Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_comp")), Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_redu")));
+                                                    tmpOffer.setUp_date(map.get("client" + i + "_offer" + j + "_up_date"));
+                                                    if (bdd.doesOfferAlreadyExists(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")))) {
+                                                        System.out.println("offer existe déjà : " + j);
+                                                        if(!bdd.getOfferWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id"))).getUp_date().equals(map.get("client" + i + "_offer" + j + "_up_date"))) {
+                                                            System.out.println("et on doit l'updater");
+                                                            System.out.println("Offer : " + tmpOffer.getId() + ", " + tmpOffer.getId_comp() + ", " + tmpOffer.getId_redu() + ", " + tmpOffer.getUp_date());
+                                                            bdd.updateOffer(Integer.parseInt(map.get("client" + i + "_offer" + j + "_id")), tmpOffer);
+                                                        }
+                                                    } else {
+                                                        System.out.println("et on doit l'insérer");
+                                                        System.out.println("Offer : " + tmpOffer.getId() + ", " + tmpOffer.getId_comp() + ", " + tmpOffer.getId_redu() + ", " + tmpOffer.getUp_date());
+                                                        bdd.insertOffer(tmpOffer);
+                                                    }
+
+                                                    Reduction tmpReduction = new Reduction(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id")), map.get("client"+i+"_offer"+j+"_reduction_name"), map.get("client"+i+"_offer"+j+"_reduction_description"), map.get("client"+i+"_offer"+j+"_reduction_sexe"), map.get("client"+i+"_offer"+j+"_reduction_age_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_age_value")), map.get("client"+i+"_offer"+j+"_reduction_nb_points_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_nb_points_value")), map.get("client"+i+"_offer"+j+"_reduction_city"));
+                                                    tmpReduction.setUp_date(map.get("client"+i+"_offer"+j+"_reduction_up_date"));
+                                                    if(bdd.doesReductionAlreadyExists(map.get("client"+i+"_offer"+j+"_reduction_name"))) {
+                                                        System.out.println("réduction de l'offre j : " + j);
+                                                        if(!bdd.getReductionWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id"))).getUp_date().equals(map.get("client"+i+"_offer"+j+"_reduction_up_date"))) {
+                                                            System.out.println("et on doit l'updater");
+                                                            System.out.println("Reduction : " + tmpReduction.getId() + ", " + tmpReduction.getName() + ", " + tmpReduction.getDescription() + "...");
+                                                            bdd.updateReduction(Integer.parseInt(map.get("client" + i + "_offer" + j + "_reduction_id")), tmpReduction);
+                                                        }
+                                                    } else {
+                                                        System.out.println("et on doit le créer");
+                                                        System.out.println("Reduction : " + tmpReduction.getId() + ", " + tmpReduction.getName() + ", " + tmpReduction.getDescription() + "...");
+                                                        bdd.insertReduction(tmpReduction);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    System.out.println("remove toutes les opportunities :");
+                                    bdd.removeAllOpportunities();
+                                    System.out.println("then, update");
+                                    bdd.updateOpportunities();
+
                                     bdd.close();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Online connection refused.", Toast.LENGTH_LONG).show();
@@ -222,6 +331,50 @@ public class LogInActivity extends Activity {
                 break;
             }
             default: {}
+        }
+    }
+
+    public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+        Context context = getApplicationContext();
+        String path = context.getFilesDir().getAbsolutePath();
+        OutputStream stream = new FileOutputStream(path + "/" + compPath);
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+    }
+
+    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private String compPath;
+
+        public ImageLoadTask(String url, String compPath) {
+            this.url = url;
+            this.compPath = compPath;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        //after downloading
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            try {
+                createImage(result, compPath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
