@@ -207,7 +207,7 @@ public class SettingsActivity extends PreferenceActivity {
                             tmpCompany.setUp_date(map.get("client"+i+"_company_up_date"));
                             if(bdd.doesCompanyAlreadyExists(map.get("client" + i + "_company_name"))) {
                                 System.out.println("la company de client i : " + i + " existe !");
-                                if(!bdd.getCompanyWithId(Integer.parseInt(map.get("client"+i+"_company_id"))).getUp_date().equals(map.get("client" + i + "_company_name"))) {
+                                if(!bdd.getCompanyWithId(Integer.parseInt(map.get("client"+i+"_company_id"))).getUp_date().equals(map.get("client"+i+"_company_up_date"))) {
                                     System.out.println("la company doit être updatée");
                                     System.out.println("Company : " + tmpCompany.getId() + ", " + tmpCompany.getName() + ", " + tmpCompany.getLogo() + ", " + tmpCompany.getCard());
                                     bdd.updateCompany(Integer.parseInt(map.get("client" + i + "_company_id")), tmpCompany);
@@ -237,9 +237,9 @@ public class SettingsActivity extends PreferenceActivity {
                                 System.out.println("ajout logo card");
                             }
 
-                            if(map.get("has_offers").equals("yes")) {
-                                System.out.println("les offers de client i : " + i + " existent, il y en a :" + map.get("has_offers_number"));
-                                for (int j = 0 ; j < Integer.parseInt(map.get("has_offers_number")) ; j++) {
+                            if(map.get("client"+i+"_has_offers").equals("yes")) {
+                                System.out.println("les offers de client i : " + i + " existent, il y en a :" + map.get("client"+i+"_has_offers_number"));
+                                for (int j = 0 ; j < Integer.parseInt(map.get("client"+i+"_has_offers_number")) ; j++) {
                                     System.out.println("offer j : " + j);
                                     System.out.println("Offer : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")));
                                     System.out.println("id comp : " + Integer.parseInt(map.get("client"+i+"_offer"+j+"_id_comp")));
@@ -249,7 +249,7 @@ public class SettingsActivity extends PreferenceActivity {
                                     tmpOffer.setUp_date(map.get("client" + i + "_offer" + j + "_up_date"));
                                     if (bdd.doesOfferAlreadyExists(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id")))) {
                                         System.out.println("offer existe déjà : " + j);
-                                        if(!bdd.getOfferWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id"))).getUp_date().equals(map.get("client"+i+"_offer"+j+"_id"))) {
+                                        if(!bdd.getOfferWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_id"))).getUp_date().equals(map.get("client" + i + "_offer" + j + "_up_date"))) {
                                             System.out.println("et on doit l'updater");
                                             System.out.println("Offer : " + tmpOffer.getId() + ", " + tmpOffer.getId_comp() + ", " + tmpOffer.getId_redu() + ", " + tmpOffer.getUp_date());
                                             bdd.updateOffer(Integer.parseInt(map.get("client" + i + "_offer" + j + "_id")), tmpOffer);
