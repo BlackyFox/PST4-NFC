@@ -15,9 +15,9 @@ import javax.crypto.NoSuchPaddingException;
  * Created by Antoine on 05/03/2015.
  */
 public class RsaChif {
-    RsaGen couple;
-    Key pub;
-    Key priv;
+    private RsaGen couple;
+    private Key pub;
+    private Key priv;
 
     public void RsaChif(){
         this.couple = new RsaGen();
@@ -84,5 +84,9 @@ public class RsaChif {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Key getPub() {
+        return pub;
     }
 }
