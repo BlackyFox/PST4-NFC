@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#cf000000">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="#ffdadada"
+        android:text="@string/add_info"
+        android:layout_below="@id/textView2"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff079ad6"
+        android:textColor="#ffdadada"
+        android:textSize="20sp"
+        android:text="Add manually"
+        android:layout_below="@id/textView3"
+        android:layout_centerHorizontal="true"
+        android:shadowRadius="0"
+        android:id="@+id/add_manually"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="switchFrag"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="#ffdadada"
+        android:textStyle="italic"
+        android:text="@string/add_info_manual"
+        android:layout_below="@id/add_manually"
+        android:gravity="center"
+        android:layout_alignStart="@id/add_manually"
+        android:layout_alignEnd="@id/add_manually"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff079ad6"
+        android:textColor="#ffdadada"
+        android:textSize="20sp"
+        android:text="Add by NFC scanning"
+        android:layout_below="@id/textView4"
+        android:layout_centerHorizontal="true"
+        android:shadowRadius="0"
+        android:id="@+id/add_scan"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:onClick="switchFrag"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="#ffdadada"
+        android:textStyle="italic"
+        android:text="@string/add_info_scan"
+        android:layout_below="@id/add_scan"
+        android:gravity="center"
+        android:layout_alignStart="@id/add_scan"
+        android:layout_alignEnd="@id/add_scan"/>
+
+
+</RelativeLayout>

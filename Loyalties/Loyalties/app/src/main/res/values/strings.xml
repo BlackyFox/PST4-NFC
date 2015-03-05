@@ -38,5 +38,8 @@
     <string name="sign_in_password">Password</string>
     <string name="sign_in_password_hint">********</string>
     <string name="company_logo_description">Company logo</string>
+    <string name="add_info">If you want to add a card you have two options :</string>
+    <string name="add_info_manual">First, you can add the card manually through the form.</string>
+    <string name="add_info_scan">Or if you have your NFC card, you can scan it.</string>
 
 </resources>
