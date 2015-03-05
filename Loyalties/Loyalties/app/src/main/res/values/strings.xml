@@ -15,7 +15,6 @@
         <item>Home</item>
         <item>See Cards</item>
         <item>Add Card</item>
-        <item>See Company</item>
     </string-array>
 
     <string name="scan_title">Scanner une carte</string>
@@ -38,5 +37,6 @@
     <string name="sign_in_username_hint">dupont_jean_du_13</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_password_hint">********</string>
+    <string name="company_logo_description">Company logo</string>
 
 </resources>

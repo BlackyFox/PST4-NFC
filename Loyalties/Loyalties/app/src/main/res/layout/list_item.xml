@@ -12,7 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp" />
+        android:layout_marginRight="12dp"
+        android:contentDescription="@string/company_logo_description" />
 
     <TextView
         android:id="@+id/name"
@@ -22,6 +23,6 @@
         android:layout_toRightOf="@id/logo"
         android:gravity="center_vertical"
         android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"/>
 
 </RelativeLayout>
