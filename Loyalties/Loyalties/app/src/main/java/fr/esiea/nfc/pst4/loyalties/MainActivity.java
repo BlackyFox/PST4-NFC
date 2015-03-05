@@ -46,8 +46,8 @@ import objectsPackage.People;
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    //Context context;
-    //private Bitmap image1, image2, image3, image4, image5, image6, image7, image8;
+    Context context;
+    private Bitmap image1, image2, image3, image4, image5, image6, image7, image8;
 
     private String mTitle;
     private String[] arrTitle;
@@ -71,7 +71,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         arrTitle = getResources().getStringArray(R.array.titres);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        /*
         context = getApplicationContext();
         ImageLoadTask ilt1 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_logo.png", "/fnac_logo.png");
         ImageLoadTask ilt2 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_card.png", "/fnac_card.png");
@@ -88,15 +87,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         ilt5.execute();
         ilt6.execute();
         ilt7.execute();
-        ilt8.execute();*/
+        ilt8.execute();
+
     }
 
     // Fonction pour intégrer une image dans le téléphone
-    /*public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+    public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
         String path = context.getFilesDir().getAbsolutePath();
         OutputStream stream = new FileOutputStream(path + "" + compPath);
         image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-    }*/
+    }
 
     // Fonction permettant de passer d'un fragment à l'autre
     public void switchFrag(View view) {
@@ -278,7 +278,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
 
 /** CLASSE TELECHARGEANT L'IMAGE ******************************************************************/
-/*    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+    private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String url;
         private String compPath;
@@ -313,5 +313,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 }

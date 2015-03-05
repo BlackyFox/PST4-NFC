@@ -298,6 +298,7 @@ public class ScanActivity extends Activity {
                         String message = getTextData(record.getPayload());
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                         this.msgReceived = message;
+                        Log.d("TAG", this.msgReceived);
                         getClient();
                     }
                 }else{

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#cf000000">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/add_title"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp"
+        android:textColor="#ffdadada"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_manually_num_client"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:hint="The card's serial number"
+        android:layout_below="@id/textView2"
+        android:background="#ffdadada"
+        android:textColor="#cf000000"
+        android:gravity="center"
+        android:inputType="number"
+        android:textSize="25dp"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_manually_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:hint="Your last name"
+        android:layout_below="@id/add_manually_num_client"
+        android:background="#ffdadada"
+        android:textColor="#cf000000"
+        android:gravity="center"
+        android:textSize="25dp"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_manually_first_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:hint="Your first name"
+        android:layout_below="@id/add_manually_name"
+        android:background="#ffdadada"
+        android:textColor="#cf000000"
+        android:gravity="center"
+        android:textSize="25dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff079ad6"
+        android:textColor="#ffdadada"
+        android:text="Your birth date"
+        android:layout_below="@id/add_manually_first_name"
+        android:layout_centerHorizontal="true"
+        android:shadowRadius="0"
+        android:layout_alignStart="@id/add_manually_first_name"
+        android:layout_alignEnd="@id/add_manually_first_name"
+        android:id="@+id/add_manually_button_date"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/add_manually_textview_date"
+        android:layout_below="@id/add_manually_button_date"
+        android:textColor="#ffdadada"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_manually_groupSex"
+        android:orientation="horizontal"
+        android:layout_below="@id/add_manually_textview_date"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Woman"
+            android:id="@+id/add_manually_woman"
+            android:checked="false"
+            android:layout_marginEnd="15dp"
+            android:textColor="#ffdadada"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Man"
+            android:id="@+id/add_manually_man"
+            android:checked="false"
+            android:layout_marginStart="15dp"
+            android:textColor="#ffdadada"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/add_manually_first_name"
+        android:layout_alignEnd="@id/add_manually_first_name"
+        android:layout_below="@id/add_manually_groupSex"
+        android:layout_marginTop="20dp"
+        android:id="@+id/signIn_linearButton">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLEAR"
+            android:id="@+id/add_manually_button_clear"
+            android:layout_weight="0.04"
+            android:onClick="toDo"
+            android:shadowRadius="0"
+            android:background="#ff079ad6"
+            android:textColor="#ffdadada"
+            android:layout_marginEnd="2dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in"
+            android:id="@+id/add_manually_button_add"
+            android:layout_weight="0.04"
+            android:onClick="toDo"
+            android:shadowRadius="0"
+            android:background="#ff079ad6"
+            android:textColor="#ffdadada"
+            android:layout_marginStart="2dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

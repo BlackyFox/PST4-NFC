@@ -69,7 +69,7 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_card);
+        setContentView(R.layout.activity_add_card2);
 
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         MyBDD bdd = new MyBDD(this);
