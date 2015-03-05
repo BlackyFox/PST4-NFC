@@ -41,5 +41,6 @@
     <string name="add_info">If you want to add a card you have two options :</string>
     <string name="add_info_manual">First, you can add the card manually through the form.</string>
     <string name="add_info_scan">Or if you have your NFC card, you can scan it.</string>
+    <string name="add_card">Add the card</string>
 
 </resources>
