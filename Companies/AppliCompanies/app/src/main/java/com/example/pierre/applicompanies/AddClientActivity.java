@@ -68,7 +68,7 @@ public class AddClientActivity extends Activity {
         return map;
     }
 
-    public String[][] getPeopleList() {
+    public void getPeopleList() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
@@ -136,8 +136,6 @@ public class AddClientActivity extends Activity {
                 }
             }
         });
-
-        return null;
     }
 
     // add items into spinner dynamically
