@@ -16,7 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -96,6 +99,19 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
                 } else if (checkedId == R.id.signIn_radioButton_woman) {
                     radioButton_man.setChecked(false);
                 }
+            }
+        });
+
+        editText_first_name.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    InputMethodManager imm =
+                            (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText_first_name.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
             }
         });
     }
