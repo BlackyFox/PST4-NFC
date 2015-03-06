@@ -47,5 +47,7 @@
     <string name="frag_home_card_but">CARDS</string>
     <string name="frag_home_title">HOME</string>
     <string name="see_company_card_number"><u>Card number :</u></string>
+    <string name="see_company_op"><u>Opportunities :</u></string>
+    <string name="see_company_points"><u>Points :</u></string>
 
 </resources>

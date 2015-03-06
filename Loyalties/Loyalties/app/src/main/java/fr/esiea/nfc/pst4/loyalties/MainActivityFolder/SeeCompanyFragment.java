@@ -41,11 +41,14 @@ public class SeeCompanyFragment extends Fragment {
         context = getActivity().getApplicationContext();
 
         rootview = inflater.inflate(R.layout.fragment_see_company, container, false);
-        TextView result = (TextView) rootview.findViewById(R.id.see_company_result);
         TextView title = (TextView) rootview.findViewById(R.id.see_company_title);
         ImageView iv_card = (ImageView) rootview.findViewById(R.id.see_company_card);
         TextView card_number = (TextView) rootview.findViewById(R.id.see_company_number);
         Button emulate = (Button) rootview.findViewById(R.id.see_company_emulate);
+        TextView points = (TextView) rootview.findViewById(R.id.see_company_points);
+        String nbPoints;
+        String op = null;
+        TextView opp = (TextView) rootview.findViewById(R.id.see_company_opportunities);
         username = ((MainActivity)getActivity()).getUsername();
         companyName = ((MainActivity)getActivity()).getCompany();
 
@@ -57,18 +60,23 @@ public class SeeCompanyFragment extends Fragment {
 
         num = client.getNum_client();
 
-        String text = "Num client = " + client.getNum_client() + " with " + client.getNb_loyalties() + " loyalties points.\n";
-        text += "Opportunities available : \n";
+        nbPoints =  client.getNb_loyalties() + " points";
+
 
         Opportunity[] opportunities = bdd.getAllOpportunities(client.getId());
         Reduction tmpReduction;
         if(opportunities == null) {
-            text += "\tNo opportunities.\n";
+            op = "No opportunities.";
         } else {
-            for (int i = 0; i < opportunities.length; i++) {
-                tmpReduction = bdd.getReductionWithId(opportunities[i].getId_redu());
-                text += "\t" + tmpReduction.getName() + " : " + tmpReduction.getDescription() + "\n";
+            StringBuilder sb = new StringBuilder();
+            for (Opportunity opportunity : opportunities) {
+                tmpReduction = bdd.getReductionWithId(opportunity.getId_redu());
+                sb.append(tmpReduction.getName());
+                sb.append(" : ");
+                sb.append(tmpReduction.getDescription());
+                sb.append("\n");
             }
+            op = sb.toString();
         }
 
         bdd.close();
@@ -77,7 +85,8 @@ public class SeeCompanyFragment extends Fragment {
         card_number.setText(num);
         card_number.setGravity(Gravity.CENTER_HORIZONTAL);
         emulate.setOnClickListener(emulation);
-        result.setText(text);
+        opp.setText(op);
+        points.setText(nbPoints);
 
         String path = context.getFilesDir().getAbsolutePath();
         Bitmap card = BitmapFactory.decodeFile(path + "/" + company.getCard().toLowerCase() + ".png");

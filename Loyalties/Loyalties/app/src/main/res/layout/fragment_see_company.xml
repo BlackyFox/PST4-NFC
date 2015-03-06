@@ -51,11 +51,42 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/see_company_result"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:textColor="#ffdadada" />
+            android:layout_marginTop="20dp"
+            android:textColor="#ffdadada"
+            android:text="@string/see_company_points"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffdadada"
+            android:id="@+id/see_company_points"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffdadada"
+            android:text="@string/see_company_op"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffdadada"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:id="@+id/see_company_opportunities"
+            android:textSize="15sp"/>
 
         <Button
             android:layout_width="fill_parent"
