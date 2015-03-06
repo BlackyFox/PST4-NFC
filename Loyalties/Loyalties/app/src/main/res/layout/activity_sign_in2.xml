@@ -39,7 +39,9 @@
             android:layout_below="@id/signIn_textView_introductionText"
             android:background="#ffdadada"
             android:textColor="#cf000000"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:nextFocusForward="@id/signIn_editText_password"
+            android:singleLine="true"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -54,7 +56,9 @@
             android:background="#ffdadada"
             android:textColor="#cf000000"
             android:gravity="center"
-            android:password="true"/>
+            android:password="true"
+            android:nextFocusForward="@id/signIn_editText_confirmPassword"
+            android:singleLine="true"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -69,7 +73,9 @@
             android:background="#ffdadada"
             android:textColor="#cf000000"
             android:gravity="center"
-            android:password="true"/>
+            android:password="true"
+            android:nextFocusForward="@id/signIn_editText_name"
+            android:singleLine="true"/>
 
         <View
             android:layout_width="fill_parent"
@@ -103,7 +109,10 @@
             android:layout_below="@id/e0"
             android:background="#ffdadada"
             android:textColor="#cf000000"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:nextFocusForward="@id/signIn_editText_name"
+            android:singleLine="true"
+            android:inputType="textCapSentences"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -117,7 +126,9 @@
             android:layout_below="@id/signIn_editText_name"
             android:background="#ffdadada"
             android:textColor="#cf000000"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:singleLine="true"
+            android:inputType="textCapSentences"/>
 
         <RadioGroup
             android:layout_width="match_parent"
@@ -184,7 +195,9 @@
             android:background="#ffdadada"
             android:textColor="#cf000000"
             android:gravity="center"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:nextFocusForward="@id/signIn_editText_city"
+            android:singleLine="true"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -198,7 +211,10 @@
             android:layout_below="@id/signIn_editText_mail"
             android:background="#ffdadada"
             android:textColor="#cf000000"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:inputType="textCapSentences"/>
 
         <LinearLayout
             android:orientation="horizontal"
