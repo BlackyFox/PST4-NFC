@@ -14,7 +14,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class LogInActivity extends Activity {
     public EditText editText_username = null;
     public EditText editText_password = null;
     public TextView textView_wrongText = null;
+    public Button submit = null;
 
     File credentials;
 
@@ -61,6 +65,7 @@ public class LogInActivity extends Activity {
         editText_username = (EditText) findViewById(R.id.home_editText_username);
         editText_password = (EditText) findViewById(R.id.home_editText_password);
         textView_wrongText = (TextView) findViewById(R.id.home_textView_wrongText);
+        submit = (Button) findViewById(R.id.home_button_logIn);
 
         // On récupère les identifiants dans le fichier (s'ils existent)
         credentials = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/userCredentials.berzerk");
@@ -81,6 +86,17 @@ public class LogInActivity extends Activity {
             String[] temp = creds.split("amoslexiii");
             editText_username.setText(temp[0]);
             editText_password.setText(temp[1]);
+
+            editText_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+                @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                    if(actionId == EditorInfo.IME_ACTION_DONE){
+                        submit.performClick();
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
             // TODO : éventuellement, connecter automatiquement si le fichier est valide
         }
@@ -107,6 +123,7 @@ public class LogInActivity extends Activity {
         Toast.makeText(getApplicationContext(), "You're connected as " + people.getFirst_name() + " " + people.getName(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("id", Integer.toString(people.getId()));
+        intent.putExtra("name", people.getFirst_name());
         startActivity(intent);
         writeCreds(people.getUsername(), people.getPassword());
         this.finish();
@@ -338,7 +355,7 @@ public class LogInActivity extends Activity {
         Context context = getApplicationContext();
         String path = context.getFilesDir().getAbsolutePath();
         OutputStream stream = new FileOutputStream(path + "/" + compPath);
-        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        image.compress(Bitmap.CompressFormat.PNG, 80, stream);
     }
 
     private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
