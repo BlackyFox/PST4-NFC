@@ -29,6 +29,11 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".SeeReductionsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".AddReductionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >

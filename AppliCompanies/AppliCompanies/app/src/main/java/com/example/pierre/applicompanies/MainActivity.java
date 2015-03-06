@@ -55,6 +55,17 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
                 break;
             }
+            case R.id.see_reductions:
+            {
+                Intent intent = new Intent(this, SeeReductionsActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
             case R.id.add_reduction:
             {
                 Intent intent = new Intent(this, AddReductionActivity.class);
