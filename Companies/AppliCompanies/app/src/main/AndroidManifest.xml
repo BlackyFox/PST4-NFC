@@ -24,6 +24,11 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".SeeClientsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".AddClientActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
@@ -40,6 +45,11 @@
         </activity>
         <activity
             android:name=".AddOfferActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".RemoveOfferActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
         </activity>

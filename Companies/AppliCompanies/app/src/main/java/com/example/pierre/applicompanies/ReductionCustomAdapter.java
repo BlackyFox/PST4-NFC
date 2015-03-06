@@ -11,29 +11,29 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class CustomAdapter extends BaseAdapter {
+public class ReductionCustomAdapter extends BaseAdapter {
 
     Context context;
-    List<RowItem> rowItem;
+    List<ReductionRowItem> reductionRowItem;
 
-    CustomAdapter(Context context, List<RowItem> rowItem) {
+    ReductionCustomAdapter(Context context, List<ReductionRowItem> reductionRowItem) {
         this.context = context;
-        this.rowItem = rowItem;
+        this.reductionRowItem = reductionRowItem;
     }
 
     @Override
     public int getCount() {
-        return rowItem.size();
+        return reductionRowItem.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return rowItem.get(position);
+        return reductionRowItem.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return rowItem.indexOf(getItem(position));
+        return reductionRowItem.indexOf(getItem(position));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CustomAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.list_item, null);
+            convertView = mInflater.inflate(R.layout.reduction_list_item, null);
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
@@ -53,7 +53,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView nb_points_value = (TextView) convertView.findViewById(R.id.nb_points_value);
         TextView city = (TextView) convertView.findViewById(R.id.city);
 
-        RowItem row_pos = rowItem.get(position);
+        ReductionRowItem row_pos = reductionRowItem.get(position);
         name.setText(row_pos.getName());
         description.setText(row_pos.getDescription());
         sexe.setText(row_pos.getSexe());

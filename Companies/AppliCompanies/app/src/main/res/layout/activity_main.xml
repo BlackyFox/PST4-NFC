@@ -12,37 +12,83 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="ADD CLIENT"
-            android:id="@+id/add_client"
-            android:onClick="toDo"
-            android:layout_gravity="center_horizontal" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEE REDUCTIONS"
-            android:id="@+id/see_reductions"
-            android:onClick="toDo"
-            android:layout_gravity="center_horizontal" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SEE CLIENTS"
+                android:id="@+id/see_clients"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD REDUCTION"
-            android:id="@+id/add_reduction"
-            android:onClick="toDo"
-            android:layout_gravity="center_horizontal" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD CLIENT"
+                android:id="@+id/add_client"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="ADD OFFER"
-            android:id="@+id/add_offer"
-            android:onClick="toDo"
-            android:layout_gravity="center_horizontal" />
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SEE REDUCTIONS"
+                android:id="@+id/see_reductions"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD REDUCTION"
+                android:id="@+id/add_reduction"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD OFFER"
+                android:id="@+id/add_offer"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REMOVE OFFER"
+                android:id="@+id/remove_offer"
+                android:onClick="toDo"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"

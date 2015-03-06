@@ -1,6 +1,6 @@
 package com.example.pierre.applicompanies;
 
-public class RowItem {
+public class ReductionRowItem {
 
     private String name;
     private String description;
@@ -11,7 +11,7 @@ public class RowItem {
     private int nb_points_value;
     private String city;
 
-    public RowItem(String name, String description, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
+    public ReductionRowItem(String name, String description, String sexe, String age_relation, int age_value, String nb_points_relation, int nb_points_value, String city) {
         this.name = name;
         this.description = description;
         this.sexe = sexe;

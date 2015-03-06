@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.pierre.applicompanies.library_http.AsyncHttpClient;
 import com.example.pierre.applicompanies.library_http.AsyncHttpResponseHandler;
 import com.example.pierre.applicompanies.library_http.RequestParams;
+import com.example.pierre.applicompanies.objectsPackage.Client;
 import com.example.pierre.applicompanies.objectsPackage.Company;
 import com.example.pierre.applicompanies.objectsPackage.Reduction;
 import com.google.gson.Gson;
@@ -22,17 +23,17 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class SeeReductionsActivity extends ListActivity {
+public class SeeClientsActivity extends ListActivity {
 
-    ReductionCustomAdapter adapter;
-    private List<ReductionRowItem> reductionRowItems;
+    ClientCustomAdapter adapter;
+    private List<ClientRowItem> clientRowItems;
     Company company;
-    Reduction[] reductions;
+    String[][] clients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_see_reductions);
+        setContentView(R.layout.activity_see_clients);
 
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         String name = getIntent().getStringExtra("name");
@@ -42,7 +43,13 @@ public class SeeReductionsActivity extends ListActivity {
         company = new Company(id, name, logo, card);
         company.setUp_date(up_date);
 
-        getAllReductions();
+        //getAllClients();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onRestart();
+        getAllClients();
     }
 
     // Traduit la réponse du .php en ligne en tableau de string compréhensible
@@ -61,7 +68,7 @@ public class SeeReductionsActivity extends ListActivity {
         return map;
     }
 
-    public void getAllReductions() {
+    public void getAllClients() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
@@ -71,14 +78,14 @@ public class SeeReductionsActivity extends ListActivity {
         wordList.add(map);
 
         Gson gson = new GsonBuilder().create();
-        params.put("getReductionsJSON", gson.toJson(wordList));
+        params.put("getClientsJSON", gson.toJson(wordList));
 
         // On envoie username / password pour vérifier si lesidentifiants sont bons selon la bdd en ligne
-        client.post("http://www.pierre-ecarlat.com/newSql/getreductions.php", params, new AsyncHttpResponseHandler() {
+        client.post("http://www.pierre-ecarlat.com/newSql/getclients.php", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = null;
-                reductions = null;
+                clients = null;
                 System.out.println("onsuccess");
 
                 try {
@@ -92,13 +99,15 @@ public class SeeReductionsActivity extends ListActivity {
                     HashMap<String, String> map = translateResponse(response);
                     System.out.println("response : " + response);
 
-                    if(map.get("has_reductions").equals("yes")) {
-                        reductions = new Reduction[Integer.parseInt(map.get("nb_of_reductions"))];
-                        Reduction tmpRed;
-                        for(int i = 0 ; i < Integer.parseInt(map.get("nb_of_reductions")) ; i++) {
-                            tmpRed = new Reduction(Integer.parseInt(map.get("reduction"+i+"_id")), map.get("reduction"+i+"_name"), map.get("reduction"+i+"_description"), map.get("reduction"+i+"_sexe"), map.get("reduction"+i+"_age_relation"), Integer.parseInt(map.get("reduction"+i+"_age_value")), map.get("reduction"+i+"_nb_points_relation"), Integer.parseInt(map.get("reduction"+i+"_nb_points_value")), map.get("reduction"+i+"_city"));
-                            tmpRed.setUp_date(map.get("reduction"+i+"_up_date"));
-                            reductions[i] = tmpRed;
+                    if(map.get("works").equals("yes") && Integer.parseInt(map.get("nb_of_clients")) != 0) {
+                        clients = new String[6][Integer.parseInt(map.get("nb_of_clients"))];
+                        for(int i = 0 ; i < Integer.parseInt(map.get("nb_of_clients")) ; i++) {
+                            clients[0][i] = map.get("client"+i+"_name");
+                            clients[1][i] = map.get("client"+i+"_first_name");
+                            clients[2][i] = map.get("client"+i+"_username");
+                            clients[3][i] = map.get("client"+i+"_num_client");
+                            clients[4][i] = map.get("client"+i+"_nb_points");
+                            clients[5][i] = map.get("client"+i+"_last_used");
                         }
                     }
                 } catch (JSONException e) {
@@ -120,24 +129,24 @@ public class SeeReductionsActivity extends ListActivity {
 
             @Override
             public void onFinish() {
-                if (reductions != null) {
+                if (clients != null) {
                     addItemsOnList();
                 } else {
-                    Toast.makeText(getApplicationContext(), "No reductions.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No clients.", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     public void addItemsOnList() {
-        reductionRowItems = new ArrayList<>();
+        clientRowItems = new ArrayList<>();
 
-        for (int i = 0; i < reductions.length; i++) {
-            ReductionRowItem items = new ReductionRowItem(reductions[i].getName(), reductions[i].getDescription(), reductions[i].getSexe(), reductions[i].getAge_relation(), reductions[i].getAge_value(), reductions[i].getNb_points_relation(), reductions[i].getNb_points_value(), reductions[i].getCity());
-            reductionRowItems.add(items);
+        for (int i = 0; i < clients[0].length ; i++) {
+            ClientRowItem items = new ClientRowItem(clients[0][i], clients[1][i], clients[2][i], clients[3][i], Integer.parseInt(clients[4][i]), Integer.parseInt(clients[5][i]));
+            clientRowItems.add(items);
         }
 
-        adapter = new ReductionCustomAdapter(this, reductionRowItems);
+        adapter = new ClientCustomAdapter(this, clientRowItems);
         setListAdapter(adapter);
     }
 }

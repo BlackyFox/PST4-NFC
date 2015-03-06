@@ -44,6 +44,17 @@ public class MainActivity extends ActionBarActivity {
     // Fonction réagissant à l'appui sur l'un des boutons (log, sign in)
     public void toDo(View v) {
         switch(v.getId()) {
+            case R.id.see_clients:
+            {
+                Intent intent = new Intent(this, SeeClientsActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
             case R.id.add_client:
             {
                 Intent intent = new Intent(this, AddClientActivity.class);
@@ -80,6 +91,17 @@ public class MainActivity extends ActionBarActivity {
             case R.id.add_offer:
             {
                 Intent intent = new Intent(this, AddOfferActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
+            case R.id.remove_offer:
+            {
+                Intent intent = new Intent(this, RemoveOfferActivity.class);
                 intent.putExtra("id", Integer.toString(company.getId()));
                 intent.putExtra("name", company.getName());
                 intent.putExtra("logo", company.getLogo());

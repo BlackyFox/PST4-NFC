@@ -210,7 +210,7 @@ public class AddClientActivity extends Activity {
 
                     if(map.get("alreadyExists").equals("no")) {
                         if (map.get("works").equals("yes")) {
-                            Toast.makeText(getApplicationContext(), "New client inserted !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "New client (" + choosedUsername + ") inserted !", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(getApplicationContext(), "Failed to recover data.", Toast.LENGTH_LONG).show();
                         }
