@@ -35,7 +35,7 @@ public class Reduction {
         this.nb_points_relation = nb_points_relation;
         this.nb_points_value = nb_points_value;
         this.city = city;
-        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).getTime().toString();
     }
 
     public int getId() {
