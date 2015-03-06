@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment">
+    tools:context="fr.esiea.nfc.pst4.loyalties.MainActivityFolder.HomeFragment"
+    android:background="#cf000000">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -18,37 +19,61 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="HOME"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/frag_home_title"
+            android:id="@+id/home_title"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffdadada" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="CARDS"
-            android:id="@+id/home_cards"
-            android:onClick="switchFrag"
-            android:layout_gravity="center_horizontal" />
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/signIn_linearButton"
+            android:gravity="center">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD NEW CARD"
-            android:id="@+id/home_add_card"
-            android:onClick="switchFrag"
-            android:layout_gravity="center_horizontal" />
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_home_card_but"
+                    android:id="@+id/home_cards"
+                    android:onClick="switchFrag"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#ff079ad6"
+                    android:textColor="#ffdadada"
+                    android:layout_marginBottom="2dp"/>
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/frag_home_add_but"
+                    android:id="@+id/home_add_card"
+                    android:onClick="switchFrag"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#ff079ad6"
+                    android:textColor="#ffdadada"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="previous cards"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/frag_home_last"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffdadada"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@android:id/list"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:divider="#ffdadada"
+            android:dividerHeight="0.4dp"/>
 
     </LinearLayout>
 </RelativeLayout>

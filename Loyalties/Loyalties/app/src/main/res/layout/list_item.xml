@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/logo"
         android:gravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="#ffdadada"
         android:textSize="20sp"/>
 
 </RelativeLayout>

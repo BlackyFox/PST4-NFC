@@ -14,6 +14,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -297,7 +301,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+                return (myBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
