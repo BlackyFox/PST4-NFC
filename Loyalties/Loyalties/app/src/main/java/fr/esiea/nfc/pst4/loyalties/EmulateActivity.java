@@ -6,6 +6,7 @@ package fr.esiea.nfc.pst4.loyalties;
 /**************************************************************************************************/
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -16,6 +17,14 @@ public class EmulateActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emulate);
+
+        String card = null;
+
+        if(this.getIntent().getExtras() != null)
+            card = this.getIntent().getStringExtra("CARD_NUM");
+        Intent i = new Intent(getApplicationContext(), EmulationService.class);
+        i.putExtra("CARD_NUM", card);
+        startService(i);
     }
 
     @Override

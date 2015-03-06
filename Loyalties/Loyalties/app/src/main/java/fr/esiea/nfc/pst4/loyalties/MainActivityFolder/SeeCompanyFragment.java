@@ -6,11 +6,13 @@ package fr.esiea.nfc.pst4.loyalties.MainActivityFolder;
 /**************************************************************************************************/
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import databasePackage.MyBDD;
+import fr.esiea.nfc.pst4.loyalties.EmulateActivity;
+import fr.esiea.nfc.pst4.loyalties.EmulationService;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
 import fr.esiea.nfc.pst4.loyalties.R;
 import objectsPackage.*;
@@ -69,8 +73,8 @@ public class SeeCompanyFragment extends Fragment {
             op = "No opportunities.";
         } else {
             StringBuilder sb = new StringBuilder();
-            for (Opportunity opportunity : opportunities) {
-                tmpReduction = bdd.getReductionWithId(opportunity.getId_redu());
+            for (int i = 0; i < opportunities.length; i++) {
+                tmpReduction = bdd.getReductionWithId(opportunities[i].getId_redu());
                 sb.append(tmpReduction.getName());
                 sb.append(" : ");
                 sb.append(tmpReduction.getDescription());
@@ -99,7 +103,10 @@ public class SeeCompanyFragment extends Fragment {
 
     View.OnClickListener emulation = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity().getApplicationContext(), "Emuilation", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Emulation", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getActivity().getApplicationContext(), EmulateActivity.class);
+            i.putExtra("CARD_NUM",num);
+            getActivity().startActivity(i);
         }
     };
 

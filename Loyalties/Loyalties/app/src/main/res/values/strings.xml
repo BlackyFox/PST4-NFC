@@ -49,5 +49,7 @@
     <string name="see_company_card_number"><u>Card number :</u></string>
     <string name="see_company_op"><u>Opportunities :</u></string>
     <string name="see_company_points"><u>Points :</u></string>
+    <string name="emulate_card_service">EmulateService</string>
+    <string name="emulate_card_desc">Card number</string>
 
 </resources>
