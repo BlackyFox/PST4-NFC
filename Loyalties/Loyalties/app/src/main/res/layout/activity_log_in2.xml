@@ -21,7 +21,9 @@
         android:background="#ffdadada"
         android:textColor="#cf000000"
         android:gravity="center"
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:singleLine="true"
+        android:nextFocusForward="@id/home_editText_password"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -37,7 +39,9 @@
         android:gravity="center"
         android:textSize="25dp"
         android:layout_below="@id/home_editText_username"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:orientation="horizontal"

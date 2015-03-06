@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -57,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private String[] arrTitle;
     private People people;
     private String company;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +72,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         bdd.close();
         company = "";
 
+        Intent intent = getIntent();
+        name = intent.getStringExtra("name");
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
         arrTitle = getResources().getStringArray(R.array.titres);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
 
         context = getApplicationContext();
         ImageLoadTask ilt1 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_logo.png", "/fnac_logo.png");

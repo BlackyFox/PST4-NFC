@@ -13,7 +13,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -51,6 +53,7 @@ public class SignInActivity extends Activity {
     public TextView textView_wrongText = null;
     public Button date = null;
     public TextView showDate = null;
+    public Button submit = null;
 
     String username, password, confirm_password, name, first_name, sexe,  date_of_birth, mail, city;
     String day = null, month = null, year = null;
@@ -79,6 +82,7 @@ public class SignInActivity extends Activity {
         textView_wrongText = (TextView) findViewById(R.id.signIn_textView_wrongText);
         date = (Button) findViewById(R.id.setDateButton);
         showDate = (TextView) findViewById(R.id.showDate);
+        submit = (Button) findViewById(R.id.signIn_button_signIn);
 
         radioGroup_groupSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -91,6 +95,17 @@ public class SignInActivity extends Activity {
             }
         });
         date.setOnClickListener(datePick);
+
+        editText_city.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    submit.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private View.OnClickListener datePick = new View.OnClickListener() {
