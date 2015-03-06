@@ -24,7 +24,7 @@ public class EmulateActivity extends Activity {
             card = this.getIntent().getStringExtra("CARD_NUM");
         Intent i = new Intent(getApplicationContext(), EmulationService.class);
         i.putExtra("CARD_NUM", card);
-        startService(i);
+        this.startService(i);
     }
 
     @Override
