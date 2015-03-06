@@ -1,27 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="SEE COMPANY"
-        android:gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/see_company_title"
+            android:gravity="center_horizontal"
+            android:textSize="50sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/see_company_result"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp" />
 
-    <ImageView
-        android:id="@+id/see_company_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        <ImageView
+            android:id="@+id/see_company_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:rotation="90"
+            android:layout_gravity="center_horizontal"/>
 
-</LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:text="@string/see_company_card_number"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/see_company_number"
+            android:gravity="center_horizontal"
+            android:textSize="15sp"
+            android:text=""
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/see_company_result"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:background="#ff079ad6"
+            android:textColor="#ffdadada"
+            android:shadowRadius="0"
+            android:text="Emulate !"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="20dp"
+            android:id="@+id/see_company_emulate"/>
+    </LinearLayout>
+
+</ScrollView>

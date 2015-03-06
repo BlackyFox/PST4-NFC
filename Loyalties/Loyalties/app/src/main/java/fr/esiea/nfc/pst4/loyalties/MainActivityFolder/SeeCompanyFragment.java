@@ -11,11 +11,14 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivity;
@@ -30,6 +33,7 @@ public class SeeCompanyFragment extends Fragment {
     View rootview;
     String username;
     String companyName;
+    String num;
 
     @Nullable
     @Override
@@ -38,7 +42,10 @@ public class SeeCompanyFragment extends Fragment {
 
         rootview = inflater.inflate(R.layout.fragment_see_company, container, false);
         TextView result = (TextView) rootview.findViewById(R.id.see_company_result);
+        TextView title = (TextView) rootview.findViewById(R.id.see_company_title);
         ImageView iv_card = (ImageView) rootview.findViewById(R.id.see_company_card);
+        TextView card_number = (TextView) rootview.findViewById(R.id.see_company_number);
+        Button emulate = (Button) rootview.findViewById(R.id.see_company_emulate);
         username = ((MainActivity)getActivity()).getUsername();
         companyName = ((MainActivity)getActivity()).getCompany();
 
@@ -48,8 +55,9 @@ public class SeeCompanyFragment extends Fragment {
         Company company = bdd.getCompanyWithName(companyName);
         Client client = bdd.getClientWithKey(people.getId(), company.getId());
 
-        String text = "Company : " + company.getName() + "\n";
-        text += "Num client = " + client.getNum_client() + " with " + client.getNb_loyalties() + " loyalties points.\n";
+        num = client.getNum_client();
+
+        String text = "Num client = " + client.getNum_client() + " with " + client.getNb_loyalties() + " loyalties points.\n";
         text += "Opportunities available : \n";
 
         Opportunity[] opportunities = bdd.getAllOpportunities(client.getId());
@@ -65,6 +73,10 @@ public class SeeCompanyFragment extends Fragment {
 
         bdd.close();
 
+        title.setText(companyName);
+        card_number.setText(num);
+        card_number.setGravity(Gravity.CENTER_HORIZONTAL);
+        emulate.setOnClickListener(emulation);
         result.setText(text);
 
         String path = context.getFilesDir().getAbsolutePath();
@@ -75,6 +87,12 @@ public class SeeCompanyFragment extends Fragment {
         ((MainActivity)getActivity()).setActionBarTitle("See company");
         return rootview;
     }
+
+    View.OnClickListener emulation = new View.OnClickListener() {
+        public void onClick(View v) {
+            Toast.makeText(getActivity().getApplicationContext(), "Emuilation", Toast.LENGTH_LONG).show();
+        }
+    };
 
     public static Bitmap resizeImage(Bitmap image, int maxWidth, int maxHeight) {
         int imageWidth = image.getWidth();

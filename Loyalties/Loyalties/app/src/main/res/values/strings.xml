@@ -46,5 +46,6 @@
     <string name="frag_home_add_but">ADD NEW CARD</string>
     <string name="frag_home_card_but">CARDS</string>
     <string name="frag_home_title">HOME</string>
+    <string name="see_company_card_number"><u>Card number :</u></string>
 
 </resources>
