@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -103,10 +104,16 @@ public class SeeCompanyFragment extends Fragment {
 
     View.OnClickListener emulation = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity().getApplicationContext(), "Emulation", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(getActivity().getApplicationContext(), EmulateActivity.class);
-            i.putExtra("CARD_NUM",num);
-            getActivity().startActivity(i);
+            if(NfcAdapter.getDefaultAdapter(getActivity().getApplicationContext()).isEnabled()) {
+                Toast.makeText(getActivity().getApplicationContext(), "Emulation", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(getActivity().getApplicationContext(), EmulateActivity.class);
+                i.putExtra("CARD_NUM", num);
+                getActivity().startActivity(i);
+            }else{
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "NFC is not activated !\nGo activate it in the app settings",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     };
 

@@ -18,6 +18,7 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -35,6 +36,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -121,9 +123,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 fr = new AddCardFragment();
                 break;
             case R.id.add_scan:
-                intent = new Intent(this, ScanActivity.class);
-                startActivity(intent);
-                fr = new AddCardFragment();
+                if(NfcAdapter.getDefaultAdapter(getApplicationContext()).isEnabled()) {
+                    intent = new Intent(this, ScanActivity.class);
+                    startActivity(intent);
+                    fr = new AddCardFragment();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "NFC is not activated !\nGo activate it in the app settings",
+                            Toast.LENGTH_LONG).show();
+                    fr = new AddCardFragment();
+                }
                 break;
             case R.id.add_manually:
                 intent = new Intent(this, AddCardActivity.class);
