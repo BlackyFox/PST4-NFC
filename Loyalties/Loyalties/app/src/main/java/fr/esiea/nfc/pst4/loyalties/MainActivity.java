@@ -190,8 +190,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onBackPressed() {
         Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.container);
-        if (!(currentFragment instanceof HomeFragment)) {
+        if (currentFragment instanceof SeeCardsFragment || currentFragment instanceof AddCardFragment) {
             Fragment objFrag = new HomeFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, objFrag).commit();
+        } else if (currentFragment instanceof SeeCompanyFragment) {
+            Fragment objFrag = new SeeCardsFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.container, objFrag).commit();
         } else {
