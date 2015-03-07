@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 public class EmulateActivity extends Activity {
 
-    Intent i;
+    private Intent i;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -29,6 +29,8 @@ public class EmulateActivity extends Activity {
                 if(resultCode == 0){
                     Toast.makeText(getApplicationContext(), "Emulation is a succes!", Toast.LENGTH_LONG).show();
                     //TODO Faire un pdialog
+                    i.putExtra("CARD_NUM", "0000");
+                    startService(i);
                     finish();
 
                 }else{
