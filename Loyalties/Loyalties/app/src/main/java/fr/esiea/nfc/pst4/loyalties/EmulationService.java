@@ -22,6 +22,7 @@ import java.util.Arrays;
 public class EmulationService extends HostApduService {
 
     private String card = null;
+    private int res;
     private final String TAG = "EmulationService";
     private int messageCounter;
     private static final String SAMPL_LOYALTY_CARD = "F222222222";
@@ -31,6 +32,9 @@ public class EmulationService extends HostApduService {
     private static final byte[] SELECT_OK_SW = HexStringToByteArray("9000");
     // "UNKNOWN" status word sent in response to invalid APDU command (0x0000)
     private static final byte[] UNKNOWN_CMD_SW = HexStringToByteArray("0000");
+
+    public static final String SERVICE_OVER = "fr.esiea.nfc.pst4.loyalties.EmulationService";
+    public static final String RESULT = "result";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
@@ -44,6 +48,8 @@ public class EmulationService extends HostApduService {
     @Override
     public void onDeactivated(int reason) {
         Log.i(TAG, "Deactivated: " + reason);
+        res = reason;
+        writtingOver();
     }
 
     @Override
@@ -128,5 +134,11 @@ public class EmulationService extends HostApduService {
             offset += array.length;
         }
         return result;
+    }
+
+    private void writtingOver(){
+        Intent i = new Intent(SERVICE_OVER);
+        i.putExtra(RESULT, this.res);
+        sendBroadcast(i);
     }
 }

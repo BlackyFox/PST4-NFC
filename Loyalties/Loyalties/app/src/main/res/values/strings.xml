@@ -51,5 +51,6 @@
     <string name="see_company_points"><u>Points :</u></string>
     <string name="emulate_card_service">CardEmulation Sample</string>
     <string name="emulate_card_desc">Sample Loyalty Card</string>
+    <string name="emulate_info">Put your phone on the NFC receiver</string>
 
 </resources>
