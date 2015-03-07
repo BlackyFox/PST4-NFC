@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -51,6 +52,32 @@ public class SettingsActivity extends PreferenceActivity {
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     ProgressDialog progress;
     People people;
+
+    /*@Override
+    public void onBackPressed() {
+        Bundle bundle = new Bundle();
+        bundle.putString("Amos", "13");
+
+        Intent mIntent = new Intent();
+        mIntent.putExtras(bundle);
+        setResult(RESULT_OK, mIntent);
+        super.onBackPressed();
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        /*if(isFinishing()) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", 13);
+            setResult(RESULT_OK, returnIntent);
+        }*/
+        Log.d("OnDestroy", "Welcome in");
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", 13);
+        setResult(RESULT_OK, returnIntent);
+        Log.d("OnDestroy", "SetRes done!");
+        super.onDestroy();
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -286,9 +313,20 @@ public class SettingsActivity extends PreferenceActivity {
                 if (progress.isShowing()) {
                     progress.dismiss();
                 }
-                finish();
+                //finish();
+                onTaMere();
             }
         });
+    }
+
+    private void onTaMere(){
+        Bundle bundle = new Bundle();
+        bundle.putString("Amos", "13");
+
+        Intent mIntent = new Intent();
+        mIntent.putExtras(bundle);
+        setResult(RESULT_OK, mIntent);
+        super.onBackPressed();
     }
 
     public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
