@@ -107,11 +107,18 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                Intent i = getIntent();
+                /*Intent i = getIntent();
                 finish();
-                startActivity(i);
-                /*Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
-                        Toast.LENGTH_LONG).show();*/
+                startActivity(i);*/
+
+                Fragment frg = null;
+                frg = getSupportFragmentManager().findFragmentById(R.id.container);
+                final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.detach(frg);
+                ft.attach(frg);
+                ft.commitAllowingStateLoss();
+                Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
+                        Toast.LENGTH_LONG).show();
             }
             if(resultCode == RESULT_CANCELED){
                 //Nothing to do here
