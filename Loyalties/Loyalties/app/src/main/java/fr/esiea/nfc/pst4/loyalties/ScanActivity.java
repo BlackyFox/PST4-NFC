@@ -91,6 +91,11 @@ public class ScanActivity extends Activity {
     public void endActivity(final Boolean ok1, final Boolean ok2, final Client client, final Company company) {
         String conclusion;
         if(ok1) {
+            MyBDD bdd = new MyBDD(this);
+            bdd.open();
+            bdd.removeAllOpportunities();
+            bdd.updateOpportunities();
+            bdd.close(); 
             conclusion = "Success !\n" + "\tYou just joined : " + company.getName();
             if(ok2) {
                 conclusion += " and " + company.getName() + " is now in the database.";
