@@ -103,6 +103,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     }
 
+    @Override
+    public void onResume(){
+        getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
+        super.onResume();
+    }
+
     // Fonction pour intégrer une image dans le téléphone
     public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
         String path = context.getFilesDir().getAbsolutePath();

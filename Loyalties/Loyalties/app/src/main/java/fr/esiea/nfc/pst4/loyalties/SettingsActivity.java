@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -81,6 +82,14 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
+
+        Preference nfc = findPreference("nfc");
+        NfcAdapter mNfc = NfcAdapter.getDefaultAdapter(getApplicationContext());
+        if(mNfc.isEnabled()){
+            nfc.setTitle("Deactivate NFC");
+        }else{
+            nfc.setTitle("Activate NFC");
+        }
     }
 
     // Composition du JSON qu'on enverra au .php pour la synchronisation

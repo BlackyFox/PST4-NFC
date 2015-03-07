@@ -9,7 +9,7 @@
 
     </Preference>
 
-    <Preference android:title="@string/pref_activate_nfc">
+    <Preference android:key="nfc">
         <intent android:action="android.settings.NFC_SETTINGS"/>
     </Preference>
 
