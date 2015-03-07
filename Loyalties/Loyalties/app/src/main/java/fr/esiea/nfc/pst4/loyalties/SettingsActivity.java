@@ -314,17 +314,13 @@ public class SettingsActivity extends PreferenceActivity {
                     progress.dismiss();
                 }
                 //finish();
-                onTaMere();
+                synchDone();
             }
         });
     }
 
-    private void onTaMere(){
-        Bundle bundle = new Bundle();
-        bundle.putString("Amos", "13");
-
+    private void synchDone(){
         Intent mIntent = new Intent();
-        mIntent.putExtras(bundle);
         setResult(RESULT_OK, mIntent);
         super.onBackPressed();
     }

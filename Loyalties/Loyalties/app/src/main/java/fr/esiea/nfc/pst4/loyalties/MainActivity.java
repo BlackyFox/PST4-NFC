@@ -104,27 +104,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     @Override
-    public void onResume(){
-        Log.d("Resume", "Dedans");
-        getWindow().getDecorView().findViewById(android.R.id.content).invalidate();
-        super.onResume();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("Res", "Dedans");
         if(requestCode == 1){
-            Log.d("Res", "Dedans 2");
             if(resultCode == RESULT_OK){
-                Log.d("Res", "Dedans 3");
                 Intent i = getIntent();
                 finish();
                 startActivity(i);
-                Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
-                        Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
+                        Toast.LENGTH_LONG).show();*/
             }
             if(resultCode == RESULT_CANCELED){
-                Log.d("Res", "Dedans 4");
                 //Nothing to do here
             }
         }
