@@ -66,6 +66,7 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         List<RowItem> rowItems = new ArrayList<>();
 
         for (int i = 0; i < companies.length; i++) {
+            System.out.println(i + " -> " + companies[i]);
             RowItem items;
             if(companies[i].equals("No companies"))
                 items = new RowItem(companies[i], "");

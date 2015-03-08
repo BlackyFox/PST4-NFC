@@ -401,9 +401,11 @@ public class MyBDD {
     }
 
     public String[] getLastCompanies(int peopleId) {
-        Cursor c = bdd.rawQuery("SELECT " + COL_COMPANIES_NAME + " FROM " + TABLE_COMPANIES
-                + " WHERE " + COL_COMPANIES_ID + " IN (SELECT " + COL_CLIENTS_ID_COMP + " FROM " + TABLE_CLIENTS + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + peopleId
-                + " AND " + COL_CLIENTS_LAST_USED + " != 0)", null);
+        Cursor c = bdd.rawQuery("SELECT t." + COL_CLIENTS_LAST_USED + ", c." + COL_COMPANIES_NAME + " FROM "
+                + "(SELECT * FROM " + TABLE_CLIENTS + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + peopleId + " AND " + COL_CLIENTS_LAST_USED + " != 0) t,"
+                + TABLE_COMPANIES + " c "
+                + "WHERE c." + COL_COMPANIES_ID + " = t." + COL_CLIENTS_ID + " "
+                + "ORDER BY " + COL_CLIENTS_LAST_USED, null);
 
         if(c.getCount() == 0)
             return null;
@@ -415,7 +417,7 @@ public class MyBDD {
 
         for(int i = 0 ; i < nbCompanies ; i++)
         {
-            s[i] = c.getString(0);
+            s[i] = c.getString(1);
             c.moveToNext();
         }
 
