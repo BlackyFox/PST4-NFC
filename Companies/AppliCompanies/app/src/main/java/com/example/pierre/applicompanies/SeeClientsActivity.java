@@ -2,6 +2,12 @@ package com.example.pierre.applicompanies;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.pierre.applicompanies.library_http.AsyncHttpClient;
@@ -21,9 +27,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.TimeZone;
 
 
 public class SeeClientsActivity extends ListActivity {
@@ -142,6 +150,8 @@ public class SeeClientsActivity extends ListActivity {
                             clients[4][i] = map.get("client"+i+"_nb_points");
                             clients[5][i] = map.get("client"+i+"_last_used");
                         }
+                    } else {
+                        clients[0][0] = "No clients";
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
@@ -181,5 +191,70 @@ public class SeeClientsActivity extends ListActivity {
 
         adapter = new ClientCustomAdapter(this, clientRowItems);
         setListAdapter(adapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView parent, View view, int position, long id) {
+        if(!clients[0][position].equals("No clients")) {
+            addOneLoyaltyTo(clients[3][position]);
+            this.finish();
+        }
+    }
+
+    public void addOneLoyaltyTo(String num_client) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        System.out.println("ici -> " + num_client);
+
+        ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("num_client", num_client);
+        map.put("up_date", Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
+        wordList.add(map);
+
+        Gson gson = new GsonBuilder().create();
+        params.put("addOneLoyaltyJSON", gson.toJson(wordList));
+
+        // On envoie username / password pour vérifier si lesidentifiants sont bons selon la bdd en ligne
+        client.post("http://www.pierre-ecarlat.com/newSql/addoneloyalty.php", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = null;
+                clients = null;
+                System.out.println("onsuccess");
+
+                try {
+                    response = new String(responseBody, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    HashMap<String, String> map = translateResponse(response);
+                    System.out.println("response : " + response);
+
+                    if(map.get("works").equals("yes")) {
+                        Toast.makeText(getApplicationContext(), "Works ! now " + map.get("nb_loyalties") + " loyalties", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Loyalty add doesn't works", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                } else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet]", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

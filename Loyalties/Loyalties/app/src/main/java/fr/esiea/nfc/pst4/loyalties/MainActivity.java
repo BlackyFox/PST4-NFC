@@ -44,9 +44,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.*;
+import objectsPackage.Client;
+import objectsPackage.Company;
 import objectsPackage.People;
 
 
@@ -169,6 +173,26 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.container, fr);
         fragmentTransaction.commit();
+    }
+
+    // Traite l'appui sur les boutons
+    public void toDo(View v) {
+        switch(v.getId()) {
+            case R.id.see_company_addone:
+            {
+                MyBDD bdd = new MyBDD(this);
+                bdd.open();
+                Company company = bdd.getCompanyWithName(getCompany());
+                Client client = bdd.getClientWithKey(people.getId(), company.getId());
+                Client tmpClient = new Client(client.getId(), client.getId_peop(), client.getId_comp(), client.getNum_client(), client.getNb_loyalties()+1, client.getLast_used());
+                tmpClient.setUp_date(Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
+                bdd.updateClient(client.getId(), tmpClient);
+                bdd.close();
+
+                break;
+            }
+            default: {}
+        }
     }
 
     // Création du nouveau fragment

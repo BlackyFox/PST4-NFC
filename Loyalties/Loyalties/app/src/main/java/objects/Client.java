@@ -22,7 +22,7 @@ public class Client {
         this.num_client = num_client;
         this.nb_loyalties = nb_loyalties;
         this.last_used = last_used;
-        this.up_date = Calendar.getInstance(TimeZone.getDefault()).toString();
+        this.up_date = Calendar.getInstance(TimeZone.getDefault()).getTime().toString();
     }
 
     public int getId() {

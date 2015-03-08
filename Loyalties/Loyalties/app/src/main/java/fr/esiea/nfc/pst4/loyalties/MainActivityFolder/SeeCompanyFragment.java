@@ -23,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.EmulateActivity;
 import fr.esiea.nfc.pst4.loyalties.EmulationService;
@@ -39,6 +42,7 @@ public class SeeCompanyFragment extends Fragment {
     String username;
     String companyName;
     String num;
+    Client client;
 
     @Nullable
     @Override
@@ -61,7 +65,7 @@ public class SeeCompanyFragment extends Fragment {
         bdd.open();
         People people = bdd.getPeopleWithUsername(username);
         Company company = bdd.getCompanyWithName(companyName);
-        Client client = bdd.getClientWithKey(people.getId(), company.getId());
+        client = bdd.getClientWithKey(people.getId(), company.getId());
 
         num = client.getNum_client();
 
