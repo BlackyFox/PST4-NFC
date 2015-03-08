@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pierre.applicompanies.library_http.AsyncHttpClient;
@@ -31,12 +32,16 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView title = (TextView) findViewById(R.id.home_company_name);
 
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         String name = getIntent().getStringExtra("name");
         String logo = getIntent().getStringExtra("logo");
         String card = getIntent().getStringExtra("card");
         String up_date = getIntent().getStringExtra("up_date");
+
+        title.setText(name);
+
         company = new Company(id, name, logo, card);
         company.setUp_date(up_date);
     }
