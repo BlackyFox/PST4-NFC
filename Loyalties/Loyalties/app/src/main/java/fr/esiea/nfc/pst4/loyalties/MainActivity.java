@@ -44,13 +44,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import databasePackage.MyBDD;
 import fr.esiea.nfc.pst4.loyalties.MainActivityFolder.*;
-import objectsPackage.Client;
-import objectsPackage.Company;
 import objectsPackage.People;
 
 
@@ -121,8 +117,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 ft.detach(frg);
                 ft.attach(frg);
                 ft.commitAllowingStateLoss();
-                Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Reaload, comme dans Matrix t'as-vu ? TMTC",
+//                        Toast.LENGTH_LONG).show();
             }
             if(resultCode == RESULT_CANCELED){
                 //Nothing to do here
@@ -175,26 +171,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         fragmentTransaction.commit();
     }
 
-    // Traite l'appui sur les boutons
-    public void toDo(View v) {
-        switch(v.getId()) {
-            case R.id.see_company_addone:
-            {
-                MyBDD bdd = new MyBDD(this);
-                bdd.open();
-                Company company = bdd.getCompanyWithName(getCompany());
-                Client client = bdd.getClientWithKey(people.getId(), company.getId());
-                Client tmpClient = new Client(client.getId(), client.getId_peop(), client.getId_comp(), client.getNum_client(), client.getNb_loyalties()+1, client.getLast_used());
-                tmpClient.setUp_date(Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
-                bdd.updateClient(client.getId(), tmpClient);
-                bdd.close();
-
-                break;
-            }
-            default: {}
-        }
-    }
-
     // Création du nouveau fragment
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -245,7 +221,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-/** GESTION ACTIONBAR *****************************************************************************/
+    /** GESTION ACTIONBAR *****************************************************************************/
     public void onSectionAttached(int number) {
         switch (number) {
             case 0:
@@ -268,7 +244,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-/** GESTION MENU -> SETTINGS **********************************************************************/
+    /** GESTION MENU -> SETTINGS **********************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
@@ -294,7 +270,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-/** GESTION DES FRAGMENTS *************************************************************************/
+    /** GESTION DES FRAGMENTS *************************************************************************/
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
@@ -327,7 +303,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-/** GETTER SETTER *********************************************************************************/
+    /** GETTER SETTER *********************************************************************************/
     public String getUsername() { return this.people.getUsername(); }
 
     public void setCompany(String name) { this.company = name; }
@@ -347,7 +323,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
 
-/** CLASSE TELECHARGEANT L'IMAGE ******************************************************************/
+    /** CLASSE TELECHARGEANT L'IMAGE ******************************************************************/
     private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String url;

@@ -101,21 +101,6 @@
             android:layout_marginTop="20dp"
             android:id="@+id/see_company_emulate"
             android:layout_marginBottom="20dp" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:background="#ff079ad6"
-            android:textColor="#ffdadada"
-            android:shadowRadius="0"
-            android:text="+1 loyalty"
-            android:onClick="toDo"
-            android:id="@+id/see_company_addone"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
     </LinearLayout>
 
 </ScrollView>
