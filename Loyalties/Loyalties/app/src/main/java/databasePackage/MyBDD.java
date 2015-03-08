@@ -404,7 +404,7 @@ public class MyBDD {
         Cursor c = bdd.rawQuery("SELECT t." + COL_CLIENTS_LAST_USED + ", c." + COL_COMPANIES_NAME + " FROM "
                 + "(SELECT * FROM " + TABLE_CLIENTS + " WHERE " + COL_CLIENTS_ID_PEOP + " = " + peopleId + " AND " + COL_CLIENTS_LAST_USED + " != 0) t,"
                 + TABLE_COMPANIES + " c "
-                + "WHERE c." + COL_COMPANIES_ID + " = t." + COL_CLIENTS_ID + " "
+                + "WHERE c." + COL_COMPANIES_ID + " = t." + COL_CLIENTS_ID_COMP + " "
                 + "ORDER BY " + COL_CLIENTS_LAST_USED, null);
 
         if(c.getCount() == 0)
