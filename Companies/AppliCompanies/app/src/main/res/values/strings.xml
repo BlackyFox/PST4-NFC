@@ -17,5 +17,6 @@
         <item>New Zealand</item>
         <item>India</item>
     </string-array>
+    <string name="title_activity_read_card">ReadCardActivity</string>
 
 </resources>

@@ -126,6 +126,16 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
                 break;
             }
+            case R.id.scan_card:{
+                Intent intent = new Intent(this, ReadCardActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
             default: {}
         }
     }
