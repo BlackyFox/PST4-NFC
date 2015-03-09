@@ -25,7 +25,7 @@ public class EmulationService extends HostApduService {
     private int res;
     private final String TAG = "EmulationService";
     private int messageCounter;
-    private static final String SAMPL_LOYALTY_CARD = "F222222222";
+    private static final String SAMPL_LOYALTY_CARD = "A131313131";//"F222222222";
     private static final byte[] SELEC_APDU = BuildSelectApdu(SAMPL_LOYALTY_CARD);
     private static final String SELECT_APDU_HEADER = "00A40400";
     // "OK" status word sent in response to SELECT AID command (0x9000)
