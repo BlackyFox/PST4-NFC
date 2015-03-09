@@ -68,8 +68,13 @@ public class CustomAdapter extends BaseAdapter {
         Bitmap logo;
         if(row_pos.getLogo().equals("")) {
             logo = BitmapFactory.decodeResource(context.getResources(),R.drawable.no_image);
-        } else
+        } else {
             logo = BitmapFactory.decodeFile(path + "/" + row_pos.getLogo());
+            if(logo == null) {
+                logo = BitmapFactory.decodeResource(context.getResources(),R.drawable.no_image);
+            }
+        }
+
         Bitmap newLogo = resizeImage(logo, 50, 100);
         imgIcon.setImageBitmap(newLogo);
         txtTitle.setText(row_pos.getName());

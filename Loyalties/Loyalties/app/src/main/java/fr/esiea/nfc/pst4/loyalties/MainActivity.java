@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         arrTitle = getResources().getStringArray(R.array.titres);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-
+/*
         context = getApplicationContext();
         ImageLoadTask ilt1 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_logo.png", "/fnac_logo.png");
         ImageLoadTask ilt2 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_card.png", "/fnac_card.png");
@@ -100,7 +100,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         ilt6.execute();
         ilt7.execute();
         ilt8.execute();
-
+*/
     }
 
     @Override
