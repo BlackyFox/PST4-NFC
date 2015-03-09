@@ -2,6 +2,7 @@ package com.example.pierre.applicompanies;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -269,5 +270,17 @@ public class AddOfferActivity extends Activity {
                 addItemsOnSpinnerReductions();
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 }

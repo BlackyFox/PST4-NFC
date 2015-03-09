@@ -1,6 +1,7 @@
 package com.example.pierre.applicompanies;
 
 import android.app.ListActivity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -256,5 +257,17 @@ public class SeeClientsActivity extends ListActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 }

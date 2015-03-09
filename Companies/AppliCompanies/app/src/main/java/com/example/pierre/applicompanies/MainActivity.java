@@ -1,6 +1,7 @@
 package com.example.pierre.applicompanies;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -167,5 +168,17 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 }

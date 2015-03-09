@@ -2,6 +2,7 @@ package com.example.pierre.applicompanies;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
@@ -93,6 +94,8 @@ public class ReadCardActivity extends ActionBarActivity implements LoyaltyCardRe
                 Log.d(TAG, "Received "+account);
                 addOneLoyaltyTo(account);
                 Log.d(TAG, "Account "+account+" a bien été +1");
+                disableReaderMode();
+                finish();
             }
         });
     }
@@ -231,6 +234,18 @@ public class ReadCardActivity extends ActionBarActivity implements LoyaltyCardRe
     public void onResume() {
         super.onResume();
         enableReaderMode();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //setContentView(R.layout.activity_main_activity2);
+
+        } else {
+            //setContentView(R.layout.activity_main_activity2);
+        }
     }
 
 }

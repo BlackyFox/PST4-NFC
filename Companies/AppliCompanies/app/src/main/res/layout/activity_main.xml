@@ -1,185 +1,190 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="#cf000000"
-    android:gravity="center">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#cf000000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/home_company_name"
-        android:text="Company name"
-        android:textColor="#ffdadada"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+        android:gravity="center">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff079ad6"
-        android:textColor="#ffdadada"
-        android:layout_centerHorizontal="true"
-        android:shadowRadius="0"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:text="SEE CLIENTS"
-        android:id="@+id/see_clients"
-        android:onClick="toDo"
-        android:layout_below="@id/home_company_name"
-        android:layout_marginTop="20dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/see_clients"
-        android:layout_alignEnd="@id/see_clients"
-        android:layout_below="@id/see_clients"
-        android:layout_marginTop="20dp"
-        android:id="@+id/signIn_linearButton">
-
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADD CLIENT"
-            android:id="@+id/add_client"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
-            android:shadowRadius="0"
-            android:background="#ff079ad6"
+            android:id="@+id/home_company_name"
+            android:text="Company name"
             android:textColor="#ffdadada"
-            android:layout_marginEnd="2dp"/>
+            android:textSize="25sp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="REMOVE CLIENTS"
-            android:id="@+id/remove_clients"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
-            android:shadowRadius="0"
             android:background="#ff079ad6"
             android:textColor="#ffdadada"
-            android:layout_marginStart="2dp"/>
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:shadowRadius="0"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="SEE CLIENTS"
+            android:id="@+id/see_clients"
+            android:onClick="toDo"
+            android:layout_below="@id/home_company_name"
+            android:layout_marginTop="20dp"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/see_clients"
-        android:layout_alignEnd="@id/see_clients"
-        android:layout_below="@id/signIn_linearButton"
-        android:layout_marginTop="20dp"
-        android:id="@+id/signIn_linearButton2">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/see_clients"
+            android:layout_alignEnd="@id/see_clients"
+            android:layout_below="@id/see_clients"
+            android:layout_marginTop="20dp"
+            android:id="@+id/signIn_linearButton">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD CLIENT"
+                android:id="@+id/add_client"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginEnd="2dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REMOVE CLIENTS"
+                android:id="@+id/remove_clients"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/see_clients"
+            android:layout_alignEnd="@id/see_clients"
+            android:layout_below="@id/signIn_linearButton"
+            android:layout_marginTop="20dp"
+            android:id="@+id/signIn_linearButton2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SEE REDUCTIONS"
+                android:id="@+id/see_reductions"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginEnd="2dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD REDUCTION"
+                android:id="@+id/add_reduction"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="SEE REDUCTIONS"
-            android:id="@+id/see_reductions"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
-            android:shadowRadius="0"
             android:background="#ff079ad6"
             android:textColor="#ffdadada"
-            android:layout_marginEnd="2dp"/>
+            android:layout_centerHorizontal="true"
+            android:shadowRadius="0"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="SEE OFFERS"
+            android:id="@+id/see_offers"
+            android:onClick="toDo"
+            android:layout_below="@id/signIn_linearButton2"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/see_clients"
+            android:layout_alignEnd="@id/see_clients"
+            android:layout_below="@id/see_offers"
+            android:layout_marginTop="20dp"
+            android:id="@+id/signIn_linearButton3">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD OFFER"
+                android:id="@+id/add_offer"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginEnd="2dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REMOVE OFFER"
+                android:id="@+id/remove_offer"
+                android:layout_weight="0.04"
+                android:onClick="toDo"
+                android:shadowRadius="0"
+                android:background="#ff079ad6"
+                android:textColor="#ffdadada"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="ADD REDUCTION"
-            android:id="@+id/add_reduction"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
-            android:shadowRadius="0"
             android:background="#ff079ad6"
             android:textColor="#ffdadada"
-            android:layout_marginStart="2dp"/>
-    </LinearLayout>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff079ad6"
-        android:textColor="#ffdadada"
-        android:layout_centerHorizontal="true"
-        android:shadowRadius="0"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:text="SEE OFFERS"
-        android:id="@+id/see_offers"
-        android:onClick="toDo"
-        android:layout_below="@id/signIn_linearButton2"
-        android:layout_marginTop="20dp"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/see_clients"
-        android:layout_alignEnd="@id/see_clients"
-        android:layout_below="@id/see_offers"
-        android:layout_marginTop="20dp"
-        android:id="@+id/signIn_linearButton3">
+            android:layout_centerHorizontal="true"
+            android:shadowRadius="0"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="CREATE CARD"
+            android:id="@+id/create_card"
+            android:onClick="toDo"
+            android:layout_below="@id/signIn_linearButton3"
+            android:layout_marginTop="20dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="ADD OFFER"
-            android:id="@+id/add_offer"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
-            android:shadowRadius="0"
             android:background="#ff079ad6"
             android:textColor="#ffdadada"
-            android:layout_marginEnd="2dp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="REMOVE OFFER"
-            android:id="@+id/remove_offer"
-            android:layout_weight="0.04"
-            android:onClick="toDo"
+            android:layout_centerHorizontal="true"
             android:shadowRadius="0"
-            android:background="#ff079ad6"
-            android:textColor="#ffdadada"
-            android:layout_marginStart="2dp"/>
-    </LinearLayout>
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="SCAN CARD"
+            android:id="@+id/scan_card"
+            android:onClick="toDo"
+            android:layout_below="@id/create_card"
+            android:layout_marginTop="20dp"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff079ad6"
-        android:textColor="#ffdadada"
-        android:layout_centerHorizontal="true"
-        android:shadowRadius="0"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:text="CREATE CARD"
-        android:id="@+id/create_card"
-        android:onClick="toDo"
-        android:layout_below="@id/signIn_linearButton3"
-        android:layout_marginTop="20dp"/>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff079ad6"
-        android:textColor="#ffdadada"
-        android:layout_centerHorizontal="true"
-        android:shadowRadius="0"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:text="SCAN CARD"
-        android:id="@+id/scan_card"
-        android:onClick="toDo"
-        android:layout_below="@id/create_card"
-        android:layout_marginTop="20dp"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
