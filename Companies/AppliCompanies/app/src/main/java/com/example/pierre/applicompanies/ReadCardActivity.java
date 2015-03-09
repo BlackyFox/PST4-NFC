@@ -91,6 +91,8 @@ public class ReadCardActivity extends ActionBarActivity implements LoyaltyCardRe
             @Override
             public void run() {
                 Log.d(TAG, "Received "+account);
+                addOneLoyaltyTo(account);
+                Log.d(TAG, "Account "+account+" a bien été +1");
             }
         });
     }

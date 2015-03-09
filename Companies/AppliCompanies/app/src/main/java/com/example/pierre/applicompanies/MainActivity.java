@@ -1,6 +1,7 @@
 package com.example.pierre.applicompanies;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -127,13 +128,18 @@ public class MainActivity extends ActionBarActivity {
                 break;
             }
             case R.id.scan_card:{
-                Intent intent = new Intent(this, ReadCardActivity.class);
-                intent.putExtra("id", Integer.toString(company.getId()));
-                intent.putExtra("name", company.getName());
-                intent.putExtra("logo", company.getLogo());
-                intent.putExtra("card", company.getCard());
-                intent.putExtra("up_date", company.getUp_date());
-                startActivity(intent);
+                if(Build.VERSION.SDK_INT >= 19) {
+                    Intent intent = new Intent(this, ReadCardActivity.class);
+                    intent.putExtra("id", Integer.toString(company.getId()));
+                    intent.putExtra("name", company.getName());
+                    intent.putExtra("logo", company.getLogo());
+                    intent.putExtra("card", company.getCard());
+                    intent.putExtra("up_date", company.getUp_date());
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Have a break...Have a Kit Kat",
+                            Toast.LENGTH_LONG).show();
+                }
                 break;
             }
             default: {}
