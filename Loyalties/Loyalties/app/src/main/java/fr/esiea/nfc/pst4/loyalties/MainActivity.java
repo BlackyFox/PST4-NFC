@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
         String path = context.getFilesDir().getAbsolutePath();
         OutputStream stream = new FileOutputStream(path + "" + compPath);
-        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        image.compress(Bitmap.CompressFormat.PNG, 80, stream);
     }
 
     // Fonction permettant de passer d'un fragment à l'autre

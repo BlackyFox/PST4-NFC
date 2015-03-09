@@ -275,7 +275,7 @@ public class ScanActivity extends Activity {
         Context context = getApplicationContext();
         String path = context.getFilesDir().getAbsolutePath();
         OutputStream stream = new FileOutputStream(path + "/" + compPath);
-        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        image.compress(Bitmap.CompressFormat.PNG, 80, stream);
     }
 
     private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
