@@ -1,6 +1,7 @@
 package com.example.pierre.applicompanies;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -197,7 +198,10 @@ public class SeeClientsActivity extends ListActivity {
     @Override
     public void onListItemClick(ListView parent, View view, int position, long id) {
         if(!clients[0][position].equals("No clients")) {
-            addOneLoyaltyTo(clients[3][position]);
+            //addOneLoyaltyTo(clients[3][position]);
+            Intent intent = new Intent(this, CreateCardActivity.class);
+            intent.putExtra("card_number", clients[3][position]);
+            startActivity(intent);
             this.finish();
         }
     }
