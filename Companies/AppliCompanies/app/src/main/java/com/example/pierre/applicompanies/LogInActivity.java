@@ -8,7 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +47,7 @@ public class LogInActivity extends Activity {
     public EditText editText_company_name = null;
     public EditText editText_password = null;
     public TextView textView_wrongText = null;
+    private Button submit;
 
     Company company;
 
@@ -55,6 +59,18 @@ public class LogInActivity extends Activity {
         editText_company_name = (EditText) findViewById(R.id.home_editText_company_name);
         editText_password = (EditText) findViewById(R.id.home_editText_password);
         textView_wrongText = (TextView) findViewById(R.id.home_textView_wrongText);
+        submit = (Button) findViewById(R.id.home_button_logIn);
+
+        editText_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event){
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    submit.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     // Change d'activity, et écris les identifiants dans le fichier

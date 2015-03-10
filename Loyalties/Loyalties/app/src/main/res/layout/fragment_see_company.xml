@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:rotation="90"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/frame_cards"/>
+            android:background="@drawable/frame_cards"
+            android:src="@drawable/decathlon_card"/>
 
 
         <TextView

@@ -1,8 +1,10 @@
 package com.example.pierre.applicompanies;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -72,7 +74,7 @@ public class CreateCardActivity extends Activity {
 
 
     private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
-        String lang       = "en";
+        String lang       = "fr";
         byte[] textBytes  = text.getBytes();
         byte[] langBytes  = lang.getBytes("US-ASCII");
         int    langLength = langBytes.length;
@@ -96,9 +98,15 @@ public class CreateCardActivity extends Activity {
     protected void onNewIntent(Intent intent){
         if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())){
             mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            Toast.makeText(this, "Tag detecté " + mytag.toString(), Toast.LENGTH_LONG ).show();
             try {
                 write(cardNumber, mytag);
+                new AlertDialog.Builder(this).setMessage("Card number "+cardNumber+
+                        " was successfully written on the card").setCancelable(false).
+                        setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                }).show();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (FormatException e) {

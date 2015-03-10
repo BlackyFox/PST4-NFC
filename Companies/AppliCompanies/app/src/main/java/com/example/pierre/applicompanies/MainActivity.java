@@ -1,5 +1,6 @@
 package com.example.pierre.applicompanies;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -34,7 +35,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView title = (TextView) findViewById(R.id.home_company_name);
 
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         String name = getIntent().getStringExtra("name");
@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
         String card = getIntent().getStringExtra("card");
         String up_date = getIntent().getStringExtra("up_date");
 
-        title.setText(name);
+        getSupportActionBar().setTitle(name);
 
         company = new Company(id, name, logo, card);
         company.setUp_date(up_date);
@@ -109,17 +109,6 @@ public class MainActivity extends ActionBarActivity {
             case R.id.remove_offer:
             {
                 Intent intent = new Intent(this, RemoveOfferActivity.class);
-                intent.putExtra("id", Integer.toString(company.getId()));
-                intent.putExtra("name", company.getName());
-                intent.putExtra("logo", company.getLogo());
-                intent.putExtra("card", company.getCard());
-                intent.putExtra("up_date", company.getUp_date());
-                startActivity(intent);
-                break;
-            }
-            case R.id.create_card:
-            {
-                Intent intent = new Intent(this, CreateCardActivity.class);
                 intent.putExtra("id", Integer.toString(company.getId()));
                 intent.putExtra("name", company.getName());
                 intent.putExtra("logo", company.getLogo());
