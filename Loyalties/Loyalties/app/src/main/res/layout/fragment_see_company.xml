@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#cf000000">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -20,12 +20,11 @@
 
         <ImageView
             android:id="@+id/see_company_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="fitCenter"
             android:rotation="90"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/frame_cards"
-            android:src="@drawable/decathlon_card"/>
+            android:layout_gravity="center_horizontal"/>
 
 
         <TextView
@@ -34,7 +33,7 @@
             android:gravity="center_horizontal"
             android:textSize="30sp"
             android:text="@string/see_company_card_number"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffdadada"/>
 
@@ -45,14 +44,14 @@
             android:gravity="center_horizontal"
             android:textSize="15sp"
             android:text=""
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffdadada" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="13dp"
             android:textColor="#ffdadada"
             android:text="@string/see_company_points"
             android:gravity="center_horizontal"
@@ -63,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:textColor="#ffdadada"
             android:id="@+id/see_company_points"
             android:textSize="15sp"
@@ -73,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="13dp"
             android:textColor="#ffdadada"
             android:text="@string/see_company_op"
             android:gravity="center_horizontal"
@@ -82,7 +81,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:textColor="#ffdadada"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
@@ -99,7 +98,7 @@
             android:shadowRadius="0"
             android:text="Emulate !"
             android:layout_gravity="bottom"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="13dp"
             android:id="@+id/see_company_emulate"
             android:layout_marginBottom="20dp" />
     </LinearLayout>

@@ -128,9 +128,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     // Fonction pour intégrer une image dans le téléphone
     public void createImage(Bitmap image, String compPath) throws FileNotFoundException {
+        Context context = getApplicationContext();
+        int width =  image.getWidth();
+        int height = image.getHeight();
+        Bitmap dest = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        int[] pixels = new int[width * height];
+        image.getPixels(pixels, 0, width, 0, 0, width, height);
+        dest.setPixels(pixels, 0, width, 0, 0, width, height);
         String path = context.getFilesDir().getAbsolutePath();
-        OutputStream stream = new FileOutputStream(path + "" + compPath);
-        image.compress(Bitmap.CompressFormat.PNG, 80, stream);
+        OutputStream stream = new FileOutputStream(path + "/" + compPath);
+        dest.compress(Bitmap.CompressFormat.PNG, 80, stream);
     }
 
     // Fonction permettant de passer d'un fragment à l'autre

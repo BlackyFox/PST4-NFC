@@ -76,7 +76,7 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         Bitmap newLogo = resizeImage(logo, 50, 100);
-        imgIcon.setImageBitmap(newLogo);
+        imgIcon.setImageBitmap(logo);
         txtTitle.setText(row_pos.getName());
 
         return convertView;
