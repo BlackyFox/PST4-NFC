@@ -154,6 +154,7 @@ public class ReadCardActivity extends Activity implements LoyaltyCardReader.Acco
                 try {
                     JSONArray arr = new JSONArray(response);
                     HashMap<String, String> map = translateResponse(response);
+                    Log.d("REPONSE", response);
                     System.out.println("response : " + response);
 
                     if(map.get("goodCompany").equals("yes")) {

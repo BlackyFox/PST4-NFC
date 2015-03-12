@@ -143,6 +143,17 @@ public class MainActivity extends ActionBarActivity {
                 }
                 break;
             }
+            case R.id.scan_physical:
+            {
+                Intent intent = new Intent(this, ScanPhysicalCardActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
             default: {}
         }
     }

@@ -18,5 +18,6 @@
         <item>India</item>
     </string-array>
     <string name="title_activity_read_card">ReadCardActivity</string>
+    <string name="scan_info">Put the card on the back of your phone</string>
 
 </resources>

@@ -160,5 +160,20 @@
             android:layout_below="@id/signIn_linearButton3"
             android:layout_marginTop="20dp"/>
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#ff079ad6"
+            android:textColor="#ffdadada"
+            android:layout_centerHorizontal="true"
+            android:shadowRadius="0"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="SCAN PHYSICAL CARD"
+            android:id="@+id/scan_physical"
+            android:onClick="toDo"
+            android:layout_below="@id/scan_card"
+            android:layout_marginTop="20dp"/>
+
     </RelativeLayout>
 </ScrollView>
