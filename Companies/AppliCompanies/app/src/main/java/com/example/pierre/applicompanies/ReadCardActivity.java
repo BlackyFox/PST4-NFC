@@ -129,6 +129,7 @@ public class ReadCardActivity extends Activity implements LoyaltyCardReader.Acco
 
         ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>();
+        map.put("id_company", Integer.toString(company.getId()));
         map.put("num_client", num_client);
         map.put("up_date", Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
         wordList.add(map);
@@ -155,10 +156,14 @@ public class ReadCardActivity extends Activity implements LoyaltyCardReader.Acco
                     HashMap<String, String> map = translateResponse(response);
                     System.out.println("response : " + response);
 
-                    if(map.get("works").equals("yes")) {
-                        Toast.makeText(getApplicationContext(), "Works ! now " + map.get("nb_loyalties") + " loyalties", Toast.LENGTH_LONG).show();
+                    if(map.get("goodCompany").equals("yes")) {
+                        if (map.get("works").equals("yes")) {
+                            Toast.makeText(getApplicationContext(), "Works ! now " + map.get("nb_loyalties") + " loyalties", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Loyalty add doesn't works", Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Loyalty add doesn't works", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "This card is not from your company !", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();

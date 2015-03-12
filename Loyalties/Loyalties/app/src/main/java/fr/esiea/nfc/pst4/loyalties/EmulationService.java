@@ -11,6 +11,8 @@ import android.util.Log;
 
 import java.util.Arrays;
 
+//@TargetApi(Build.VERSION_CODES.KITKAT)
+
 /**************************************************************************************************/
 /* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
 /* Service d'émulation de carte NFC                                                               */
