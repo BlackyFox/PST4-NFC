@@ -10,9 +10,10 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-/**
- * Created by Antoine on 04/03/2015.
- */
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/*                                                                                                */
+/**************************************************************************************************/
 
 
 class NFCReadAsyncTask extends AsyncTask<Tag, Void, String> {

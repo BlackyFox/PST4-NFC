@@ -82,6 +82,7 @@ public class CreateCardActivity extends Activity {
         byte[] payload    = new byte[1 + langLength + textLength];
 
         // set status byte (see NDEF spec for actual bits)
+
         payload[0] = (byte) langLength;
 
         // copy langbytes and textbytes into payload

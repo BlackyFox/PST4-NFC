@@ -40,7 +40,7 @@
             android:background="#ffdadada"
             android:textColor="#cf000000"
             android:gravity="center"
-            android:nextFocusForward="@id/signIn_editText_password"
+            android:nextFocusForward="@+id/signIn_editText_password"
             android:singleLine="true"/>
 
         <EditText
@@ -57,7 +57,7 @@
             android:textColor="#cf000000"
             android:gravity="center"
             android:password="true"
-            android:nextFocusForward="@id/signIn_editText_confirmPassword"
+            android:nextFocusForward="@+id/signIn_editText_confirmPassword"
             android:singleLine="true"/>
 
         <EditText
@@ -74,7 +74,7 @@
             android:textColor="#cf000000"
             android:gravity="center"
             android:password="true"
-            android:nextFocusForward="@id/signIn_editText_name"
+            android:nextFocusForward="@+id/signIn_editText_name"
             android:singleLine="true"/>
 
         <View
@@ -196,7 +196,7 @@
             android:textColor="#cf000000"
             android:gravity="center"
             android:inputType="textEmailAddress"
-            android:nextFocusForward="@id/signIn_editText_city"
+            android:nextFocusForward="@+id/signIn_editText_city"
             android:singleLine="true"/>
 
         <EditText

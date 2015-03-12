@@ -23,7 +23,7 @@
         android:gravity="center"
         android:textSize="25dp"
         android:singleLine="true"
-        android:nextFocusForward="@id/home_editText_password"/>
+        android:nextFocusForward="@+id/home_editText_password"/>
 
     <EditText
         android:layout_width="fill_parent"

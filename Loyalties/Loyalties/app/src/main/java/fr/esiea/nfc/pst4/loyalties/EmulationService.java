@@ -11,14 +11,11 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
-@TargetApi(Build.VERSION_CODES.KITKAT)
+/**************************************************************************************************/
+/* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
+/* Service d'émulation de carte NFC                                                               */
+/**************************************************************************************************/
+
 public class EmulationService extends HostApduService {
 
     private String card = null;

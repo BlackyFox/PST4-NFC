@@ -43,15 +43,6 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".SyncActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_sync"
-            android:parentActivityName=".SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="fr.esiea.nfc.pst4.loyalties.SettingsActivity" />
-        </activity>
-        <activity
             android:name=".EmulateActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_emulate" >

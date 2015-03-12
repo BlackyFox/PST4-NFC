@@ -30,7 +30,7 @@
         android:inputType="number"
         android:textSize="25dp"
         android:singleLine="true"
-        android:nextFocusForward="@id/add_manually_name"/>
+        android:nextFocusForward="@+id/add_manually_name"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -47,7 +47,7 @@
         android:gravity="center"
         android:textSize="25dp"
         android:singleLine="true"
-        android:nextFocusForward="@id/add_manually_first_name"
+        android:nextFocusForward="@+id/add_manually_first_name"
         android:inputType="textCapSentences"/>
 
     <EditText
