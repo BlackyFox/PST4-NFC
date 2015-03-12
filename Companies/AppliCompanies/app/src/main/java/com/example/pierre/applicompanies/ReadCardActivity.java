@@ -37,7 +37,7 @@ import java.util.Properties;
 import java.util.TimeZone;
 
 
-public class ReadCardActivity extends ActionBarActivity implements LoyaltyCardReader.AccountCallback{
+public class ReadCardActivity extends Activity implements LoyaltyCardReader.AccountCallback{
 
     Company company;
     String[][] clients;

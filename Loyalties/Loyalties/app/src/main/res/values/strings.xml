@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Loyalties</string>
-    <string name="navigation_drawer_open">Ouvrir le volet de navigation</string>
-    <string name="navigation_drawer_close">Fermer le volet de navigation</string>
+    <string name="app_name">Loyalty</string>
+    <string name="navigation_drawer_open">Open the navigation drawer</string>
+    <string name="navigation_drawer_close">Close the navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_scan">ScanActivity</string>
@@ -17,7 +17,7 @@
         <item>Add Card</item>
     </string-array>
 
-    <string name="scan_title">Scanner une carte</string>
+    <string name="scan_title">Scan a cart</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="logIn_user">Username</string>
     <string name="logIn_pass">Password</string>
@@ -32,7 +32,7 @@
     <string name="add_title">Add a card</string>
     <string name="scan_info">Put the card on the back of your phone</string>
     <string name="sign_in_welcome">WELCOME !</string>
-    <string name="sign_in_information">Please enter some informations about you</string>
+    <string name="sign_in_information">Please enter some information about you</string>
     <string name="sign_in_username">Username</string>
     <string name="sign_in_username_hint">dupont_jean_du_13</string>
     <string name="sign_in_password">Password</string>
