@@ -31,6 +31,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class AddClientActivity extends Activity {
@@ -106,6 +107,7 @@ public class AddClientActivity extends Activity {
     public void getPeopleList() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+
 
         ArrayList<HashMap<String, String>> wordList = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>();
@@ -208,6 +210,14 @@ public class AddClientActivity extends Activity {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
 
+        int randomNum = new Random().nextInt(100000);
+        String num;
+        if(randomNum < 10) { num = "0000" + randomNum; }
+        else if(randomNum < 100) { num = "000" + randomNum; }
+        else if(randomNum < 1000) { num = "00" + randomNum; }
+        else if(randomNum < 10000) { num = "0" + randomNum; }
+        else { num = Integer.toString(randomNum); }
+
         String name_str = Integer.toString(Character.codePointAt(name, 0));
         String first_name_str = Integer.toString(Character.codePointAt(first_name, 0));
 
@@ -218,6 +228,7 @@ public class AddClientActivity extends Activity {
         map.put("people_id", Integer.toString(id));
         map.put("company_id", Integer.toString(company.getId()));
         map.put("num_client", num_client);
+        map.put("random_number", num);
         map.put("up_date", Calendar.getInstance(TimeZone.getDefault()).getTime().toString());
         wordList.add(map);
 
