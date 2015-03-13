@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Random;
 import java.util.TimeZone;
 
 import databasePackage.MyBDD;
@@ -71,6 +72,7 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
     private Boolean man, woman;
 
     ProgressDialog progress;
+    People people;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
         MyBDD bdd = new MyBDD(this);
         bdd.open();
-        People people = bdd.getPeopleWithId(id);
+        people = bdd.getPeopleWithId(id);
         bdd.close();
 
         editText_num_client = (EditText) findViewById(R.id.add_manually_num_client);
@@ -159,11 +161,11 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
         }
 
         new AlertDialog.Builder(this).setMessage(conclusion).setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if(ok1)
-                            AddCardActivity.this.finish();
-                    }
-                }).show();
+            public void onClick(DialogInterface dialog, int id) {
+                if(ok1)
+                    AddCardActivity.this.finish();
+            }
+        }).show();
     }
 
     // Traduit une chaîne de caractère au format JSON en format utf8_unicode
@@ -217,16 +219,26 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         System.out.println("-> début de checkifclientisokonline");
-
+/*
+        int randomNum = new Random().nextInt(100000);
+        String num;
+        if(randomNum < 10) { num = "0000" + randomNum; }
+        else if(randomNum < 100) { num = "000" + randomNum; }
+        else if(randomNum < 1000) { num = "00" + randomNum; }
+        else if(randomNum < 10000) { num = "0" + randomNum; }
+        else { num = Integer.toString(randomNum); }
+*/
         ArrayList<HashMap<String, String>> wordList;
         wordList = new ArrayList<>();
 
         HashMap<String, String> map = new HashMap<String, String>();
+        map.put("connected_people", Integer.toString(people.getId()));
         map.put("num_client", num_client);
         map.put("name", name);
         map.put("first_name", first_name);
         map.put("sexe", sexe);
         map.put("date_of_birth", date_of_birth);
+        //map.put("random_number", num);
         wordList.add(map);
 
         Gson gson = new GsonBuilder().create();
@@ -264,31 +276,36 @@ public class AddCardActivity extends Activity implements View.OnClickListener {
                     HashMap<String, String> map = translateResponse(response);
 
                     if (map.get("dataOk").equals("yes")) {
-                        tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
-                        tmpClient.setUp_date(map.get("up_date"));
+                        if(map.get("truePeople").equals("yes")) {
+                            tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
+                            tmpClient.setUp_date(map.get("up_date"));
 
-                        MyBDD bdd = new MyBDD(AddCardActivity.this);
-                        bdd.open();
-                        if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
-                            Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
-                        } else {
-                            bdd.insertClient(tmpClient);
-                            ok1 = true;
-                            // TODO : faire avec le download d'images + stockage dans resources
-                            Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
-                            tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
-                            tmpCompany.setUp_date(map.get("company_up_date"));
-                            if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
-                                ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
-                                ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
-                                ilt_logo.execute();
-                                ilt_card.execute();
+                            MyBDD bdd = new MyBDD(AddCardActivity.this);
+                            bdd.open();
+                            if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
+                                Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
+                            } else {
+                                bdd.insertClient(tmpClient);
+                                ok1 = true;
+                                // TODO : faire avec le download d'images + stockage dans resources
+                                Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
+                                tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
+                                tmpCompany.setUp_date(map.get("company_up_date"));
+                                if (!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
+                                    ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                    ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                    ilt_logo.execute();
+                                    ilt_card.execute();
 
-                                bdd.insertCompany(tmpCompany);
-                                ok2 = true;
+                                    bdd.insertCompany(tmpCompany);
+                                    ok2 = true;
+                                }
                             }
+                            bdd.close();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "This card does not belong to you !", Toast.LENGTH_LONG).show();
                         }
-                        bdd.close();
+
                         progress.dismiss();
                     }
                     else if(map.get("dataOk").equals("no")) {
