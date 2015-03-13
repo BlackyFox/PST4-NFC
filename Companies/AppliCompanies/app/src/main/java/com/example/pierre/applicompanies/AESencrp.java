@@ -8,6 +8,8 @@ package com.example.pierre.applicompanies;
 import android.util.Base64;
 
 import java.security.Key;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,9 +18,14 @@ import javax.crypto.spec.SecretKeySpec;
 public class AESencrp {
     private static final String ALGO = "AES";
     private static final byte[] keyValue = new byte[] {'h','f','W','p','3','o','U','i','e','d','Q','H','x','f','c','T'};
+    private static final String keyVal = "hfWp3oUiedQHxfcT";
 
     private static Key generateKey() throws Exception{
-        Key key = new SecretKeySpec(keyValue, ALGO);
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+        String formattedDate = df.format(c.getTime());
+        String s = keyVal + formattedDate;
+        Key key = new SecretKeySpec(s.getBytes(), ALGO);
         return key;
     }
 
