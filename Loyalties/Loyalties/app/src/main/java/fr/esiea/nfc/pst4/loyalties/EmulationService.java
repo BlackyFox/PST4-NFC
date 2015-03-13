@@ -35,11 +35,21 @@ public class EmulationService extends HostApduService {
     public static final String SERVICE_OVER = "fr.esiea.nfc.pst4.loyalties.EmulationService";
     public static final String RESULT = "result";
 
+    private AESencrp aes;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.d("TAG", "onStartCommand");
-        if(intent.getExtras() != null)
-            card = intent.getStringExtra("CARD_NUM");
+        aes = new AESencrp();
+        String cardClair = null;
+        if(intent.getExtras() != null) {
+            cardClair = intent.getStringExtra("CARD_NUM");
+            try {
+                card = aes.encrypt(cardClair);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         Log.d(TAG, card);
         return START_NOT_STICKY;
     }

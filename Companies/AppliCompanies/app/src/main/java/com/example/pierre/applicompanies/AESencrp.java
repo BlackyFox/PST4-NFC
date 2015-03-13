@@ -1,4 +1,4 @@
-package fr.esiea.nfc.pst4.loyalties;
+package com.example.pierre.applicompanies;
 
 /**************************************************************************************************/
 /* PS4 ESIEA - PUISSANT / ECARLAT / COSSOU - Sécurité NFC ; Porte-feuille de carte de fidélité    */
@@ -7,8 +7,9 @@ package fr.esiea.nfc.pst4.loyalties;
 
 import android.util.Base64;
 
-import java.security.*;
-import javax.crypto.*;
+import java.security.Key;
+
+import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 
@@ -30,7 +31,7 @@ public class AESencrp {
         return encryptedVal;
     }
 
-    public static String decrypt(String data) throws Exception{
+    public String decrypt(String data) throws Exception{
         Key key = generateKey();
         Cipher c = Cipher.getInstance(ALGO);
         c.init(Cipher.DECRYPT_MODE, key);

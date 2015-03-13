@@ -92,8 +92,14 @@ public class ReadCardActivity extends Activity implements LoyaltyCardReader.Acco
             @Override
             public void run() {
                 Log.d(TAG, "Received "+account);
-                addOneLoyaltyTo(account);
-                Log.d(TAG, "Account "+account+" a bien été +1");
+                String num = null;
+                try {
+                    num = (new AESencrp()).decrypt(account);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                addOneLoyaltyTo(num);
+                Log.d(TAG, "Account "+num+" a bien été +1");
                 disableReaderMode();
                 finish();
             }
