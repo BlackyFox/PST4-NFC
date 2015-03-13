@@ -106,6 +106,17 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
                 break;
             }
+            case R.id.see_offers:
+            {
+                Intent intent = new Intent(this, SeeOffersActivity.class);
+                intent.putExtra("id", Integer.toString(company.getId()));
+                intent.putExtra("name", company.getName());
+                intent.putExtra("logo", company.getLogo());
+                intent.putExtra("card", company.getCard());
+                intent.putExtra("up_date", company.getUp_date());
+                startActivity(intent);
+                break;
+            }
             case R.id.add_offer:
             {
                 Intent intent = new Intent(this, AddOfferActivity.class);
