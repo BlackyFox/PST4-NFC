@@ -664,6 +664,10 @@ public class MyBDD {
                 && !(reduction.getNb_points_relation().equals("=") && (points == reduction.getNb_points_value())))
             return false;
 
+        if(!reduction.getCity().equals("All") && !people.getCity().equals(reduction.getCity())) {
+            return false;
+        }
+
         return true;
     }
 
