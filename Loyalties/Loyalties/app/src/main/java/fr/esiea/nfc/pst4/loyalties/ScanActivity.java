@@ -50,8 +50,7 @@ import databasePackage.MyBDD;
 import library_http.AsyncHttpClient;
 import library_http.AsyncHttpResponseHandler;
 import library_http.RequestParams;
-import objectsPackage.Client;
-import objectsPackage.Company;
+import objectsPackage.*;
 
 
 public class ScanActivity extends Activity {
@@ -62,11 +61,18 @@ public class ScanActivity extends Activity {
     private final String TAG = this.getClass().getSimpleName();
     public static final String MIME_TEXT_PLAIN = "text/plain";
     ProgressDialog progress;
+    People people;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
+
+        int id = Integer.parseInt(getIntent().getStringExtra("id"));
+        MyBDD bdd = new MyBDD(this);
+        bdd.open();
+        people = bdd.getPeopleWithId(id);
+        bdd.close();
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -175,6 +181,7 @@ public class ScanActivity extends Activity {
 
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("serial_number", msgReceived);
+        map.put("connected_people", Integer.toString(people.getId()));
         wordList.add(map);
 
         Gson gson = new GsonBuilder().create();
@@ -212,32 +219,36 @@ public class ScanActivity extends Activity {
                     HashMap<String, String> map = translateResponse(response);
 
                     if (map.get("dataOk").equals("yes")) {
-                        tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
-                        tmpClient.setUp_date(map.get("up_date"));
+                        if(map.get("truePeople").equals("yes")) {
+                            tmpClient = new Client(Integer.parseInt(map.get("id")), Integer.parseInt(map.get("id_peop")), Integer.parseInt(map.get("id_comp")), map.get("num_client"), Integer.parseInt(map.get("nb_loyalties")), Integer.parseInt(map.get("last_used")));
+                            tmpClient.setUp_date(map.get("up_date"));
 
-                        MyBDD bdd = new MyBDD(ScanActivity.this);
-                        bdd.open();
-                        if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
-                            Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
-                        } else {
-                            bdd.insertClient(tmpClient);
-                            ok1 = true;
-                            // TODO : faire avec le download d'images + stockage dans resources
-                            Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
-                            tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
-                            tmpCompany.setUp_date(map.get("company_up_date"));
-                            if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
-                                ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
-                                ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
-                                ilt_logo.execute();
-                                ilt_card.execute();
+                            MyBDD bdd = new MyBDD(ScanActivity.this);
+                            bdd.open();
+                            if(bdd.doesClientAlreadyExists(tmpClient.getId())) {
+                                Toast.makeText(getApplicationContext(), "Client already in database !", Toast.LENGTH_LONG).show();
+                            } else {
+                                bdd.insertClient(tmpClient);
+                                ok1 = true;
+                                // TODO : faire avec le download d'images + stockage dans resources
+                                Toast.makeText(getApplicationContext(), "Insertion client ok", Toast.LENGTH_LONG).show();
+                                tmpCompany = new Company(Integer.parseInt(map.get("company_id")), map.get("company_name"), map.get("company_logo"), map.get("company_card"));
+                                tmpCompany.setUp_date(map.get("company_up_date"));
+                                if(!bdd.doesCompanyAlreadyExists(tmpCompany.getName())) {
+                                    ImageLoadTask ilt_logo = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getLogo().toLowerCase() + ".png", tmpCompany.getLogo().toLowerCase() + ".png");
+                                    ImageLoadTask ilt_card = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/" + tmpCompany.getCard().toLowerCase() + ".png", tmpCompany.getCard().toLowerCase() + ".png");
+                                    ilt_logo.execute();
+                                    ilt_card.execute();
 
-                                bdd.insertCompany(tmpCompany);
-                                ok2 = true;
+                                    bdd.insertCompany(tmpCompany);
+                                    ok2 = true;
+                                }
                             }
+                            bdd.close();
+                            progress.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "This card does not belong to you !", Toast.LENGTH_LONG).show();
                         }
-                        bdd.close();
-                        progress.dismiss();
                     }
                     else if(map.get("dataOk").equals("no")) {
                         Toast.makeText(getApplicationContext(), "Insertion doesn't works !", Toast.LENGTH_LONG).show();

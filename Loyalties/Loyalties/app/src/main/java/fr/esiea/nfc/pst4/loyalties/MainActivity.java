@@ -155,6 +155,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case R.id.add_scan:
                 if(NfcAdapter.getDefaultAdapter(getApplicationContext()).isEnabled()) {
                     intent = new Intent(this, ScanActivity.class);
+                    intent.putExtra("id", Integer.toString(people.getId()));
                     startActivity(intent);
                     fr = new AddCardFragment();
                 }else{
