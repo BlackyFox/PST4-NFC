@@ -22,9 +22,8 @@
         <ImageView
             android:id="@+id/see_company_card"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="170dp"
             android:scaleType="fitCenter"
-            android:rotation="90"
             android:layout_gravity="center_horizontal"/>
 
 
