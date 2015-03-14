@@ -31,13 +31,12 @@ public class RsaChif {
      * La clé publique du destinataire : @param key
      * @return le message chiffré
      */
-    String Cipherisation(String clair, Key key){
+    public byte[] Cipherisation(String clair, Key key){
         Cipher c;
         try {
             c = Cipher.getInstance("RSA");
             c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] cyp = c.doFinal(clair.getBytes());
-            return new String(cyp);
+            return c.doFinal(clair.getBytes());
         } catch (NoSuchAlgorithmException e) {
             Log.e("ALGO", "The algorithm is wrong");
             e.printStackTrace();
@@ -61,12 +60,12 @@ public class RsaChif {
      * Le message chiffré que l'on doit déchiffrer : @param m
      * @return le message en clair
      */
-    String Decipher(String m){
+    public String Decipher(byte[] m){
         Cipher c;
         try {
             c = Cipher.getInstance("RSA");
             c.init(Cipher.DECRYPT_MODE, this.priv);
-            byte[] cyp = c.doFinal(m.getBytes());
+            byte[] cyp = c.doFinal(m);
             return new String(cyp);
         } catch (NoSuchAlgorithmException e) {
             Log.e("ALGO", "The algorithm is wrong");
