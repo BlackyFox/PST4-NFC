@@ -252,7 +252,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,7,154,214)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,25,88,176)));
     }
 
 
