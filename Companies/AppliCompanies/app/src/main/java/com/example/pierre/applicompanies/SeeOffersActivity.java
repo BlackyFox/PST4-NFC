@@ -32,7 +32,7 @@ public class SeeOffersActivity extends ListActivity {
     OfferCustomAdapter adapter;
     private List<OfferRowItem> offerRowItems;
     Company company;
-    String[] offers;
+    String[][] offers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,10 +128,13 @@ public class SeeOffersActivity extends ListActivity {
                     HashMap<String, String> map = translateResponse(response);
 
                     if(map.get("has_offers").equals("yes")) {
-                        offers = new String[Integer.parseInt(map.get("nb_of_offers"))];
+                        offers = new String[2][Integer.parseInt(map.get("nb_of_offers"))];
                         for(int i = 0 ; i < Integer.parseInt(map.get("nb_of_offers")) ; i++) {
-                            offers[i] = map.get("offer"+i+"_redu_name");
+                            offers[0][i] = map.get("offer"+i+"_id");
+                            offers[1][i] = map.get("offer"+i+"_redu_name");
                         }
+                    } else {
+                        offers[1][0] = map.get("No offers.");
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
@@ -164,8 +167,8 @@ public class SeeOffersActivity extends ListActivity {
     public void addItemsOnList() {
         offerRowItems = new ArrayList<>();
 
-        for (int i = 0; i < offers.length; i++) {
-            OfferRowItem items = new OfferRowItem(offers[i], i);
+        for (int i = 0; i < offers[0].length; i++) {
+            OfferRowItem items = new OfferRowItem(offers[1][i], i);
             offerRowItems.add(items);
         }
 
