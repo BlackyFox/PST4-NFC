@@ -16,8 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
@@ -249,6 +251,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,7,154,214)));
     }
 
 
