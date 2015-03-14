@@ -3,10 +3,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Not supported for now."
-        android:id="@+id/textView" />
+        android:id="@android:id/list"
+        android:layout_gravity="center_horizontal"
+        android:dividerHeight="0.4dp"/>
+
 </LinearLayout>

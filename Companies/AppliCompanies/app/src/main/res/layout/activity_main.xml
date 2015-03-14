@@ -50,7 +50,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REMOVE CLIENTS"
+                android:text="REMOVE CLIENT"
                 android:id="@+id/remove_client"
                 android:layout_weight="0.04"
                 android:onClick="toDo"
