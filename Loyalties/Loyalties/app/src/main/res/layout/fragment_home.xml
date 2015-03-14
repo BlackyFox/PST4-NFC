@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -23,7 +23,7 @@
             android:id="@+id/home_title"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffdadada"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"/>-->
 
 
 

@@ -41,8 +41,8 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
         rootview = inflater.inflate(R.layout.fragment_home, container, false);
 
         username += ((MainActivity)getActivity()).getName()+"!";
-        TextView tv = (TextView) rootview.findViewById(R.id.home_title);
-        tv.setText(username);
+        //TextView tv = (TextView) rootview.findViewById(R.id.home_title);
+        //tv.setText(username);
         ((MainActivity)getActivity()).setActionBarTitle("Home");
 
         return rootview;

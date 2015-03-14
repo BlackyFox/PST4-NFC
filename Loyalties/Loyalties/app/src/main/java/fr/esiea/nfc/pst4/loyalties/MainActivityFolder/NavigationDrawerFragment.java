@@ -44,6 +44,7 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
+    public TextView TVname;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -52,6 +53,9 @@ public class NavigationDrawerFragment extends Fragment {
     public NavigationDrawerFragment() {
     }
 
+    public void setTVname(String s){
+        TVname.setText(s);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +90,6 @@ public class NavigationDrawerFragment extends Fragment {
         String[] arr = getResources().getStringArray(R.array.titres);
         mDrawerListView.setAdapter(new ArrayAdapter<String>(getActionBar().getThemedContext(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, arr));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        TextView t = (TextView)v.findViewById(R.id.drawer_name);
-        t.setText(((MainActivity)getActivity()).getName());
 
         return v;
 

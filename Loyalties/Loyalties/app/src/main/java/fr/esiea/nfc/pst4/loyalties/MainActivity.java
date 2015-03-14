@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
@@ -80,11 +81,23 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
 
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle().toString();
         arrTitle = getResources().getStringArray(R.array.titres);
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-
+        TextView t = (TextView) findViewById(R.id.drawer_name);
+        t.setText(people.getFirst_name() + " " + people.getName());
+        ImageView i = (ImageView) findViewById(R.id.drawer_img);
+        Resources r = getResources();
+        switch (people.getSexe()){
+            case "M":
+                i.setImageDrawable(r.getDrawable(R.mipmap.ic_man));
+                break;
+            case "W":
+                i.setImageDrawable(r.getDrawable(R.mipmap.ic_woman));
+                break;
+        }
 /*
         context = getApplicationContext();
         ImageLoadTask ilt1 = new ImageLoadTask("http://www.pierre-ecarlat.com/newSql/img/fnac_logo.png", "/fnac_logo.png");
@@ -334,6 +347,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
     }
 
+    public String getName(){
+        return this.name;
+    }
 
     /** CLASSE TELECHARGEANT L'IMAGE ******************************************************************/
     private class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
@@ -371,9 +387,5 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 e.printStackTrace();
             }
         }
-    }
-
-    public String getName(){
-        return this.name;
     }
 }
