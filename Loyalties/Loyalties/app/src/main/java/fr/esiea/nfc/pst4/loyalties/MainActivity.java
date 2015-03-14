@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         setContentView(R.layout.activity_main);
 
         int id = Integer.parseInt(getIntent().getStringExtra("id"));
+        name = getIntent().getStringExtra("name");
         MyBDD bdd = new MyBDD(this);
         bdd.open();
         people = bdd.getPeopleWithId(id);
@@ -370,5 +371,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getName(){
+        return this.name;
     }
 }

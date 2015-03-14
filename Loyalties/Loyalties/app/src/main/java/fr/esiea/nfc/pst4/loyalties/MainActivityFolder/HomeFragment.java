@@ -32,6 +32,7 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
     View rootview;
     CustomAdapter adapter;
     String companies[];
+    private String username = "Welcome back ";
 
     @Nullable
     @Override
@@ -39,6 +40,9 @@ public class HomeFragment extends ListFragment implements AdapterView.OnItemClic
 
         rootview = inflater.inflate(R.layout.fragment_home, container, false);
 
+        username += ((MainActivity)getActivity()).getName()+"!";
+        TextView tv = (TextView) rootview.findViewById(R.id.home_title);
+        tv.setText(username);
         ((MainActivity)getActivity()).setActionBarTitle("Home");
 
         return rootview;
