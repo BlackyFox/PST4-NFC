@@ -533,6 +533,12 @@ public class MyBDD {
         return !(cursorToReduction(c) == null);
     }
 
+    public Boolean doesReductionAlreadyExistsWithId(int id){
+        Cursor c = bdd.query(TABLE_REDUCTIONS, new String[] {COL_REDUCTIONS_ID, COL_REDUCTIONS_NAME, COL_REDUCTIONS_DESCRIPTION, COL_REDUCTIONS_SEXE, COL_REDUCTIONS_AGE_RELATION, COL_REDUCTIONS_AGE_VALUE, COL_REDUCTIONS_NB_POINTS_RELATION, COL_REDUCTIONS_NB_POINTS_VALUE, COL_REDUCTIONS_CITY, COL_COMPANIES_UP_DATE}, COL_REDUCTIONS_ID + " = \"" + id + "\"", null, null, null, null);
+
+        return !(cursorToReduction(c) == null);
+    }
+
     public Boolean doesOfferAlreadyExists(int id){
         Cursor c = bdd.query(TABLE_OFFERS, new String[] {COL_OFFERS_ID, COL_OFFERS_ID_COMP, COL_OFFERS_ID_REDU, COL_OFFERS_UP_DATE}, COL_OFFERS_ID + " = \"" + id + "\"", null, null, null, null);
 

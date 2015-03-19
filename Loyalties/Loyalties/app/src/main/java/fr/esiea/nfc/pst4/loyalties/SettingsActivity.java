@@ -300,7 +300,7 @@ public class SettingsActivity extends PreferenceActivity {
 
                                     Reduction tmpReduction = new Reduction(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id")), map.get("client"+i+"_offer"+j+"_reduction_name"), map.get("client"+i+"_offer"+j+"_reduction_description"), map.get("client"+i+"_offer"+j+"_reduction_sexe"), map.get("client"+i+"_offer"+j+"_reduction_age_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_age_value")), map.get("client"+i+"_offer"+j+"_reduction_nb_points_relation"), Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_nb_points_value")), map.get("client"+i+"_offer"+j+"_reduction_city"));
                                     tmpReduction.setUp_date(map.get("client"+i+"_offer"+j+"_reduction_up_date"));
-                                    if(bdd.doesReductionAlreadyExists(map.get("client"+i+"_offer"+j+"_reduction_name"))) {
+                                    if(bdd.doesReductionAlreadyExistsWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id")))) {
                                         System.out.println("réduction de l'offre j : " + j);
                                         if(!bdd.getReductionWithId(Integer.parseInt(map.get("client"+i+"_offer"+j+"_reduction_id"))).getUp_date().equals(map.get("client"+i+"_offer"+j+"_reduction_up_date"))) {
                                             System.out.println("et on doit l'updater");

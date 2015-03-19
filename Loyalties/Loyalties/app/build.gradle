@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "fr.esiea.nfc.pst4.loyalties"
-        //minSdkVersion 18
-        minSdkVersion 19
+        minSdkVersion 18
+        //minSdkVersion 19
         targetSdkVersion 21
         versionCode 16
         versionName "1.2"
