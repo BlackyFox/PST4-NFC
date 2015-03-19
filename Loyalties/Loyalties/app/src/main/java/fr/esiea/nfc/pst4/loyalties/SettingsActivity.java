@@ -120,6 +120,26 @@ public class SettingsActivity extends PreferenceActivity {
         }else{
             nfc.setTitle("Activate NFC");
         }
+
+        Preference del_client = findPreference("delClient");
+        del_client.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(getApplicationContext(), "Soon my friend, soon...",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+        Preference del_acc = findPreference("delAcc");
+        del_acc.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(getApplicationContext(), "Soon my friend, soon...",
+                        Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
     }
 
     // Composition du JSON qu'on enverra au .php pour la synchronisation
